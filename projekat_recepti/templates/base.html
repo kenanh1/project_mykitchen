@@ -1,0 +1,111 @@
+{% load static %}
+{% static 'images' as baseImg %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- CSS CUSTOM -->
+    <!-- HEADER I FOOTER KOJI NASLIJEDJUJEMO-->
+    <link rel="stylesheet" href="{% static 'css/home_header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_footer.css' %}">
+
+    <!-- POCETNA STRANICA CONTENT-->
+    <link rel="stylesheet" href="{% static 'css/home_belowheader.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_cointainer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_videos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_abovefooter.css' %}">
+
+    <!-- RECEPTI STRANICA CONTENT-->
+    <link rel="stylesheet" href="{% static 'css/recipes_main.css' %}">
+
+    <!-- JELO STRANICA FULL CONTENT-->
+    <link rel="stylesheet" href="{% static 'css/meal_no1_container.css' %}">
+    <link rel="stylesheet" href="{% static 'css/meal_no1_sub.css' %}">
+    
+    <title>Project Kocina - Recepti</title>
+</head>
+<body>
+    <header>
+        <div class="kocina__header">
+            <div class="header__name">
+                <h1><a href="{% url 'home' %}">Recepti</a></h1>
+            </div>
+            <div class="header__text">
+                <div class="text__left">
+                    <nav>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                            <li><a href="#">Search</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="text__right">
+                    <div class="header__search">
+                        <label for="search_click"><i class="fa fa-search"></i></label>
+                        <input type="checkbox" id="search_click">
+                            <div class="search_slide">
+                                <input type="text" class="searchbox_slide" placeholder="Search...">
+                            </div>
+                    </div>
+                    <div class="header__signin">
+                        <button>Sign in</button>
+                    </div>
+                    <div class="header__signup">
+                        <button>Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+    <footer>
+        <div class="footer-container">
+            <div class="myDiv_top">
+                <div class="myDiv_left">
+                    <h2>Recepti</h2>
+                </div>
+                <div class="myDiv_right">
+                    <span class="facebook"><i class="fa fa-facebook"></i></span>
+                    <span class="instagram"><i class="fa fa-instagram"></i></span>
+                    <span class="twitter"><i class="fa fa-twitter"></i></span>
+                </div>
+            </div>
+            
+            <div class="myDiv">
+                <div class="footer-heading footer-1">
+                    <a href="#">Presentations</a>
+                    <a href="#">Professionals</a>
+                    <a href="#">Stores</a>
+                </div>
+                <div class="footer-heading footer-2">
+                    <a href="#">Webinars</a>
+                    <a href="#">Workshops</a>
+                    <a href="#">Local Meetups</a>
+                </div>
+                <div class="footer-heading footer-3">
+                    <a href="#">Our Initiatives</a>
+                    <a href="#">Giving Back</a>
+                    <a href="#">Communities</a>
+                </div>
+                <div class="footer-heading footer-4">
+                    <a href="#">Contact Form</a>
+                    <a href="#">Work With Us</a>
+                    <a href="#">Visit Us</a>
+                </div>
+            </div>
+            <div class="madeBy">
+                <p>Made in Sarajevo City.</p>
+            </div>
+    </footer>
+</body>
+</html>

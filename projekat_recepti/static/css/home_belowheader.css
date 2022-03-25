@@ -1,0 +1,44 @@
+body {
+
+    margin:0 auto;
+}
+
+.main_below_header {
+    margin:0 auto;
+    max-width: 1180px;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    height: 450px;
+    font-family:'Montserrat';
+    background-size: cover;
+    background-position: center;
+}
+.lijevi {
+    max-width: 550px;
+    color: var(--primary-color);
+    font-size: 28px;
+    padding-left: 7%;
+    padding-top:6%;
+    position:relative;
+
+}
+.lijevi h1{
+    padding-bottom:20px;
+}
+.lijevi a b{
+    margin-right:7px;
+}
+.lijevi a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 600;
+    transition:0.3s;
+    position:absolute;
+    padding-top:20px;
+}
+.lijevi a:hover {
+    position:absolute;
+    transform:translateX(5px);
+}

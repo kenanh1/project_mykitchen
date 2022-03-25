@@ -1,0 +1,286 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+/* --------------------CONTAINER DIV---------------------*/
+.container{
+    margin-top:50px;
+    margin-bottom:50px;
+    width:1180px;
+    /* height:1126px; */
+    margin-left: auto;
+    margin-right:auto;
+    display:flex;
+    font-family: 'Montserrat', sans-serif;
+}
+/*---navbar sa lijeve strane sa position sticky koja nam omogucava da ovaj div ostane na mjestu kada listamo stranicu---*/
+.navbar__left{
+    width:25%;
+    height:25%;
+    position:sticky;
+    top:20%;
+    color:var(--primary-color)
+}
+.navbar__left ul{
+    list-style: none;
+    font-size:16px;
+    font-weight:500;
+    margin-bottom:15px;
+}
+
+.navbar__parent ul{
+    padding-left:20px;
+}
+
+.first, .second, .third, .fourth, .fifth{
+    cursor:pointer;
+}
+.navbar__children li{
+    font-size:14px;
+    margin:7px 0;
+}
+.sub__children:hover{
+    color:black;
+}
+/*---prvi element u listi ima drugaciju marginu da bi ga odmakli od parent liste ---*/
+.navbar__children:first-of-type{
+    margin-top:10px;
+}
+/*children lista ima overflow koji nam omogucava da sakrijemo listu i ne zauzima prostor na stranici. */
+.navbar__children {
+    width:70%;
+    height:0px;
+    overflow: hidden;
+    transition: 0.2s ease;
+}
+
+/*--input btn stavljamo da se ne vidi pomocu opacity, kada je cekiran onda nam prikazuje listu.---*/
+#btn {opacity: 0; height: 0px;}
+#btn:checked + .navbar__children {height: 130px;}
+
+#btn-2 {opacity: 0; height: 0px;}
+#btn-2:checked + .navbar__children {height: 130px;}
+
+#btn-3 {opacity: 0; height: 0px;}
+#btn-3:checked + .navbar__children {height: 130px;} 
+
+#btn-4 {opacity: 0; height: 0px;}
+#btn-4:checked + .navbar__children {height: 130px;} 
+
+#btn-5 {opacity: 0; height: 0px;}
+#btn-5:checked + .navbar__children {height: 130px;}
+/*--- label sa after elementom koji nam sluzi da bi dodali + na kraju svake parent liste*/
+.navbar__left label::after{
+    content:"+";
+    font-size:20px;
+    width:16px;
+    height:16px;
+    float:right;
+}
+
+.navbar__left a{
+    text-decoration:none;
+    color:black;
+    font-size: 16px;
+}
+.navbar__left h2{
+    font-weight: bold;
+    margin-bottom:30px;
+}
+
+/*---parent div u kojem se nalazi sadrzaj---*/
+.content{
+    width:890px;
+    height:100%;
+    margin-left:38px;
+}
+/*---gornji dio sadrzaja u kojem se nalaze search i sort by buttons---*/
+.content__top{
+    height:40px;
+    margin-bottom:38px;
+    display:flex;
+    justify-content: space-between;
+}
+.content__search{
+    position:relative;
+}
+/*--search bar---*/
+.search_box{
+    border:0;
+    outline:none;
+    height:40px;
+    width: 580px;
+    background-color: #f9f5f4;
+    border-radius: 7px;
+    /* position: absolute; */
+    padding-left:40px;
+    font-family: 'Montserrat', sans-serif;
+}
+/*--font awesome ikonica za search bar---*/
+.content__search .fa{
+    position:absolute;
+    left:10px;
+    top:10px;
+    font-size:20px;
+    color:var(--primary-color);
+}
+.content__sortby{
+    position:relative;
+}
+
+/*--- sort by button--*/
+.content__sortby button{
+    background-color: var(--primary-color);
+    width:157px;
+    height:30px;
+    text-decoration: none;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color:white;
+    font-weight: 600;
+    font-size:12px;
+    text-align: left;
+    padding-left:15px;
+    padding-bottom:2px;
+    cursor:pointer;
+}
+.content__sortby button:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 1s;
+    border:1px solid var(--primary-color);
+}
+
+.content__sortby ul{
+    opacity: 0;
+    display:flex;
+    flex-direction:column;
+    margin:-15px 0 0 0;
+    padding:0;
+    align-items:center;
+    list-style: none;
+    position:absolute;
+    left:5px;
+    top:45px;
+    width:147px;
+    height: 45px;
+    font-size:12px;
+    background: var(--primary-color);
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+    color:white;
+    border:1px solid grey;
+}
+
+.content__sortby ul li{
+    display:flex;
+    flex-direction:column;
+    width: 91%;
+    height: 100%;
+    text-align: start;
+    justify-content: center;
+    color:rgb(255, 255, 255);
+    padding-left:15px;
+}
+
+.content__sortby button:focus + ul {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0px);
+}
+.content__sortby ul li:hover{
+    color:var(--primary-color);
+    background-color:var(--secondary-color);
+}
+
+/*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/
+.content__main{
+    /* height:100%; */
+    margin-bottom:38px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    
+}
+
+.main__item{
+    width:266px;
+    height:210px;
+    cursor:pointer;
+    margin-bottom:38px;
+    /* margin:10px; */
+}
+
+/*--media div dobija jos jedan poseban div zbog ikonice u gornjem desnom uglu. ovdje dodajemo sliku jela i efekat na slici*/
+.content__main .main__media{
+    height:68%;
+    width:100%;
+    position:relative;
+    background-color: rgb(128, 128, 128);
+    border-radius:15px;
+}
+.content__main .main__media img{
+    height:100%;
+    width:100%;
+    object-fit: cover;
+    border-radius:15px;
+}
+.content__main .main__media img:hover{
+    opacity:0.8;
+}
+.content__main .media__heart .fa{
+    color:white;
+    position:absolute;
+    right:15px;
+    top:15px;
+    font-size:20px;
+}
+.content__main .media__heart .fa:hover{
+    color:#eb4a36;
+    transition: 0.5s;
+}
+/*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
+.main__text{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.main__text h3{
+    font-size:16px;
+    font-weight:500;
+    margin:20px 0 12px 0;
+}
+.main__text__sub{
+    font-size:12px;
+    display:flex;
+    justify-content: space-between;
+    font-weight:400;
+}
+.main__text .fa{
+    color:#fbc418;
+    margin-right:5px;
+}
+.main__text__sub__left .voting{
+    margin-left:-3px;
+}
+
+/*---donji dio sadrzaja u kojem se nalazi bar sa page-ovima---*/
+.content__bottom{
+    height:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:14px;
+}
+.content__bottom a{
+    text-decoration:none;
+    margin:0 5px;
+    font-weight: 500;
+}
+
+.content__bottom a:hover{
+    color:black;
+}

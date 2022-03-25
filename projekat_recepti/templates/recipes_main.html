@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<section class="all_recipes_container">
+    <div class="recipes_container">
+        <div class="recipes_search_wrap">
+            <div class="content__search">
+                <input type="text" class="search_box" placeholder="Search for recipes...">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="content__sortby">
+                <button>Sort by:</button>
+                <ul>
+                    <li>Sort by: Latest</li>
+                    <li>Sort by: Top Rated</li>
+                    <li>Sort by: Trending</li>
+                </ul>
+            </div>
+        </div>
+        <div class="featured_recipes">
+            <h2>Featured Recipes</h2>
+            <div class="featured_recipes_wrap">
+                {% for x in recept %}
+                {% block meal-media-featured1 %}
+                {% include 'meal_media.html' %}
+                {% endblock %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="all_recipes_content">
+            <h2>All Recipes</h2>
+            <div class="all_recipes_wrap">
+                {% for x in recept %}
+                {% block meal-media-recipes %}
+                {% include 'meal_media.html' %}
+                {% endblock %}
+                {% endfor %}
+            </div>
+            <div class="content__bottom">
+                <a href="#" class="content__pagination"><i class="fa fa-angle-left"></i></a>
+                <a href="#" class="content__pagination">1</a>
+                <a href="#" class="content__pagination">2</a>
+                <a href="#" class="content__pagination">3</a>
+                <a href="#" class="content__pagination">4</a>
+                <a href="#" class="content__pagination"><i class="fa fa-angle-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
