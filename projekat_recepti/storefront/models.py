@@ -15,6 +15,8 @@ class Korisnici(models.Model):
 
     def __str__(self):
         return self.ime + ' ' + self.prezime
+    class Meta:
+        verbose_name_plural = "Korisnici"
 
 class Recepti(models.Model):
     RATING_JELA = (
@@ -65,6 +67,8 @@ class Recepti(models.Model):
     
     def __str__(self):
         return self.naziv
+    class Meta:
+        verbose_name_plural = "Recepti"
 
 class NacinPripreme(models.Model):
     BROJ_OSOBA = (
@@ -80,11 +84,10 @@ class NacinPripreme(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
-    sastojak_id = models.ForeignKey(
+    sastojak_id = models.ManyToManyField(
         'Sastojci',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
+        blank = True
+        # on_delete=models.CASCADE
     )
     vrijeme_pripreme = models.IntegerField()
     ukupno_vrijeme_pripreme = models.IntegerField()
@@ -94,8 +97,10 @@ class NacinPripreme(models.Model):
         default=1
     )
     opis_jela = models.TextField()
-    # def __str__(self):
-    #     return self.recepti_id
+    def __str__(self):
+        return f"Način pripreme za : {self.recepti_id}"
+    class Meta:
+        verbose_name_plural = "Način pripreme"
 
 class VrstaObroka(models.Model):
     ODABIR_OBROKA = (
@@ -112,7 +117,8 @@ class VrstaObroka(models.Model):
 
     def __str__(self):
         return self.vrsta_obroka
-
+    class Meta:
+        verbose_name_plural = "Vrsta obroka"
     
 class VrstaJela(models.Model):
     ODABIR_VRSTE = (
@@ -130,6 +136,8 @@ class VrstaJela(models.Model):
     def __str__(self):
         print(self.vrsta_jela)
         return self.vrsta_jela
+    class Meta:
+        verbose_name_plural = "Vrsta jela"
 
 class ZdravaHrana(models.Model):
     ODABIR_ZDRAVE_HRANE = (
@@ -161,6 +169,8 @@ class ZdravaHrana(models.Model):
         choices=ODABIR_ZDRAVE_HRANE,
         default="Dijetalna",
     )
+    class Meta:
+        verbose_name_plural = "Zdrava hrana"
 
 
 class ListaZelja(models.Model):
@@ -176,6 +186,8 @@ class ListaZelja(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
+    class Meta:
+        verbose_name_plural = "Lista želja"
 
 class VideoRecepta(models.Model):
     naziv_videa = models.CharField(max_length=120)
@@ -194,13 +206,19 @@ class VideoRecepta(models.Model):
     videolink = models.URLField()
     def __str__(self):
         return self.naziv_videa
+    class Meta:
+        verbose_name_plural = "Video recepta"
 
 class Pretplatnici(models.Model):
     email = models.EmailField()
+    class Meta:
+        verbose_name_plural = "Pretplatnici"
 
 class Kontakt(models.Model):
     email = models.EmailField()
     text_poruke = models.TextField()
+    class Meta:
+        verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
     recept_id = models.ForeignKey(
@@ -214,6 +232,8 @@ class Sastojci(models.Model):
 
     def __str__(self):
         return self.ime_sastojka
+    class Meta:
+        verbose_name_plural = "Sastojci"
     
 
 class CijenaRecepta(models.Model):
@@ -223,12 +243,5 @@ class CijenaRecepta(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
-    
-
-
-# TESTNA TABELA ZA HOME STRANICU
-class ReceptTest(models.Model):
-    slika_jela = models.ImageField(upload_to='slike')
-    naziv_jela = models.CharField(max_length=30)
-    kuhar = models.CharField(max_length=15)
-    ocjena = models.IntegerField()
+    class Meta:
+        verbose_name_plural = "Cijena recepta"

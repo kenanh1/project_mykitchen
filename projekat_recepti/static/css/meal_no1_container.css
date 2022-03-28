@@ -259,9 +259,14 @@
 
 .product__igredients li{
     padding:15px 70px 15px 1px;
-    border-top: 1px solid rgba(128, 128, 128, .3)
+    border-top: 1px solid rgba(128, 128, 128, .3);
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
+.product__igredients li .kalorije{
+    font-size:13px;
+}
 .product__igredients li:first-of-type{
     border:none;
 }

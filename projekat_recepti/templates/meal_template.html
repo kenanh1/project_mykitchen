@@ -158,9 +158,12 @@
             </div>
             <div class="product__text__right">
                 <div class="product__igredients">
-                    <h3>Ingredients</h3>
+                    <h3>Sastojci</h3>
                     <ul>
-                        <li>1 pound fresh prepared pizza dough</li>
+                        {% for item in sastojak %}
+                        <li>{{item.ime_sastojka}}<span class="kalorije">{{item.broj_kalorija_sastojka}} kCal</span></li>
+                        {% endfor %}
+                        <!-- <li>1 pound fresh prepared pizza dough</li>
                         <li>6 ounces shredded mozzarella cheese</li>
                         <li>3/4 cup of ricotta cheese</li>
                         <li>1 large egg yolk</li>
@@ -169,7 +172,7 @@
                         <li>1/2 teaspoon kosher salt</li>
                         <li>1/4 teaspoon black pepper</li>
                         <li>1 large egg</li>
-                        <li>1 teaspoon dried Italian seasoning</li>
+                        <li>1 teaspoon dried Italian seasoning</li> -->
                     </ul>
                 </div>
                 <div class="product__tags">
