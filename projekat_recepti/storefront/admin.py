@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import CijenaRecepta, Kontakt, Korisnici, ListaZelja, NacinPripreme, Pretplatnici, ReceptTest, Recepti, Sastojci, VideoRecepta, VrstaJela, VrstaObroka, ZdravaHrana
+from . models import CijenaRecepta, Kontakt, Korisnici, ListaZelja, NacinPripreme, Pretplatnici, Recepti, Sastojci, VideoRecepta, VrstaJela, VrstaObroka, ZdravaHrana
 
 # Register your models here.
 
@@ -16,5 +16,3 @@ admin.site.register(Kontakt)
 admin.site.register(Sastojci)
 admin.site.register(CijenaRecepta)
 
-#TESTNI RECEPT
-admin.site.register(ReceptTest)

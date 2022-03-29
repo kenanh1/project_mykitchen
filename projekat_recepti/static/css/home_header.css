@@ -18,15 +18,16 @@
     border-top:2px solid var(--secondary-color);
     border-bottom:2px solid var(--secondary-color);
     padding:5px 0;
+    justify-content: space-between;
 }
 .kocina__header a{
     text-decoration: none;
     color:var(--primary-color)
 }
+
 .header__name h1{
     font-family: "Leckerli One", cursive;
     color:var(--primary-color);
-    margin-right:80px;
     padding-left:5px;
     font-size:30px;
     font-weight: 200;
@@ -35,10 +36,11 @@
 .header__text{
     display:flex;
     justify-content: space-between;
-    width:100%;
+    width:80%;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
+    padding-left:40px;
 }
 
 .header__text ul{
