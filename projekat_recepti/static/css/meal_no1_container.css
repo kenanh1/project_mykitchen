@@ -113,22 +113,21 @@
     height:100%;
     border-bottom: 1px solid rgba(128, 128, 128, .3)
 }
-.step1,.step2,.step3,.step4{
+.step1{
     display:flex;
     margin:20px 0;
 }
-.step1 svg, .step2 svg, .step3 svg, .step4 svg{
+.step1 svg{
     border:1px solid var(--primary-color);
     border-radius:50%;
     padding:5px;
     cursor:pointer;
+    fill:var(--primary-color);
 
 }
-.step1 svg:hover, .step2 svg:hover, .step3 svg:hover, .step4 svg:hover{
+.step1 svg:hover{
     background-color: var(--primary-color);
-}
-.step1 svg:hover polyline,.step2 svg:hover polyline,.step3 svg:hover polyline,.step4 svg:hover polyline{
-    stroke: #ffffff;
+    fill:white;
 }
 
 .step__text{
@@ -244,7 +243,7 @@
     height:100px;
 }
 
-.step1, .step2, .step3, .step4{
+.step1{
     width:100%;
     height:25%;
 }
