@@ -15,29 +15,33 @@
     <link rel="stylesheet" href="{% static 'css/home_header.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_footer.css' %}">
 
-    <!-- POCETNA STRANICA CONTENT-->
-    <link rel="stylesheet" href="{% static 'css/home_belowheader.css' %}">
+    <!-- POCETNA STRANICA CONTENT STYLING-->
+    <link rel="stylesheet" href="{% static 'css/home_hero.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_cointainer.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_videos.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_abovefooter.css' %}">
 
-    <!-- RECEPTI STRANICA CONTENT-->
+    <!-- RECEPTI STRANICA CONTENT STYLING-->
     <link rel="stylesheet" href="{% static 'css/recipes_main.css' %}">
 
-    <!-- JELO STRANICA FULL CONTENT-->
+    <!-- JELO STRANICA FULL CONTENT STYLING-->
     <link rel="stylesheet" href="{% static 'css/meal_no1_container.css' %}">
     <link rel="stylesheet" href="{% static 'css/meal_no1_sub.css' %}">
+
+    <!-- LOGIN AND REGISTER CONTENT STYLING -->
+    <link rel="stylesheet" href="{% static 'css/register-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login-style.css' %}">
     
     <title>Moja Kuhinja</title>
 </head>
 <body>
     <header>
-        <div class="kocina__header">
-            <div class="header__name">
-                <h1><a href="{% url 'home' %}">Moja kuhinja</a></h1>
-            </div>
-            <div class="header__text">
-                <div class="text__left">
+        <div class="header-container">
+            <div class="header-left">
+                <div class="header-name">
+                    <h1><a href="{% url 'home' %}">Moja kuhinja</a></h1>
+                </div>
+                <div class="header-navigation">
                     <nav>
                         <ul>
                             <li><a href="{% url 'home' %}">Home</a></li>
@@ -47,21 +51,54 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="text__right">
-                    <div class="header__search">
-                        <label for="search_click"><i class="fa fa-search"></i></label>
-                        <input type="checkbox" id="search_click">
-                            <div class="search_slide">
-                                <input type="text" class="searchbox_slide" placeholder="Search...">
-                            </div>
-                    </div>
-                    <div class="header__signin">
-                        <button>Sign in</button>
-                    </div>
-                    <div class="header__signup">
-                        <button>Sign Up</button>
-                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-search">
+                    <label for="search_click">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"/></svg>
+                        </label>
+                    <input type="checkbox" id="search_click">
+                        <div class="search_slide">
+                            <input type="text" class="searchbox_slide" placeholder="Search...">
+                        </div>
                 </div>
+                {% if user.is_authenticated %}
+                    <div class="header-signin">
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </div>
+                    <div class="header-signup-active">
+                        <p>Hi, <span>{{user.username}}</span></p>
+                        <a href="#"><img src="{{ request.user.korisnik.avatar.url }}" alt=""></a>
+                    </div>
+                    <div class="menu-bar">
+                        <div id="nav-menu" onclick="menuClick()">
+                            <div id="bar1" class="bar"></div>
+                            <div id="bar2" class="bar"></div>
+                            <div id="bar3" class="bar"></div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="header-signin">
+                        <a href="{% url 'login' %}">Login</a>
+                    </div>
+                    <div class="header-signup">
+                        <a href="{% url 'register' %}">Register</a>
+                    </div>
+                    <div class="menu-bar">
+                        <div id="nav-menu" onclick="menuClick()">
+                            <div id="bar1" class="bar"></div>
+                            <div id="bar2" class="bar"></div>
+                            <div id="bar3" class="bar"></div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- <div class="menu-bar">
+                    <div id="nav-menu" onclick="menuClick()">
+                        <div id="bar1" class="bar"></div>
+                        <div id="bar2" class="bar"></div>
+                        <div id="bar3" class="bar"></div>
+                    </div>
+                </div> -->
             </div>
         </div>
     </header>
@@ -70,34 +107,34 @@
     {% endblock %}
     <footer>
         <div class="footer-container">
-            <div class="myDiv_top">
-                <div class="myDiv_left">
+            <div class="footer-top">
+                <div class="footer-name">
                     <h2>Moja kuhinja</h2>
                 </div>
-                <div class="myDiv_right">
+                <div class="footer-social">
                     <span class="facebook"><i class="fa fa-facebook"></i></span>
                     <span class="instagram"><i class="fa fa-instagram"></i></span>
                     <span class="twitter"><i class="fa fa-twitter"></i></span>
                 </div>
             </div>
             
-            <div class="myDiv">
-                <div class="footer-heading footer-1">
+            <div class="footer-text">
+                <div class="footer-heading">
                     <a href="#">Presentations</a>
                     <a href="#">Professionals</a>
                     <a href="#">Stores</a>
                 </div>
-                <div class="footer-heading footer-2">
+                <div class="footer-heading">
                     <a href="#">Webinars</a>
                     <a href="#">Workshops</a>
                     <a href="#">Local Meetups</a>
                 </div>
-                <div class="footer-heading footer-3">
+                <div class="footer-heading">
                     <a href="#">Our Initiatives</a>
                     <a href="#">Giving Back</a>
                     <a href="#">Communities</a>
                 </div>
-                <div class="footer-heading footer-4">
+                <div class="footer-heading">
                     <a href="#">Contact Form</a>
                     <a href="#">Work With Us</a>
                     <a href="#">Visit Us</a>

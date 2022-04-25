@@ -10,4 +10,9 @@ function svgClick(element){
         svgIcon.style.backgroundColor = "white";
         svgIcon.style.fill = "var(--primary-color)";
     }
+};
+
+
+function menuClick(){
+	document.getElementById("nav-menu").classList.toggle("menu-active");
 }

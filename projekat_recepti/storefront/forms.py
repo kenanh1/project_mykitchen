@@ -1,35 +1,18 @@
-from django import forms
-from .models import NacinPripreme, Recepti, Sastojci
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Korisnik
+from django.forms import ModelForm
 
 
-class ReceptiForm(forms.ModelForm):
+class CreateUserForm(UserCreationForm):
     class Meta:
-        model = Recepti
-        fields =(
-            'naziv',
-            'slika_jela',
-            'datum_objave',
-            'kalorije',
-            'tezina_pripreme',
-            'nacin_pripreme_id',
-            'vrsta_jela_id',
-            'vrsta_obroka_id',
-        )
+        model = User
+        fields = [
+            'username', 'email', 'password1', 'password2'
+        ]
 
-class NacinpripemeForm(forms.ModelForm):
-    class Meta:
-        model = NacinPripreme
-        fields = (
-            'vrijeme_pripreme',
-            'ukupno_vrijeme_pripreme',
-            'sastojak_id',
-            'broj_osoba',
-        )
-
-class SastojciForm(forms.ModelForm):
-    class Meta:
-        model = Sastojci
-        fields = (
-            'ime_sastojka',
-            'broj_kalorija_sastojka',
-        )
+class KorisnikForm(ModelForm):
+	class Meta:
+		model = Korisnik
+		fields = '__all__'
+		exclude = ['user']

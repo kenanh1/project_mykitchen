@@ -5,19 +5,17 @@
 
 /* --------------------CONTAINER DIV---------------------*/
 .container{
-    margin-top:50px;
-    margin-bottom:50px;
-    width:1180px;
+    margin:40px auto;
+    /* width:1180px; */
+    max-width: 1180px;
     /* height:1126px; */
-    margin-left: auto;
-    margin-right:auto;
     display:flex;
     font-family: 'Montserrat', sans-serif;
 }
 /*---navbar sa lijeve strane sa position sticky koja nam omogucava da ovaj div ostane na mjestu kada listamo stranicu---*/
 .navbar__left{
     width:25%;
-    height:25%;
+    /* height:25%; */
     position:sticky;
     top:20%;
     color:var(--primary-color)
@@ -91,7 +89,8 @@
 
 /*---parent div u kojem se nalazi sadrzaj---*/
 .content{
-    width:890px;
+    /* width:890px; */
+    max-width:890px;
     height:100%;
     margin-left:38px;
 }
@@ -101,16 +100,20 @@
     margin-bottom:38px;
     display:flex;
     justify-content: space-between;
+    align-items: center;
 }
 .content__search{
     position:relative;
+    display:flex;
+    width:66%;
 }
 /*--search bar---*/
 .search_box{
     border:0;
     outline:none;
     height:40px;
-    width: 580px;
+    width:300%;
+    /* width: 580px; */
     background-color: #f9f5f4;
     border-radius: 7px;
     /* position: absolute; */
@@ -198,8 +201,8 @@
 
 /*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/
 .content__main{
-    /* height:100%; */
-    margin-bottom:38px;
+    max-width: 890px;
+    /* margin-bottom:38px; */
     display:flex;
     flex-wrap:wrap;
     justify-content: space-between;
@@ -208,10 +211,10 @@
 
 .main__item{
     width:266px;
+    /* max-width: 266px; */
     height:210px;
     cursor:pointer;
     margin-bottom:38px;
-    /* margin:10px; */
 }
 
 /*--media div dobija jos jedan poseban div zbog ikonice u gornjem desnom uglu. ovdje dodajemo sliku jela i efekat na slici*/
@@ -274,13 +277,94 @@
     justify-content: center;
     align-items: center;
     font-size:14px;
+    border-top:2px solid var(--secondary-color);
 }
 .content__bottom a{
     text-decoration:none;
     margin:0 5px;
     font-weight: 500;
+    color:var(--primary-color);
 }
 
 .content__bottom a:hover{
     color:black;
 }
+/* ------------------MEDIA SCREEN CONTENT------------------ */
+/*MEDIA SCREEN FOR SMALL DEVICES */
+@media screen and (max-width: 516px){
+    .content__top{
+        display:flex;
+        flex-direction: column;
+        height:auto;
+        margin-bottom:20px;
+    }
+    .content__sortby{
+        align-self: center;
+        margin-top:20px;
+    }
+    .content{
+        margin:0;
+        display:flex;
+        flex-direction: column;
+    }
+    .content__main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .main__item{
+        width:266px;
+    }
+    .search_box{
+        width:100%;
+    }
+    .content__search{
+        width:100%;
+    }
+}
+@media (max-width:651px){
+    .main__item{
+        width:210px;
+        margin:10px;
+    }
+}
+
+/* MEDIA SCREEN FOR PHONE/TABLETS */
+@media (max-width: 768px){
+    .navbar__left{
+        display:none;
+    }
+    .content{
+        margin:0;
+    }
+    .main__item{
+        width:266px;
+    }
+}
+@media screen and (max-width:900px){
+    .navbar__left{
+        width:25%;
+    }
+}
+
+@media screen and (max-width:1117px){
+    .content__main{
+        justify-content: space-around;
+    }
+}
+@media screen and (max-width: 1170px){
+    .content__main{
+        justify-content: space-evenly;
+    }
+    .main__item{
+        margin:0 10px 38px;
+    }
+}
+@media (max-width: 1220px){
+    .container{
+        margin:20px;
+    }
+}
+
+
+

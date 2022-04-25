@@ -1,6 +1,11 @@
-from django.shortcuts import render, get_object_or_404
-from . models import Recepti
-from .forms import NacinpripemeForm, ReceptiForm, SastojciForm
+from django.shortcuts import render, redirect
+from .models import Recepti
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib import messages
+import time
 
 # Create your views here.
 def home_view(request):
@@ -20,16 +25,40 @@ def jelo_view(request,id):
     # return render (request,"meal_template.html",{"item": item})
 
 
-# def recept_detail(request):
-#     if request.method == "POST":
-#         form = ReceptiForm(request.POST)
-#         form2 = NacinpripemeForm(request.POST)
-#         form3 = SastojciForm(request.POST)
-#         if form.is_valid() and form2.is_valid() and form3.is_valid():
-#             name = form.cleaned_data['naziv']
-#             tezina = form.cleaned_data['tezina_pripreme']
-        
-#     form = ReceptiForm()
-#     form2 = NacinpripemeForm()
-#     form3 = SastojciForm()
-#     return render(request,"form.html",{"form":form, "form2":form2, "form3":form3})
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            time.sleep(0.3)
+            return redirect('home')
+        else:
+            messages.info(request, "Username or password is not correct")
+
+    context = {}
+    return render(request,"login.html",context)
+
+def logout_view(request):
+    logout(request)
+    time.sleep(0.3)
+    return redirect('login')
+
+def register_view(request):
+    form = CreateUserForm()
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            user = form.cleaned_data.get("username")
+
+            messages.success(request, "Account created for " + user)
+
+            return redirect('receptiapp/login')
+
+    context = {'form':form}
+    return render(request,"register.html",context)

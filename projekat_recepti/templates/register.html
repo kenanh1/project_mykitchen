@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-text">
+        <h3>Enjoying us? Register here.</h3>
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="register-username">
+                <span>Username</span>
+                {{ form.username }}
+            </div>
+            <div class="register-email">
+                <span>Email</span>
+                {{ form.email }}
+            </div>
+            <div class="register-password">
+                <span>Password</span>
+                {{ form.password1 }}
+            </div>
+            <div class="register-password-confirm">
+                <span>Password confirmation </span>
+                {{ form.password2 }}
+            </div>
+            <div class="register-submit">
+                <input type="submit" name="Create User">
+            </div>
+        </form>
+        {{ form.errors }}
+    </div>
+    <div class="register-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
+        <h1>Welcome back</h1>
+        <p>Already have an account?<br>Click button bellow to login to your account.</p>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+</div>
+
+{% endblock %}

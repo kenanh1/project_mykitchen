@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="login-container">
+        <div class="login-text">
+            <h3>Got account? Login here.</h3>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <div class="login-username">
+                    <p class="login-info">Username</p>
+                    <input type="text" name="username">
+                </div>
+                <div class="login-password">
+                    <p class="login-info">Password</p>
+                    <input type="password" name="password">
+                </div>
+                {% for message in messages %}
+                    <p class="alert-login-message">{{message}}</p>
+                {% endfor %}
+                <div class="login-confirm">
+                    <input class="btn login_btn" type="submit" value="Login">
+                </div>
+            </form> 
+        </div>
+        <div class="login-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
+            <h1>Hello there?</h1>
+            <p>Don't have an account?<br>Click button bellow to join us.</p>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+    </div>
+
+    <!-- <a href="{% url 'logout' %}">Logout</a> -->
+
+{% endblock %}
