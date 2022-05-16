@@ -1,0 +1,172 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+.account-container{
+    max-width:1180px;
+    margin:0 auto 40px;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+}
+
+.account-sidebar{
+    width:20%;
+    border-right: 2px solid var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:25%;
+    position:sticky;
+    top:20%;
+}
+.account-sidebar a{
+    color:var(--primary-color);
+    text-decoration: none;
+}
+.account-sidebar button{
+    border:none;
+    margin-top:30px;
+}
+.account-sidebar button a{
+    background-color: var(--primary-color);
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    padding:8px 20px;
+    margin-left:-20px;
+    /* margin-top:140px; */
+}
+/* .account-sidebar button a{
+    color: white;
+} */
+.account-sidebar button a:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 0.5s ease-in;
+}
+
+/* .account-sidebar a{
+    color:var(--primary-color);
+    text-decoration: none;
+} */
+
+.account-sidebar ul{
+    list-style:none;
+}
+.account-sidebar li{
+    margin:10px 0;
+}
+
+.account-content{
+    width:80%;
+    margin-left:40px;
+    display:flex;
+    /* justify-content: space-between; */
+    /* flex-direction: column; */
+}
+
+.account-avatar-wrap{
+    display:flex;
+    flex-direction: column;
+    width:30%;
+    align-items: center;
+    padding:20px;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.account-avatar-frame img{
+    border-radius:50%;
+    width:200px;
+    border:5px solid var(--secondary-color);
+    padding:10px;
+    margin-top:20px;
+}
+.account-avatar-text input{
+   font-size:10px;
+}
+.account-detail-wrap{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    width:70%;
+    margin-left:40px;
+    background-color: s;
+}
+
+.account-detail-wrap p{
+    padding:10px 0;
+    display:flex;
+    flex-direction: column;
+}
+
+.account-detail-wrap span{
+    padding:10px 0;
+    background-color:var(--secondary-color);
+    margin-top:5px;
+}
+
+.edit-account-detail{
+    width:60%;
+
+}
+.edit-account-detail .helptext{
+    display:none;
+}
+.edit-account-detail p{
+    padding:10px 0;
+    /* border-bottom:2px solid var(--secondary-color); */
+}
+.edit-account-detail label{
+    color:var(--primary-color);
+}
+.edit-account-detail input{
+    background-color: var(--secondary-color);
+    outline:none;
+    border:none;
+    margin-top:10px;
+    padding:5px 10px;
+    font-family:'Montserrat', sans-serif;
+    width:95%;
+}
+
+.edit-account-detail button{
+    background-color: var(--primary-color);
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    padding:8px 20px;
+    margin-top:30px;
+}
+
+.edit-account-detail p #text{
+    display:none;
+}
+
+.avatar-detail{
+    display:flex;
+    flex-direction: column;
+}
+
+.avatar-detail a{
+    color:black;
+    padding:5px 10px 5px;
+    width:95%;
+    background-color: var(--secondary-color);
+    margin-top:10px;
+}
+
+.myrecipes-container{
+    display:flex;
+}

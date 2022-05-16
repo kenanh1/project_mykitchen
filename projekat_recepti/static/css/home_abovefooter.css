@@ -23,12 +23,13 @@
     display:flex;
     justify-content: space-between;
     transition:0.3s;
-    max-width:650px;
-    /* width:650px; */
+    /* max-width:650px; */
+    width:650px;
     /* position:absolute;
     bottom:22%;
     left:20%; */
     background-color: var(--secondary-color);
+    align-items: center;
 }
 /* .above_footer_bottom:hover{
     position:absolute;
@@ -68,8 +69,8 @@
     border:2px solid var(--primary-color);
     outline:none;
     height:40px;
-    width:235%;
-    /* width: 550px; */
+    /* width:235%; */
+    width: 450px;
     /* max-width:550px; */
     background-color: var(--secondary-color);
     border-radius: 25px;

@@ -3,16 +3,17 @@ from tkinter import CASCADE
 from django.db import models
 
 from django.contrib.auth.models import User
-# Create your models here.
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='profile_avatar')
+    avatar = models.ImageField(default='default_avatar.png', upload_to='profile_avatar')
 
     def __str__(self):
-        return self.user.username
+        if self.user:
+            return self.user.username
     class Meta:
         verbose_name_plural = "Korisnik"
+
 
 class Korisnici(models.Model):
     ime     = models.CharField(max_length=15)
@@ -49,6 +50,12 @@ class Recepti(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
+    user = models.ForeignKey(
+        Korisnik,
+        blank = True,
+        null = True,
+        on_delete = models.CASCADE
+    )
     korisnik_id = models.ForeignKey(
         Korisnici,
         blank = True,
@@ -67,7 +74,7 @@ class Recepti(models.Model):
         choices=RATING_JELA,
         default=1
         )
-    datum_objave = models.DateField()
+    datum_objave = models.DateField(auto_now_add=True)
     kalorije = models.IntegerField()
     tezina_pripreme = models.CharField(
         max_length=20,
@@ -144,7 +151,6 @@ class VrstaJela(models.Model):
         default="Sendvic",
     )
     def __str__(self):
-        print(self.vrsta_jela)
         return self.vrsta_jela
     class Meta:
         verbose_name_plural = "Vrsta jela"
@@ -231,6 +237,11 @@ class Kontakt(models.Model):
         verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
+    # MJERNAJEDINICE = (
+    #     ('GR', 'Grama'),
+    #     ('ML', 'Mililitara'),
+    #     ('KOM', 'Komada'),
+    # )
     recept_id = models.ForeignKey(
         Recepti,
         blank = True,
@@ -239,6 +250,12 @@ class Sastojci(models.Model):
     )
     ime_sastojka = models.CharField(max_length=50)
     broj_kalorija_sastojka = models.IntegerField()
+    # kolicina = models.IntegerField()
+    # mjerna_jedinica = models.CharField(
+    #     max_length = 10,
+    #     choices = MJERNAJEDINICE,
+    #     default = "Gram",
+    # )
 
     def __str__(self):
         return self.ime_sastojka

@@ -31,6 +31,8 @@
     <!-- LOGIN AND REGISTER CONTENT STYLING -->
     <link rel="stylesheet" href="{% static 'css/register-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/login-style.css' %}">
+    <!-- ACCOUNT CONTENT STYLING -->
+    <link rel="stylesheet" href="{% static 'css/account_style.css' %}">
     
     <title>Moja Kuhinja</title>
 </head>
@@ -44,8 +46,8 @@
                 <div class="header-navigation">
                     <nav>
                         <ul>
-                            <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                            <li><a href="{% url 'home' %}">Pocetna</a></li>
+                            <li><a href="{% url 'recipes' %}">Recepti</a></li>
                             <li><a href="#">Search</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
@@ -68,7 +70,13 @@
                     </div>
                     <div class="header-signup-active">
                         <p>Hi, <span>{{user.username}}</span></p>
-                        <a href="#"><img src="{{ request.user.korisnik.avatar.url }}" alt=""></a>
+                        <a href="{% url 'account' %}">
+                            {% if request.user.korisnik.avatar %}
+                            <img src="{{ request.user.korisnik.avatar.url }}" alt="">
+                            {% else %}
+                            <img src="{% static 'images/avatar-men.png'}" alt="">
+                            {% endif %}
+                        </a>
                     </div>
                     <div class="menu-bar">
                         <div id="nav-menu" onclick="menuClick()">
@@ -82,7 +90,7 @@
                         <a href="{% url 'login' %}">Login</a>
                     </div>
                     <div class="header-signup">
-                        <a href="{% url 'register' %}">Register</a>
+                        <a href="{% url 'register' %}">Registracija</a>
                     </div>
                     <div class="menu-bar">
                         <div id="nav-menu" onclick="menuClick()">
@@ -92,13 +100,6 @@
                         </div>
                     </div>
                 {% endif %}
-                <!-- <div class="menu-bar">
-                    <div id="nav-menu" onclick="menuClick()">
-                        <div id="bar1" class="bar"></div>
-                        <div id="bar2" class="bar"></div>
-                        <div id="bar3" class="bar"></div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </header>

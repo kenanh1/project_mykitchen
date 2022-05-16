@@ -6,7 +6,6 @@
         <h3>Enjoying us? Register here.</h3>
         <form method="POST" action="">
             {% csrf_token %}
-
             <div class="register-username">
                 <span>Username</span>
                 {{ form.username }}
@@ -27,7 +26,16 @@
                 <input type="submit" name="Create User">
             </div>
         </form>
-        {{ form.errors }}
+
+        {% if form.errors %}
+            {% for field in form %}
+                {{field.errors}}
+            {% endfor %}
+        {% endif %}
+
+        {% for message in messages %}
+           <p class="alert-login-message">{{message}}</p>
+        {% endfor %}
     </div>
     <div class="register-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
         <h1>Welcome back</h1>

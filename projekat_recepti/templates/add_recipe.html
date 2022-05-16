@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="account-container">
+    {% include 'account_sidebar.html' %}
+    <div class="account-content">
+        <div class="add-recipe-wrap">
+            {{form1.as_p}}
+            {{form2.as_p}}
+            <!-- {{form3.as_p}} -->
+            <div id="empty-form" class="hidden">{{form3.empty_form}}</div>
+            <button id="add-more" type="button">add more</button>
+            <button id="btn-confirm" type="submit">Submit</button>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

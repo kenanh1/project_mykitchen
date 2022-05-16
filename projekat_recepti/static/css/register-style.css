@@ -111,7 +111,13 @@
     border: 2px solid var(--primary-color);
     transition: 0.2s ease-in;
 }
-
+.errorlist{
+    list-style: none;
+}
+.errorlist li{
+    color:red;
+    font-size:12px;
+}
 @media screen and (max-width: 600px){
     .register-container{
         flex-direction: column;

@@ -245,6 +245,11 @@
     color:#eb4a36;
     transition: 0.5s;
 }
+.heart-active .media__heart .fa{
+    color:#eb4a36;
+    transition: 0.5s;
+}
+
 /*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
 .main__text{
     display:flex;

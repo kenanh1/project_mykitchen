@@ -2,7 +2,7 @@
 <div class="main__item">
     <div class="main__media">
         <a href="{% url 'jelo' x.id %}"><img src="{{ x.slika_jela.url }}"  alt="food picture" class="media_picture"></a>
-        <div class="media__heart"><i class="fa fa-heart"></i></div>
+        <div class="media__heart" id="media_heart_fa"><i class="fa fa-heart"></i></div>
     </div>
     <div class="main__text">
         <h3>{{ x.naziv }}</h3>
@@ -12,7 +12,7 @@
                 <span class="rating">{{ x.ocjena_jela }}</span>
                 <span class="voting">(55)</span>
             </div>
-            <div class="main__text__sub__right">by {{ x.korisnik_id.ime }} {{x.korisnik_id.prezime}}</div>
+            <div class="main__text__sub__right">by {{ x.user.user.first_name }} {{x.user.user.last_name}}</div>
         </div>
     </div>
 </div>
