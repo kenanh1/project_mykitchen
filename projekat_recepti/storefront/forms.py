@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Korisnik, Recepti, NacinPripreme, Sastojci
+from .models import Korisnik, Recepti, Sastojci
 from django.forms import ModelForm, ValidationError
 from django.forms import formset_factory
 
@@ -44,21 +44,14 @@ class ReceptiForm(ModelForm):
         model = Recepti
         fields =(
             'naziv',
-            'slika_jela',
-            'tezina_pripreme',
             'vrsta_jela_id',
             'vrsta_obroka_id',
-            # 'nacin_pripreme_id', 
-        )
-
-class NacinpripemeForm(ModelForm):
-    class Meta:
-        model = NacinPripreme
-        fields = (
+            'slika_jela',
+            'tezina_pripreme',
             'vrijeme_pripreme',
             'ukupno_vrijeme_pripreme',
-            'sastojak_id',
             'broj_osoba',
+            'opis_jela'
         )
 
 class SastojciForm(ModelForm):
@@ -67,6 +60,7 @@ class SastojciForm(ModelForm):
         fields = (
             'ime_sastojka',
             'broj_kalorija_sastojka',
+            'kolicina'
         )
 
-SastojciFormset = formset_factory(SastojciForm, extra=3)
+SastojciFormset = formset_factory(SastojciForm, extra=0)

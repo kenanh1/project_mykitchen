@@ -5,12 +5,28 @@
     {% include 'account_sidebar.html' %}
     <div class="account-content">
         <div class="add-recipe-wrap">
-            {{form1.as_p}}
-            {{form2.as_p}}
-            <!-- {{form3.as_p}} -->
-            <div id="empty-form" class="hidden">{{form3.empty_form}}</div>
-            <button id="add-more" type="button">add more</button>
-            <button id="btn-confirm" type="submit">Submit</button>
+            <form method="POST" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                {% if formset %}
+                <h4>Sastojci</h4>
+                {{formset.management_form}}
+
+                <div id="ingredient-form-list">
+                    {% for form in formset %}
+                        <div class="ingredient-form">
+                            {{form.as_p}}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="empty-form" class="hidden">
+                    {{ formset.empty_form}}
+                </div>
+                <!-- {{formset}} -->
+                <button id="add-more" type="button">add more</button>
+                {% endif %}
+                <button id="btn-confirm" type="submit">Submit</button>
+            </form>
         </div>
 
     </div>

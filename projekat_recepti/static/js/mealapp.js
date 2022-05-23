@@ -33,28 +33,31 @@ heartIcons.forEach(function (btn){
         
     })
 })
+// FIRST TEST FOR FORMS
 
-//TEST FOR FORMS
-document.addEventListener('click', (event)=>{
-    if (event.target.id == 'add-more') {
-        add_new_form(event)
+const addMoreBtn = document.getElementById("add-more")
+const totalForms = document.getElementById("id_form-TOTAL_FORMS")
+const currentForms = document.getElementsByClassName("ingredient-form")
+addMoreBtn.addEventListener("click", add_new_form)
+
+function add_new_form(event){
+    if (event) {
+        event.preventDefault()
     }
-})
-function add_new_form(event) {
-    // if (event) {
-    //     event.preventDefault()
-    // }
-    console.log(event)
-    // const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')
-    // const currentIngredientForms = document.getElementsByClassName('ingredient-form')
-    // const currentFormCount = currentIngredientForms.length // + 1
-    // const formCopyTarget = document.getElementById('ingredient-form-list')
-    // const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
-    // copyEmptyFormEl.setAttribute('class', 'ingredient-form')
-    // copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
-    // const regex = new RegExp('__prefix__', 'g')
-    // copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
-    // totalNewForms.setAttribute('value', currentFormCount + 1)
-    // now add new empty form element to our html form
-    // formCopyTarget.append(copyEmptyFormEl)
+
+    const currentForms = document.getElementsByClassName("ingredient-form")
+    const currentFormsCount = currentForms.length
+    console.log(currentFormsCount)
+
+    const formCopy = document.getElementById("ingredient-form-list")
+    const emptyForm = document.getElementById("empty-form").cloneNode(true)
+    emptyForm.setAttribute("class", "ingredient-form")
+    emptyForm.setAttribute("id", `form-${currentFormsCount}`)
+    const regex = new RegExp('__prefix__','g')
+    emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
+    totalForms.setAttribute("value", currentFormsCount + 1)
+    formCopy.append(emptyForm)
+
+    
 }
+// END FOR FIRST TEST

@@ -4,10 +4,8 @@
 }
 
 .recipes_container{
-    /* width:1180px; */
     max-width:1180px;
     margin:0 auto;
-    /* margin-right:auto; */
     font-family: 'Montserrat', sans-serif;
 }
 .recipes_search_wrap{
@@ -21,20 +19,16 @@
 .recipes_search_wrap .content-search{
     position:relative;
     display:flex;
-    
+    width:50%;
 }
 
 .recipes_search_wrap .search-box{
-   
-
     border:0;
     outline:none;
     height:40px;
     width:300%;
-    /* width: 580px; */
     background-color: #f9f5f4;
     border-radius: 7px;
-    /* position: absolute; */
     padding-left:40px;
     font-family: 'Montserrat', sans-serif;
 }
@@ -305,7 +299,7 @@
     .recipes_search_wrap .search-box{
         width:100%;
     }
-    .content-search{
+    .recipes_search_wrap .content-search{
         width:100%;
     }
     

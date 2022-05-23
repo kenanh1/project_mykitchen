@@ -14,22 +14,9 @@ class Korisnik(models.Model):
     class Meta:
         verbose_name_plural = "Korisnik"
 
-
-class Korisnici(models.Model):
-    ime     = models.CharField(max_length=15)
-    prezime = models.CharField(max_length=15)
-    email   = models.EmailField(max_length=40)
-    pretplatnik = models.BooleanField(default=False)
-    sifra = models.CharField(max_length=20)
-    slika_korisnika = models.ImageField(upload_to='slike')
-    broj_pretplatnika = models.IntegerField()
-
-    def __str__(self):
-        return self.ime + ' ' + self.prezime
-    class Meta:
-        verbose_name_plural = "Korisnici"
-
+# /// ----- RECEPT MAIN MODEL START ----- ///
 class Recepti(models.Model):
+    # CHOICES FOR RATING AND NUMBER OF PEOPLE
     RATING_JELA = (
         ("1", "1"),
         ("2", "2"),
@@ -37,7 +24,20 @@ class Recepti(models.Model):
         ("4", "4"),
         ("5", "5"),
     )
+    BROJ_OSOBA = (
+            ("1", "1"),
+            ("2", "2"),
+            ("3", "3"),
+            ("4", "4"),
+            ("4+", "4+")
+        )
     naziv = models.CharField(max_length=50)
+    user = models.ForeignKey(
+        Korisnik,
+        blank = True,
+        null = True,
+        on_delete = models.CASCADE
+    )
     vrsta_obroka_id = models.ForeignKey(
         'VrstaObroka',
         blank = True,
@@ -50,24 +50,6 @@ class Recepti(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
-    user = models.ForeignKey(
-        Korisnik,
-        blank = True,
-        null = True,
-        on_delete = models.CASCADE
-    )
-    korisnik_id = models.ForeignKey(
-        Korisnici,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    nacin_pripreme_id = models.ForeignKey(
-        'NacinPripreme',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
     slika_jela = models.ImageField(upload_to='slike')
     ocjena_jela = models.CharField(
         max_length=20,
@@ -75,37 +57,11 @@ class Recepti(models.Model):
         default=1
         )
     datum_objave = models.DateField(auto_now_add=True)
-    kalorije = models.IntegerField()
     tezina_pripreme = models.CharField(
         max_length=20,
         choices=RATING_JELA,
         default=1
         )
-    
-    def __str__(self):
-        return self.naziv
-    class Meta:
-        verbose_name_plural = "Recepti"
-
-class NacinPripreme(models.Model):
-    BROJ_OSOBA = (
-            ("1", "1"),
-            ("2", "2"),
-            ("3", "3"),
-            ("4", "4"),
-            ("4+", "4+")
-        )
-    recepti_id =  models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    sastojak_id = models.ManyToManyField(
-        'Sastojci',
-        blank = True
-        # on_delete=models.CASCADE
-    )
     vrijeme_pripreme = models.IntegerField()
     ukupno_vrijeme_pripreme = models.IntegerField()
     broj_osoba = models.CharField(
@@ -114,10 +70,13 @@ class NacinPripreme(models.Model):
         default=1
     )
     opis_jela = models.TextField()
+    
     def __str__(self):
-        return f"Način pripreme za : {self.recepti_id}"
+        return self.naziv
     class Meta:
-        verbose_name_plural = "Način pripreme"
+        verbose_name_plural = "Recepti"
+
+# /// ----- RECEPTI MAIN MODEL END ----- ///
 
 class VrstaObroka(models.Model):
     ODABIR_OBROKA = (
@@ -191,7 +150,7 @@ class ZdravaHrana(models.Model):
 
 class ListaZelja(models.Model):
     user_id = models.ForeignKey(
-        Korisnici,
+        Korisnik,
         blank = True,
         null=True,
         on_delete=models.CASCADE
@@ -214,7 +173,7 @@ class VideoRecepta(models.Model):
         on_delete=models.CASCADE
     )
     korisnik_id = models.ForeignKey(
-        Korisnici,
+        Korisnik,
         blank = True,
         null=True,
         on_delete=models.CASCADE
@@ -237,11 +196,17 @@ class Kontakt(models.Model):
         verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
-    # MJERNAJEDINICE = (
+    # MJERNEJEDINICE = (
     #     ('GR', 'Grama'),
     #     ('ML', 'Mililitara'),
     #     ('KOM', 'Komada'),
     # )
+    # mjerna_jedinica = models.CharField(
+    #     max_length=3,
+    #     choices=MJERNEJEDINICE,
+    #     default="Komada",
+    # )
+
     recept_id = models.ForeignKey(
         Recepti,
         blank = True,
@@ -250,13 +215,8 @@ class Sastojci(models.Model):
     )
     ime_sastojka = models.CharField(max_length=50)
     broj_kalorija_sastojka = models.IntegerField()
-    # kolicina = models.IntegerField()
-    # mjerna_jedinica = models.CharField(
-    #     max_length = 10,
-    #     choices = MJERNAJEDINICE,
-    #     default = "Gram",
-    # )
-
+    kolicina = models.IntegerField(default=0)
+    
     def __str__(self):
         return self.ime_sastojka
     class Meta:

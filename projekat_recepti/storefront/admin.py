@@ -1,11 +1,9 @@
 from django.contrib import admin
-from . models import CijenaRecepta, Kontakt, Korisnici, ListaZelja, NacinPripreme, Pretplatnici, Recepti, Sastojci, VideoRecepta, VrstaJela, VrstaObroka, ZdravaHrana, Korisnik
+from . models import CijenaRecepta, Kontakt, ListaZelja, Pretplatnici, Recepti, Sastojci, VideoRecepta, VrstaJela, VrstaObroka, ZdravaHrana, Korisnik
 
 # Register your models here.
 
 admin.site.register(Recepti)
-admin.site.register(Korisnici)
-admin.site.register(NacinPripreme)
 admin.site.register(VrstaObroka)
 admin.site.register(VrstaJela)
 admin.site.register(ZdravaHrana)

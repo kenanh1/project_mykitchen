@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Recepti, Korisnik
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, ReceptiForm, NacinpripemeForm, SastojciForm, SastojciFormset
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, ReceptiForm, SastojciForm, SastojciFormset
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,8 +8,6 @@ from django.contrib.auth.decorators import login_required
 
 def home_view(request):
     listaRecepata = Recepti.objects.all()
-    for item in listaRecepata:
-        print(item)
     return render (request,"home_main.html", {"allr": listaRecepata})
 
 def recipes_view(request):
@@ -19,15 +17,13 @@ def recipes_view(request):
 def jelo_view(request,id):
     obj = Recepti.objects.get(id = id)
     svi_recepti = Recepti.objects.all()
-    sastojci = obj.nacin_pripreme_id.sastojak_id.all()
-    return render (request,"meal_template.html",{"object": obj, "svi_recepti":svi_recepti,"sastojak":sastojci})
+    return render (request,"meal_template.html",{"object": obj, "svi_recepti":svi_recepti})
 
 @login_required
 def account_view(request):
     if request.method == "POST":
         account_update = EditUserProfileForm(request.POST, instance=request.user)
         avatar_update = EditUserPictureForm(request.POST, request.FILES, instance = request.user.korisnik)
-        print(account_update, "TEST")
         
         if account_update.is_valid() and avatar_update.is_valid():
             account_update.save()
@@ -67,18 +63,34 @@ def my_recipes_view(request):
     current_user = request.user.id
 
     my_recipes = Recepti.objects.filter(user_id = current_user)
-    print(my_recipes)
     return render (request, "account_recipes.html", {"myrecipes":my_recipes})
 
-def adding_recipes_view(request):
-    form1 = ReceptiForm()
-    form2 = NacinpripemeForm()
-    form3 = SastojciFormset()
 
+def adding_recipes_view(request):
+
+    currentRecipeUser = Korisnik.objects.get(user=request.user)
+
+    form = ReceptiForm(request.POST, request.FILES)
+    formset = SastojciFormset(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid() and formset.is_valid():
+            instance = form.save(commit=False)
+            instance.user = currentRecipeUser
+
+            for fs_item in formset:
+                fs_item.save(commit=False)
+                print(fs_item)
+
+            messages.success(request, "Uspjesno ste dodali novi recept")
+            return redirect('myrecipes')
+    else:
+        form = ReceptiForm()
+        formset = SastojciFormset()
+        
+        
     context ={
-        "form1":form1,
-        "form2":form2,
-        "form3":form3
+        "form":form,
+        "formset":formset,
     }
 
     return render (request,"add_recipe.html",context)
