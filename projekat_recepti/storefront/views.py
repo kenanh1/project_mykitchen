@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Recepti, Korisnik
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, ReceptiForm, SastojciForm, SastojciFormset
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, ReceptiForm, SastojciFormset, Sastojci
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,10 +14,23 @@ def recipes_view(request):
     recept = Recepti.objects.all()
     return render (request,"recipes_main.html",{'recept': recept})
 
+
 def jelo_view(request,id):
     obj = Recepti.objects.get(id = id)
     svi_recepti = Recepti.objects.all()
-    return render (request,"meal_template.html",{"object": obj, "svi_recepti":svi_recepti})
+    userRecipes = Recepti.objects.filter(user_id = obj.user_id).count()
+    ingredientsList = Sastojci.objects.filter(recept_id = id)
+
+    stepForma = CreateUserForm()
+    context = {
+        "object": obj,
+        "svi_recepti":svi_recepti,
+        "all_ingredients":ingredientsList,
+        "userRecipes":userRecipes,
+        "step_form":stepForma
+    }
+    return render (request,"meal_template.html",context)
+
 
 @login_required
 def account_view(request):
@@ -67,7 +80,6 @@ def my_recipes_view(request):
 
 
 def adding_recipes_view(request):
-
     currentRecipeUser = Korisnik.objects.get(user=request.user)
 
     form = ReceptiForm(request.POST, request.FILES)
@@ -76,12 +88,16 @@ def adding_recipes_view(request):
         if form.is_valid() and formset.is_valid():
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
+            instance.save()
 
             for fs_item in formset:
-                fs_item.save(commit=False)
-                print(fs_item)
+                child = fs_item.save(commit=False)
+                if child.recept_id is None:
+                    child.recept_id = instance
+                    print(child.recept_id)
+                child.save()
 
-            messages.success(request, "Uspjesno ste dodali novi recept")
+                messages.success(request, "Uspjesno ste dodali novi recept")
             return redirect('myrecipes')
     else:
         form = ReceptiForm()

@@ -47,7 +47,7 @@ function add_new_form(event){
 
     const currentForms = document.getElementsByClassName("ingredient-form")
     const currentFormsCount = currentForms.length
-    console.log(currentFormsCount)
+    // console.log(currentFormsCount)
 
     const formCopy = document.getElementById("ingredient-form-list")
     const emptyForm = document.getElementById("empty-form").cloneNode(true)
@@ -61,3 +61,10 @@ function add_new_form(event){
     
 }
 // END FOR FIRST TEST
+
+function deleteFormField(element){
+    let formParentDiv = element.closest(".ingredient-form");
+    console.log(element)
+    console.log(formParentDiv)
+    formParentDiv.parentNode.removeChild(formParentDiv);
+}

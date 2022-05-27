@@ -1,6 +1,5 @@
-from email.policy import default
-from tkinter import CASCADE
 from django.db import models
+from multiselectfield import MultiSelectField
 
 from django.contrib.auth.models import User
 
@@ -31,6 +30,14 @@ class Recepti(models.Model):
             ("4", "4"),
             ("4+", "4+")
         )
+    ODABIR_OBROKA = (
+        ('Dorucak', 'Dorucak'),
+        ('Rucak', 'Rucak'),
+        ('Vecera', 'Vecera'),
+        ('Poslastica', 'Poslastica'),
+        ('Uzina', 'Uzina'),
+    )
+    
     naziv = models.CharField(max_length=50)
     user = models.ForeignKey(
         Korisnik,
@@ -38,17 +45,8 @@ class Recepti(models.Model):
         null = True,
         on_delete = models.CASCADE
     )
-    vrsta_obroka_id = models.ForeignKey(
-        'VrstaObroka',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_jela_id = models.ForeignKey(
-        'VrstaJela',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
+    vrsta_obroka = MultiSelectField(
+        choices=ODABIR_OBROKA,
     )
     slika_jela = models.ImageField(upload_to='slike')
     ocjena_jela = models.CharField(
@@ -78,60 +76,12 @@ class Recepti(models.Model):
 
 # /// ----- RECEPTI MAIN MODEL END ----- ///
 
-class VrstaObroka(models.Model):
-    ODABIR_OBROKA = (
-        ('Dorucak', 'Dorucak'),
-        ('Rucak', 'Rucak'),
-        ('Vecera', 'Vecera'),
-        ('Poslastica', 'Poslastica'),
-    )
-    vrsta_obroka = models.CharField(
-        max_length=10,
-        choices=ODABIR_OBROKA,
-        default="Dorucak",
-    )
-
-    def __str__(self):
-        return self.vrsta_obroka
-    class Meta:
-        verbose_name_plural = "Vrsta obroka"
-    
-class VrstaJela(models.Model):
-    ODABIR_VRSTE = (
-        ('Sendvic', 'Sendvic'),
-        ('Pita', 'Pita'),
-        ('Pasta', 'Pasta'),
-        ('Kolac', 'Kolac'),
-        ('Peciva', 'Peciva'),
-    )
-    vrsta_jela = models.CharField(
-        max_length=10,
-        choices=ODABIR_VRSTE,
-        default="Sendvic",
-    )
-    def __str__(self):
-        return self.vrsta_jela
-    class Meta:
-        verbose_name_plural = "Vrsta jela"
-
 class ZdravaHrana(models.Model):
     ODABIR_ZDRAVE_HRANE = (
         ('DTL', 'Dijetalna'),
         ('GLF', 'Bez Glutena'),
         ('CAL', 'Niskokaloricna'),
         ('VEG', 'Veganska'),
-    )
-    vrsta_jela_id = models.ForeignKey(
-        VrstaJela,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_obroka_id = models.ForeignKey(
-        VrstaObroka,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
     )
     recepti_id = models.ForeignKey(
         Recepti,
@@ -196,17 +146,6 @@ class Kontakt(models.Model):
         verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
-    # MJERNEJEDINICE = (
-    #     ('GR', 'Grama'),
-    #     ('ML', 'Mililitara'),
-    #     ('KOM', 'Komada'),
-    # )
-    # mjerna_jedinica = models.CharField(
-    #     max_length=3,
-    #     choices=MJERNEJEDINICE,
-    #     default="Komada",
-    # )
-
     recept_id = models.ForeignKey(
         Recepti,
         blank = True,
@@ -214,8 +153,7 @@ class Sastojci(models.Model):
         on_delete=models.CASCADE
     )
     ime_sastojka = models.CharField(max_length=50)
-    broj_kalorija_sastojka = models.IntegerField()
-    kolicina = models.IntegerField(default=0)
+    kolicina = models.CharField(max_length=150)
     
     def __str__(self):
         return self.ime_sastojka

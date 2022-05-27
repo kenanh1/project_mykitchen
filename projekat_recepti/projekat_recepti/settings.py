@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #myapps
     'storefront.apps.StorefrontConfig',
+    'multiselectfield'
 
 ]
 

@@ -33,7 +33,7 @@
                 <div class="description__bottom">
                     <div class="description__bottom__left">
                         <h3>Created by <a href="#">{{ object.user.user.first_name }} {{ object.user.user.last_name }}</a></h3>
-                        <p>21 recipes</p>
+                        <p>Broj recepata: {{userRecipes}}</p>
                     </div>
                     <div class="description__bottom__right">
                         <a href="#" class="dodaj-svg" title="Save Recipe">
@@ -97,8 +97,8 @@
                 <div class="product__ingredients">
                     <h3>Sastojci</h3>
                     <ul>
-                        {% for item in sastojak %}
-                        <li>{{item.ime_sastojka}}<span class="kalorije">{{item.broj_kalorija_sastojka}} kCal</span></li>
+                        {% for item in all_ingredients %}
+                        <li>{{item.ime_sastojka}}<span class="kalorije">{{item.kolicina}}</span></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -169,10 +169,9 @@
                     <div class="product__tags">
                         <h3>Tags</h3>
                         <div class="tagovi">
-                        <a class="tag_for_product" href="#">{{ object.vrsta_jela_id.vrsta_jela}}</a>
-                        <a class="tag_for_product" href="#">{{ object.vrsta_obroka_id.vrsta_obroka}}</a>
-                        <a class="tag_for_product" href="#">Dinner</a>
-                        <a class="tag_for_product" href="#">Dinner</a>
+                            {% for tagObroka in object.vrsta_obroka %}
+                                <a class="tag_for_product" href="#">{{tagObroka}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="product__share">

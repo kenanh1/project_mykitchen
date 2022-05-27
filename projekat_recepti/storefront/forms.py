@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Korisnik, Recepti, Sastojci
 from django.forms import ModelForm, ValidationError
@@ -44,8 +44,7 @@ class ReceptiForm(ModelForm):
         model = Recepti
         fields =(
             'naziv',
-            'vrsta_jela_id',
-            'vrsta_obroka_id',
+            'vrsta_obroka',
             'slika_jela',
             'tezina_pripreme',
             'vrijeme_pripreme',
@@ -59,7 +58,6 @@ class SastojciForm(ModelForm):
         model = Sastojci
         fields = (
             'ime_sastojka',
-            'broj_kalorija_sastojka',
             'kolicina'
         )
 

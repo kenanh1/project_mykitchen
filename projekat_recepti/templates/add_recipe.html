@@ -21,12 +21,15 @@
                 </div>
                 <div id="empty-form" class="hidden">
                     {{ formset.empty_form}}
+                    <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
                 </div>
-                <!-- {{formset}} -->
-                <button id="add-more" type="button">add more</button>
+                <button id="add-more" type="button">add more</button><br>
                 {% endif %}
                 <button id="btn-confirm" type="submit">Submit</button>
             </form>
+            {% for message in messages %}
+                <p class="alert-login-message">{{message}}</p>
+            {% endfor %}
         </div>
 
     </div>
