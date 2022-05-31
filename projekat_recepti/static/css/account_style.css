@@ -159,13 +159,6 @@
     flex-direction: column;
 }
 
-.avatar-detail a{
-    color:black;
-    padding:5px 10px 5px;
-    width:95%;
-    background-color: var(--secondary-color);
-    margin-top:10px;
-}
 
 .myrecipes-container{
     display:flex;

@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #myapps
     'storefront.apps.StorefrontConfig',
-    'multiselectfield'
-
+    'multiselectfield',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -142,5 +142,12 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
-# CSRF_COOKIE_SECURE = False
-# SESSION_COOKIE_SECURE = False
+CKEDITOR_CONFIGS = {
+'default': {
+    # 'toolbar': None, #You can change this based on your requirements.
+    'width': 'auto',
+    'height': '50%',
+    "removePlugins": "exportpdf",
+          },
+          
+    }

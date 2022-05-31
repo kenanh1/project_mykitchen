@@ -11,4 +11,5 @@ admin.site.register(Kontakt)
 admin.site.register(Sastojci)
 admin.site.register(CijenaRecepta)
 admin.site.register(Korisnik)
-
+admin.site.register(Komentari)
+admin.site.register(ReceptiSteps)

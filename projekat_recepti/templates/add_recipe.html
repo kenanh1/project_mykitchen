@@ -8,10 +8,11 @@
             <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
                 {{form.as_p}}
+            
+
                 {% if formset %}
                 <h4>Sastojci</h4>
                 {{formset.management_form}}
-
                 <div id="ingredient-form-list">
                     {% for form in formset %}
                         <div class="ingredient-form">
@@ -19,12 +20,36 @@
                         </div>
                     {% endfor %}
                 </div>
+
                 <div id="empty-form" class="hidden">
                     {{ formset.empty_form}}
                     <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
                 </div>
-                <button id="add-more" type="button">add more</button><br>
+                <button id="add-more" type="button">Dodaj sastojak</button><br>
                 {% endif %}
+
+
+                {% if steps_formset %}
+                <h4>Koraci pravljenja</h4>
+                {{steps_formset.management_form}}
+                <div id="steps-form-list">
+                    {% for step in steps_formset %}
+                        <!-- <div class="steps-form">
+                            {{steps_formset.media}}
+                            {{steps_formset.as_p}}
+                        </div> -->
+                    {% endfor %}
+                </div>
+
+                <div id="empty-step-form" class="hidden">
+                    {{ steps_formset.empty_form }}
+                    {{steps_formset.media}}
+                    {{steps_formset.as_p}}
+                    <!-- <button class="delete" onclick="deleteFormField(this)">&#10008;</button> -->
+                </div>
+                <button id="add-more-steps" type="button">Dodaj korak</button><br>
+                {% endif %}
+
                 <button id="btn-confirm" type="submit">Submit</button>
             </form>
             {% for message in messages %}

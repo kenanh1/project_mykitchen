@@ -68,3 +68,30 @@ function deleteFormField(element){
     console.log(formParentDiv)
     formParentDiv.parentNode.removeChild(formParentDiv);
 }
+
+
+const addMoreSteps = document.getElementById("add-more-steps")
+// const totalForms = document.getElementById("id_form-TOTAL_FORMS")
+const currentStepForms = document.getElementsByClassName("steps-form")
+addMoreSteps.addEventListener("click", add_new_step)
+
+function add_new_step(event){
+    console.log(addMoreSteps)
+    if (event) {
+        event.preventDefault()
+    }
+
+    const currentStepForms = document.getElementsByClassName("steps-form")
+    const stepFormsCount = currentStepForms.length
+    console.log(stepFormsCount)
+
+    const stepCopy = document.getElementById("steps-form-list")
+
+    const emptyStep = document.getElementById("empty-step-form").cloneNode(true)
+    emptyStep.setAttribute("class", "steps-form")
+    emptyStep.setAttribute("id", `form_step-${stepFormsCount +1}`)
+//     const regex = new RegExp('__prefix__','g')
+//     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
+//     totalForms.setAttribute("value", currentFormsCount + 1)
+    stepCopy.append(emptyStep)
+}

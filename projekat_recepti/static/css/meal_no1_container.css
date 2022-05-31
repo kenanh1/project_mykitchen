@@ -121,6 +121,8 @@
 .step1{
     display:flex;
     margin:20px 0;
+    width:100%;
+    height:25%;
 }
 .step1 svg{
     border:1px solid var(--primary-color);
@@ -138,6 +140,7 @@
 .step__text{
     padding:6px 1px 0 18px;
     position:relative;
+    width: 100%;
 }
 .step__text h4{
     color:var(--primary-color);
@@ -154,6 +157,7 @@
     margin: auto;
     margin-left:10px;
     opacity:0.2;
+    align-self: flex-end;
 }
 
 #step_btn {opacity: 0; width: 0px;}
@@ -185,16 +189,23 @@
 }
 .first__comment{
     height:auto;
-    padding:20px;
-    border-radius:10px;
+    padding:15px 0;
+    /* border-radius:10px; */
     margin-bottom:20px;
+    border-bottom:2px solid var(--secondary-color);
+    width:100%;
     /* border:2px solid var(--secondary-color); */
 }
 
 .comm-header{
     display:flex;
     justify-content: space-between;
-    border-bottom:2px solid var(--secondary-color);
+    align-items: center;
+    /* border-bottom:2px solid var(--secondary-color); */
+    background-color: var(--secondary-color);
+    padding:5px;
+    height:50px;
+    /* width:110%; */
 }
 .comm-header a{
     text-decoration: none;
@@ -209,6 +220,8 @@
 
 .comm-left{
     display:flex;
+    align-items: center;
+    /* height:50px; */
 }
 .comm-info h4{
     cursor:pointer;
@@ -217,14 +230,57 @@
 .comm-info p{
     padding-left:15px;
     cursor:pointer;
+    font-size:12px;
+    padding-top:5px;
 }
 .comm-text{
     padding-top:15px;
+    padding-left:15px;
 }
 .product__comments img{
-    width:50px;
-    height:50px;
+    width:45px;
+    height:45px;
     border-radius:50px;
+    padding:3px;
+    background-color: white;
+    margin-top:3px;
+    /* border:2px solid white; */
+}
+.product__comments .errorlist{
+    display:none;
+}
+
+.comment-form{
+    /* background-color: red; */
+    width:100%;
+}
+.comment-form #id_content{
+    width:96.5%;
+    /* background-color: blue; */
+    padding:10px;
+    font-family: 'Montserrat', sans-serif;
+    border:2px solid var(--secondary-color);
+}
+.comment-form label{
+    display:none;
+}
+.comment-submit{
+    background-color: var(--primary-color);
+    padding:5px 10px;
+    border-radius: 15px;
+    color:white;
+    font-family: 'Montserrat', sans-serif;
+    border:2px solid var(--primary-color);
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top:10px;
+    float: right;
+}
+.comment-submit:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 0.5s ease-in;
 }
 .first__reply{
     height:auto;
@@ -266,10 +322,7 @@
     margin-top:40px;
 }
 
-.step1{
-    width:100%;
-    height:25%;
-}
+
 
 /*SASTOJCI ZA RECEPT TEMPLATE*/
 .product__ingredients h3{

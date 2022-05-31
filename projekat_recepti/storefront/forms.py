@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Korisnik, Recepti, Sastojci
-from django.forms import ModelForm, ValidationError
+from .models import Korisnik, Recepti, Sastojci, Komentari, ReceptiSteps
+from django import forms
 from django.forms import formset_factory
 
 
@@ -16,30 +16,31 @@ class CreateUserForm(UserCreationForm):
         username = self.cleaned_data.get('username')
         username_check = User.objects.filter(username=username)
         if username_check.exists():
-            raise ValidationError("username is taken")
+            raise forms.ValidationError("username is taken")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         email_check = User.objects.filter(email=email)
         if email_check.exists():
-            raise ValidationError("email is taken")
+            raise forms.ValidationError("email is taken")
         return email
 
 
-class EditUserProfileForm(ModelForm):
+class EditUserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name','last_name','email']
 
-class EditUserPictureForm(ModelForm):
+class EditUserPictureForm(forms.ModelForm):
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'label':'Avatar'}))
     class Meta:
         model = Korisnik
         fields = ['avatar']
 
 
 #FORM FOR ADDING NEW RECIPE
-class ReceptiForm(ModelForm):
+class ReceptiForm(forms.ModelForm):
     class Meta:
         model = Recepti
         fields =(
@@ -53,7 +54,7 @@ class ReceptiForm(ModelForm):
             'opis_jela'
         )
 
-class SastojciForm(ModelForm):
+class SastojciForm(forms.ModelForm):
     class Meta:
         model = Sastojci
         fields = (
@@ -62,3 +63,19 @@ class SastojciForm(ModelForm):
         )
 
 SastojciFormset = formset_factory(SastojciForm, extra=0)
+
+class ReceptiStepsForm(forms.ModelForm):
+    class Meta:
+        model = ReceptiSteps
+        fields = ('body',)
+
+
+class KomentariForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={
+        'rows':'4',
+        'placeholder':'Dodajte Vas komentar...',
+        }))
+
+    class Meta:
+        model = Komentari
+        fields = ('content',)

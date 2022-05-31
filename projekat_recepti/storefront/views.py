@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Recepti, Korisnik
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, ReceptiForm, SastojciFormset, Sastojci
+from .models import Recepti, Korisnik, Komentari, ReceptiSteps
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,15 +19,35 @@ def jelo_view(request,id):
     obj = Recepti.objects.get(id = id)
     svi_recepti = Recepti.objects.all()
     userRecipes = Recepti.objects.filter(user_id = obj.user_id).count()
+    allSteps = ReceptiSteps.objects.filter(recept_id = id)
     ingredientsList = Sastojci.objects.filter(recept_id = id)
+    svi_komentari = Komentari.objects.filter(recept_id = id)
+    commCount = svi_komentari.count()
+    currentCommUser = request.user.id
+    print(allSteps)
+
 
     stepForma = CreateUserForm()
+    commentForm = KomentariForm(request.POST)
+    if request.method == "POST":
+        if commentForm.is_valid():
+            commDetail = commentForm.save(commit=False)
+            commDetail.user_id = currentCommUser
+            commDetail.recept_id = id
+            commDetail.save()
+            return redirect('account')
+
+
     context = {
         "object": obj,
         "svi_recepti":svi_recepti,
         "all_ingredients":ingredientsList,
         "userRecipes":userRecipes,
-        "step_form":stepForma
+        "step_form":stepForma,
+        "comment_form": commentForm,
+        "all_comments": svi_komentari,
+        "comm_counter": commCount,
+        "recipe_steps":allSteps,
     }
     return render (request,"meal_template.html",context)
 
@@ -84,6 +104,7 @@ def adding_recipes_view(request):
 
     form = ReceptiForm(request.POST, request.FILES)
     formset = SastojciFormset(request.POST or None)
+    steps_formset = ReceptiStepsForm(request.POST , request.FILES)
     if request.method == "POST":
         if form.is_valid() and formset.is_valid():
             instance = form.save(commit=False)
@@ -97,7 +118,14 @@ def adding_recipes_view(request):
                     print(child.recept_id)
                 child.save()
 
-                messages.success(request, "Uspjesno ste dodali novi recept")
+            for fs_step in steps_formset:
+                child2 = fs_step.save(commit=False)
+                if child2.recept_id is None:
+                    child2.recept_id = instance
+                    print(child2.recept_id)
+                child2.save()
+
+            messages.success(request, "Uspjesno ste dodali novi recept")
             return redirect('myrecipes')
     else:
         form = ReceptiForm()
@@ -107,6 +135,7 @@ def adding_recipes_view(request):
     context ={
         "form":form,
         "formset":formset,
+        "steps_formset":steps_formset,
     }
 
     return render (request,"add_recipe.html",context)

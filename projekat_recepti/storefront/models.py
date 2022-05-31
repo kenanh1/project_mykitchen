@@ -1,7 +1,7 @@
 from django.db import models
 from multiselectfield import MultiSelectField
-
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -170,3 +170,18 @@ class CijenaRecepta(models.Model):
     )
     class Meta:
         verbose_name_plural = "Cijena recepta"
+
+
+class Komentari(models.Model):
+    recept = models.ForeignKey(Recepti, related_name="comments", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(Korisnik, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return f"{self.user} - {self.recept.naziv}"
+
+
+class ReceptiSteps(models.Model):
+    recept = models.ForeignKey(Recepti,on_delete=models.CASCADE)
+    body = RichTextField(blank=True, null=True)
