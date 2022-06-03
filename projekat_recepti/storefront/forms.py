@@ -45,13 +45,12 @@ class ReceptiForm(forms.ModelForm):
         model = Recepti
         fields =(
             'naziv',
+            'opis_jela',
             'vrsta_obroka',
-            'slika_jela',
             'tezina_pripreme',
             'vrijeme_pripreme',
-            'ukupno_vrijeme_pripreme',
             'broj_osoba',
-            'opis_jela'
+            'slika_jela', 
         )
 
 class SastojciForm(forms.ModelForm):
@@ -69,6 +68,7 @@ class ReceptiStepsForm(forms.ModelForm):
         model = ReceptiSteps
         fields = ('body',)
 
+StepsFormset = formset_factory(ReceptiStepsForm, extra=0)
 
 class KomentariForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={

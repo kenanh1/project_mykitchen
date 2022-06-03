@@ -7,47 +7,75 @@
         <div class="add-recipe-wrap">
             <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
-                {{form.as_p}}
+                <div class="sr-form-info">
+                    <div class="sr-form-name">
+                        <span>Naziv jela :</span>
+                        {{form.naziv}}
+                    </div>
+                    <div class="sr-form-description">
+                        <span>Kratak opis Vaseg jela :</span>
+                        {{form.opis_jela}}
+                    </div>
+                </div>
+                <div class="sr-form-about">
+                    <div class="sr-form-mealtype">
+                        <span>Vrsta obroka :</span>
+                        {{form.vrsta_obroka}}
+                    </div>
+                    <div class="sr-form-prep-weight">
+                        <span>Tezina pripreme :</span>
+                        {{form.tezina_pripreme}}
+                    </div>
+                    <div class="sr-form-prep-time">
+                        <span>Vrijeme pripreme :</span>
+                        {{form.vrijeme_pripreme}}
+                    </div>
+                    <div class="sr-form-yield">
+                        <span>Broj osoba :</span>
+                        {{form.broj_osoba}}
+                    </div>
+                    <div class="sr-form-image">
+                        <span>Slika jela:</span>
+                        {{form.slika_jela}}
+                    </div>
+                </div>
             
 
                 {% if formset %}
-                <h4>Sastojci</h4>
-                {{formset.management_form}}
-                <div id="ingredient-form-list">
-                    {% for form in formset %}
-                        <div class="ingredient-form">
-                            {{form.as_p}}
-                        </div>
-                    {% endfor %}
-                </div>
+                    <h4>Sastojci</h4>
+                    {{formset.management_form}}
+                    <div id="ingredient-form-list">
+                        {% for form in formset %}
+                            <div class="ingredient-form">
+                                {{form.as_p}}
+                            </div>
+                        {% endfor %}
+                    </div>
 
-                <div id="empty-form" class="hidden">
-                    {{ formset.empty_form}}
-                    <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
-                </div>
-                <button id="add-more" type="button">Dodaj sastojak</button><br>
+                    <div id="empty-form" class="hidden">
+                        {{ formset.empty_form}}
+                        <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
+                    </div>
+                    <button id="add-more" type="button">Dodaj sastojak</button><br>
                 {% endif %}
 
 
-                {% if steps_formset %}
-                <h4>Koraci pravljenja</h4>
-                {{steps_formset.management_form}}
-                <div id="steps-form-list">
-                    {% for step in steps_formset %}
-                        <!-- <div class="steps-form">
-                            {{steps_formset.media}}
-                            {{steps_formset.as_p}}
-                        </div> -->
-                    {% endfor %}
-                </div>
-
-                <div id="empty-step-form" class="hidden">
-                    {{ steps_formset.empty_form }}
-                    {{steps_formset.media}}
-                    {{steps_formset.as_p}}
-                    <!-- <button class="delete" onclick="deleteFormField(this)">&#10008;</button> -->
-                </div>
-                <button id="add-more-steps" type="button">Dodaj korak</button><br>
+                {% if forma_stepova %}
+                    <h4>Koraci pravljenja</h4>
+                    {{steps_formset.management_form}}
+                    
+                    <div id="steps-form-list">
+                        <div class="input_fields_wrap">
+                            <div><textarea class="ckeditor" name="ck[]"></textarea></div> 
+                        </div>
+                        <button class="add_field_button">Add More Fields</button>
+                        <!-- {% for step in steps_formset %}
+                        <div class="steps-form">
+                            {{steps.media}}
+                            {{steps.as_p}}
+                        </div>
+                        {% endfor %} -->
+                    </div>
                 {% endif %}
 
                 <button id="btn-confirm" type="submit">Submit</button>
@@ -56,7 +84,6 @@
                 <p class="alert-login-message">{{message}}</p>
             {% endfor %}
         </div>
-
     </div>
 </div>
 

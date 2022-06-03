@@ -22,7 +22,7 @@ let heartIcons = document.querySelectorAll('.media__heart .fa')
 
 heartIcons.forEach(function (btn){
     btn.addEventListener("click", function(event){
-        console.log(event.target)
+        // console.log(event.target)
         btn.classList.toggle("heart-active")
         btnCheckColor = btn.classList.contains("heart-active")
         if (btn.classList.contains("heart-active")){
@@ -47,7 +47,6 @@ function add_new_form(event){
 
     const currentForms = document.getElementsByClassName("ingredient-form")
     const currentFormsCount = currentForms.length
-    // console.log(currentFormsCount)
 
     const formCopy = document.getElementById("ingredient-form-list")
     const emptyForm = document.getElementById("empty-form").cloneNode(true)
@@ -57,41 +56,41 @@ function add_new_form(event){
     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
     totalForms.setAttribute("value", currentFormsCount + 1)
     formCopy.append(emptyForm)
-
-    
+   
 }
 // END FOR FIRST TEST
 
 function deleteFormField(element){
     let formParentDiv = element.closest(".ingredient-form");
-    console.log(element)
-    console.log(formParentDiv)
     formParentDiv.parentNode.removeChild(formParentDiv);
 }
 
 
-const addMoreSteps = document.getElementById("add-more-steps")
-// const totalForms = document.getElementById("id_form-TOTAL_FORMS")
-const currentStepForms = document.getElementsByClassName("steps-form")
-addMoreSteps.addEventListener("click", add_new_step)
+$(document).ready(function() {
+    var max_fields      = 10; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+    
+    var x = 1; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            var editorId = 'editor_' +x;
+            $(wrapper).append('<div> <textarea id="'+editorId+'" class="ckeditor" name="ck[]"></textarea><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            
+            CKEDITOR.replace(editorId, { height: 200 });
+        }
+    });
+    
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
 
-function add_new_step(event){
-    console.log(addMoreSteps)
-    if (event) {
-        event.preventDefault()
-    }
 
-    const currentStepForms = document.getElementsByClassName("steps-form")
-    const stepFormsCount = currentStepForms.length
-    console.log(stepFormsCount)
+for (var instance in CKEDITOR.instances)
+CKEDITOR.instances[instance].updateElement();
 
-    const stepCopy = document.getElementById("steps-form-list")
 
-    const emptyStep = document.getElementById("empty-step-form").cloneNode(true)
-    emptyStep.setAttribute("class", "steps-form")
-    emptyStep.setAttribute("id", `form_step-${stepFormsCount +1}`)
-//     const regex = new RegExp('__prefix__','g')
-//     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
-//     totalForms.setAttribute("value", currentFormsCount + 1)
-    stepCopy.append(emptyStep)
-}
+var temp = CKEDITOR.instances[instance].getData();

@@ -60,8 +60,8 @@ class Recepti(models.Model):
         choices=RATING_JELA,
         default=1
         )
-    vrijeme_pripreme = models.IntegerField()
-    ukupno_vrijeme_pripreme = models.IntegerField()
+    vrijeme_pripreme = models.PositiveIntegerField()
+    ukupno_vrijeme_pripreme = models.PositiveIntegerField()
     broj_osoba = models.CharField(
         max_length=20,
         choices=BROJ_OSOBA,

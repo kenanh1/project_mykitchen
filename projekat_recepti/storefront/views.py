@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Recepti, Korisnik, Komentari, ReceptiSteps
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, StepsFormset
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -104,38 +104,57 @@ def adding_recipes_view(request):
 
     form = ReceptiForm(request.POST, request.FILES)
     formset = SastojciFormset(request.POST or None)
-    steps_formset = ReceptiStepsForm(request.POST , request.FILES)
+    steps_formset = StepsFormset(request.POST , request.FILES)
+    formaStepova = ReceptiStepsForm()
     if request.method == "POST":
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid() and formset.is_valid() and steps_formset.is_valid():
+            print(formset.data, "FORMSET DATA")
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
-            instance.save()
+            # instance.save()
+            
 
             for fs_item in formset:
                 child = fs_item.save(commit=False)
                 if child.recept_id is None:
                     child.recept_id = instance
-                    print(child.recept_id)
-                child.save()
+                # child.save()
+                print(child,"CHIIIIIIIIIILD")
 
-            for fs_step in steps_formset:
-                child2 = fs_step.save(commit=False)
-                if child2.recept_id is None:
-                    child2.recept_id = instance
-                    print(child2.recept_id)
-                child2.save()
+            # for fs_step in steps_formset:
+            #     child2 = fs_step.save(commit=False)
+            #     if child2.recept_id is None:
+            #         child2.recept_id = instance
+            #         print(child2.recept_id)
+                # child2.save()
+            ckeDataList = request.POST.getlist('ck[]')
+            duzinaListe = len(ckeDataList)
+            brojac = 0
+            for korak in ckeDataList:
+                formaStepova.body = korak
+                formaStepova.recept_id = instance
+                brojac += 1
+            print(duzinaListe, "DUZINA LISTE")
+            print(formaStepova.body)
+            print(formaStepova.recept_id)
 
-            messages.success(request, "Uspjesno ste dodali novi recept")
+            
+            print(ckeDataList)
+            # print(steps_formset,"NEKI FORMSET STEPOVA")
+            # print(request.POST.getlist('ck[]'), "DATA IZ CKEDITORA")
+            # messages.success(request, "Uspjesno ste dodali novi recept")
             return redirect('myrecipes')
     else:
         form = ReceptiForm()
         formset = SastojciFormset()
+        steps_formset = StepsFormset()
+        formaStepova = ReceptiStepsForm()
         
         
     context ={
         "form":form,
         "formset":formset,
-        "steps_formset":steps_formset,
+        "forma_stepova":formaStepova,
     }
 
     return render (request,"add_recipe.html",context)
