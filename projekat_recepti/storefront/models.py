@@ -1,7 +1,9 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
+# from ckeditor.fields import RichTextField
+# from ckeditor_uploader.fields import RichTextUploadingField
+from tinymce.models import HTMLField 
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -61,7 +63,6 @@ class Recepti(models.Model):
         default=1
         )
     vrijeme_pripreme = models.PositiveIntegerField()
-    ukupno_vrijeme_pripreme = models.PositiveIntegerField()
     broj_osoba = models.CharField(
         max_length=20,
         choices=BROJ_OSOBA,
@@ -183,5 +184,8 @@ class Komentari(models.Model):
 
 
 class ReceptiSteps(models.Model):
-    recept = models.ForeignKey(Recepti,on_delete=models.CASCADE)
-    body = RichTextField(blank=True, null=True)
+    recept = models.ForeignKey(Recepti, on_delete=models.CASCADE)
+    body = HTMLField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Koraci pripreme - {self.recept.naziv}"

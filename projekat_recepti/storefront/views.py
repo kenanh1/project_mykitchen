@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Recepti, Korisnik, Komentari, ReceptiSteps
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, StepsFormset
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import random
 
 
 def home_view(request):
@@ -12,7 +13,13 @@ def home_view(request):
 
 def recipes_view(request):
     recept = Recepti.objects.all()
-    return render (request,"recipes_main.html",{'recept': recept})
+    featuredRecipes = random.sample(list(recept), 4)
+    context = {
+        "recept" : recept,
+        "featuredRecipes" : featuredRecipes,
+    }
+
+    return render (request,"recipes_main.html",context)
 
 
 def jelo_view(request,id):
@@ -24,8 +31,7 @@ def jelo_view(request,id):
     svi_komentari = Komentari.objects.filter(recept_id = id)
     commCount = svi_komentari.count()
     currentCommUser = request.user.id
-    print(allSteps)
-
+    
 
     stepForma = CreateUserForm()
     commentForm = KomentariForm(request.POST)
@@ -102,59 +108,45 @@ def my_recipes_view(request):
 def adding_recipes_view(request):
     currentRecipeUser = Korisnik.objects.get(user=request.user)
 
-    form = ReceptiForm(request.POST, request.FILES)
-    formset = SastojciFormset(request.POST or None)
-    steps_formset = StepsFormset(request.POST , request.FILES)
-    formaStepova = ReceptiStepsForm()
+    
     if request.method == "POST":
-        if form.is_valid() and formset.is_valid() and steps_formset.is_valid():
-            print(formset.data, "FORMSET DATA")
+        form = ReceptiForm(request.POST, request.FILES)
+        formset = SastojciFormset(request.POST or None)
+        rteformset = ReceptiStepsForm(request.POST or None)
+
+
+        if form.is_valid() and formset.is_valid() and rteformset.is_valid():
+            print(rteformset.data, "RTEDITOR DATA")
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
-            # instance.save()
+            instance.save()
             
 
             for fs_item in formset:
                 child = fs_item.save(commit=False)
                 if child.recept_id is None:
                     child.recept_id = instance
-                # child.save()
-                print(child,"CHIIIIIIIIIILD")
+                child.save()
+                print(child.recept_id,"CHIIIIIIIIIILD")
 
-            # for fs_step in steps_formset:
-            #     child2 = fs_step.save(commit=False)
-            #     if child2.recept_id is None:
-            #         child2.recept_id = instance
-            #         print(child2.recept_id)
-                # child2.save()
-            ckeDataList = request.POST.getlist('ck[]')
-            duzinaListe = len(ckeDataList)
-            brojac = 0
-            for korak in ckeDataList:
-                formaStepova.body = korak
-                formaStepova.recept_id = instance
-                brojac += 1
-            print(duzinaListe, "DUZINA LISTE")
-            print(formaStepova.body)
-            print(formaStepova.recept_id)
-
+            stepsForm = rteformset.save(commit=False)
+            if stepsForm.recept_id is None:
+                    stepsForm.recept_id = instance
             
-            print(ckeDataList)
-            # print(steps_formset,"NEKI FORMSET STEPOVA")
-            # print(request.POST.getlist('ck[]'), "DATA IZ CKEDITORA")
-            # messages.success(request, "Uspjesno ste dodali novi recept")
+            ReceptiSteps.objects.create(recept=stepsForm.recept_id, body=stepsForm.body)
+            
+
             return redirect('myrecipes')
     else:
         form = ReceptiForm()
         formset = SastojciFormset()
-        steps_formset = StepsFormset()
-        formaStepova = ReceptiStepsForm()
+        rteformset = ReceptiStepsForm()
         
         
     context ={
         "form":form,
         "formset":formset,
-        "forma_stepova":formaStepova,
+        "rteformset":rteformset,
     }
 
     return render (request,"add_recipe.html",context)

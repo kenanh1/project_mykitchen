@@ -128,75 +128,31 @@
     font-size:20px;
     color:var(--primary-color);
 }
-.content__sortby{
+/* .content__sortby{
     position:relative;
-}
+} */
 
 /*--- sort by button--*/
-.content__sortby button{
+#sortby{
     background-color: var(--primary-color);
-    width:157px;
-    height:30px;
     text-decoration: none;
-    border: none;
+    border: 1px solid var(--primary-color);
     border-radius: 20px;
+    outline:none;
     font-family: 'Montserrat', sans-serif;
-    color:white;
+    color: white;
     font-weight: 600;
-    font-size:12px;
-    text-align: left;
-    padding-left:15px;
-    padding-bottom:2px;
-    cursor:pointer;
+    font-size: 12px;
+    cursor: pointer;
+    padding:7px 40px 7px 20px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 3px;
 }
-.content__sortby button:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 1s;
-    border:1px solid var(--primary-color);
-}
-
-.content__sortby ul{
-    opacity: 0;
-    display:flex;
-    flex-direction:column;
-    margin:-15px 0 0 0;
-    padding:0;
-    align-items:center;
-    list-style: none;
-    position:absolute;
-    left:5px;
-    top:45px;
-    width:147px;
-    height: 45px;
-    font-size:12px;
-    background: var(--primary-color);
-    pointer-events: none;
-    transform: translateY(-10px);
-    transition: all 0.4s ease;
-    color:white;
-    border:1px solid grey;
-}
-
-.content__sortby ul li{
-    display:flex;
-    flex-direction:column;
-    width: 91%;
-    height: 100%;
-    text-align: start;
-    justify-content: center;
-    color:rgb(255, 255, 255);
-    padding-left:15px;
-}
-
-.content__sortby button:focus + ul {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateY(0px);
-}
-.content__sortby ul li:hover{
-    color:var(--primary-color);
-    background-color:var(--secondary-color);
+#sortby >option{
+    font-weight: 500;
 }
 
 /*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/

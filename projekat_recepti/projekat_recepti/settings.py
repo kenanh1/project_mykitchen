@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #myapps
     'storefront.apps.StorefrontConfig',
+    #libs
     'multiselectfield',
-    'ckeditor',
+    # 'ckeditor',
+    # 'ckeditor_uploader',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -142,12 +145,15 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
-CKEDITOR_CONFIGS = {
-'default': {
-    # 'toolbar': None, #You can change this based on your requirements.
-    'width': 'auto',
-    # 'height': '50%',
-    "removePlugins": "exportpdf",
-          },
-    'extraPlugins': 'sourcedialog'
-    }
+# CKEDITOR_CONFIGS = {
+# 'default': {
+#     # 'toolbar': None, #You can change this based on your requirements.
+#     'width': 'auto',
+#     # 'height': '50%',
+#     "removePlugins": "exportpdf",
+#           },
+#     'extraPlugins': 'sourcedialog'
+#     }
+
+# CKEDITOR_UPLOAD_PATH = "slike/"
+

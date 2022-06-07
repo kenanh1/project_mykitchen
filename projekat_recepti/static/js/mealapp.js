@@ -56,7 +56,6 @@ function add_new_form(event){
     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
     totalForms.setAttribute("value", currentFormsCount + 1)
     formCopy.append(emptyForm)
-   
 }
 // END FOR FIRST TEST
 
@@ -64,33 +63,3 @@ function deleteFormField(element){
     let formParentDiv = element.closest(".ingredient-form");
     formParentDiv.parentNode.removeChild(formParentDiv);
 }
-
-
-$(document).ready(function() {
-    var max_fields      = 10; //maximum input boxes allowed
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
-    
-    var x = 1; //initlal text box count
-    $(add_button).click(function(e){ //on add input button click
-        e.preventDefault();
-        if(x < max_fields){ //max input box allowed
-            x++; //text box increment
-            var editorId = 'editor_' +x;
-            $(wrapper).append('<div> <textarea id="'+editorId+'" class="ckeditor" name="ck[]"></textarea><a href="#" class="remove_field">Remove</a></div>'); //add input box
-            
-            CKEDITOR.replace(editorId, { height: 200 });
-        }
-    });
-    
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
-});
-
-
-for (var instance in CKEDITOR.instances)
-CKEDITOR.instances[instance].updateElement();
-
-
-var temp = CKEDITOR.instances[instance].getData();

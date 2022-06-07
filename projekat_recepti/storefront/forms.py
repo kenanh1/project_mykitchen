@@ -1,8 +1,12 @@
+from sys import prefix
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Korisnik, Recepti, Sastojci, Komentari, ReceptiSteps
 from django import forms
 from django.forms import formset_factory
+# from ckeditor.widgets import CKEditorWidget
+
+from tinymce.widgets import TinyMCE
 
 
 class CreateUserForm(UserCreationForm):
@@ -41,6 +45,8 @@ class EditUserPictureForm(forms.ModelForm):
 
 #FORM FOR ADDING NEW RECIPE
 class ReceptiForm(forms.ModelForm):
+    naziv = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Unesite naziv Vašeg jela'}))
+    opis_jela = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Kratki opis Vašeg jela'}))
     class Meta:
         model = Recepti
         fields =(
@@ -54,6 +60,8 @@ class ReceptiForm(forms.ModelForm):
         )
 
 class SastojciForm(forms.ModelForm):
+    ime_sastojka = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'ime sastojka'}))
+    kolicina = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'količina'}))
     class Meta:
         model = Sastojci
         fields = (
@@ -62,13 +70,6 @@ class SastojciForm(forms.ModelForm):
         )
 
 SastojciFormset = formset_factory(SastojciForm, extra=0)
-
-class ReceptiStepsForm(forms.ModelForm):
-    class Meta:
-        model = ReceptiSteps
-        fields = ('body',)
-
-StepsFormset = formset_factory(ReceptiStepsForm, extra=0)
 
 class KomentariForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
@@ -79,3 +80,20 @@ class KomentariForm(forms.ModelForm):
     class Meta:
         model = Komentari
         fields = ('content',)
+
+
+
+class TinyMCEWidget(TinyMCE):
+    def use_required_attribute(self, *args):
+        return False
+
+
+class ReceptiStepsForm(forms.ModelForm):
+    body = forms.CharField(
+        widget=TinyMCEWidget(
+            attrs={'required': False, 'cols': 30, 'rows': 10}
+        )
+    )
+    class Meta:
+        model = ReceptiSteps
+        fields = ('body',)

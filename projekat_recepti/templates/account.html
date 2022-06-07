@@ -3,21 +3,25 @@
 {% block content %}
 <div class="account-container">
     {% include 'account_sidebar.html' %}
-    <div class="account-content">
-        <div class="account-avatar-wrap">
-            <h1>Moj profil</h1>
-            <div class="account-avatar-frame">
-                <img src="{{ user.korisnik.avatar.url }}" alt="">
-            </div>
-            <div class="account-avatar-text">
-            </div>
+    <div class="account-content-wrap">
+        <div class="account-content-title">
+            <h2>Moj profil</h2>
         </div>
-        <div class="account-detail-wrap">
-            <p class="acc-username">username: <span>{{ user.username}}</span></p>
-            <p class="acc-fname">ime korisnika: <span>{{ user.first_name}}</span></p>
-            <p class="acc-lname">prezime korisnika: <span>{{ user.last_name}}</span></p>
-            <p class="acc-email">email korisnika: <span>{{user.email}}</span></p>
-            <a href="{% url 'edit-acc' %}">Uredi profil</a>
+        <div class="account-content">
+            <div class="account-avatar-wrap">
+                <div class="account-avatar-frame">
+                    <img src="{{ user.korisnik.avatar.url }}" alt="">
+                </div>
+                <div class="account-avatar-text">
+                </div>
+            </div>
+            <div class="account-detail-wrap">
+                <p class="acc-username">korisnicko ime : <span>{{ user.username}}</span></p>
+                <p class="acc-fname">ime : <span>{{ user.first_name}}</span></p>
+                <p class="acc-lname">prezime : <span>{{ user.last_name}}</span></p>
+                <p class="acc-email">email : <span>{{user.email}}</span></p>
+                <a href="{% url 'edit-acc' %}">Uredi profil</a>
+            </div>
         </div>
     </div>
 </div>

@@ -8,7 +8,7 @@
     <section class=page__container>
         <div class="container">
             <div class="navbar__left">
-                <h2>Recipes</h2>
+                <h2>Recepti</h2>
                 <nav>
                     <ul class=navbar__list>
                         <li class="navbar__parent">
@@ -72,16 +72,16 @@
             <div class="content">
                 <div class="content__top">
                     <div class="content__search">
-                        <input type="text" class="search_box" placeholder="Search for recipes...">
+                        <input type="text" class="search_box" placeholder="Pretražite recepte . . .">
                         <i class="fa fa-search"></i>
                     </div>
                     <div class="content__sortby">
-                        <button>Sort by:</button>
-                        <ul>
-                            <li>Sort by: Latest</li>
-                            <li>Sort by: Top Rated</li>
-                            <li>Sort by: Trending</li>
-                        </ul>
+                        <select name="sortby" id="sortby">
+                            <option hidden>Poredaj po</option>
+                            <option class="optionhover" value="latest">Zadnje dodato</option>
+                            <option class="optionhover" value="top_rated">Ocjena jela</option>
+                            <option class="optionhover" value="trending">Popularno</option>
+                        </select>
                     </div>
                 </div>
                 <div class="content__main">

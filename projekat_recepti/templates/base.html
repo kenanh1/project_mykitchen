@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="{% static 'css/account_style.css' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
+    <!-- <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script> -->
 
     <title>Moja Kuhinja</title>
 </head>
@@ -50,7 +50,7 @@
                 <div class="header-navigation">
                     <nav>
                         <ul>
-                            <li><a href="{% url 'home' %}">Pocetna</a></li>
+                            <li><a href="{% url 'home' %}">Početna</a></li>
                             <li><a href="{% url 'recipes' %}">Recepti</a></li>
                             <li><a href="#">Search</a></li>
                             <li><a href="#">Contact</a></li>
@@ -146,9 +146,10 @@
                 </div>
             </div>
             <div class="madeBy">
-                <p>Made in Sarajevo City.</p>
+                <p>Made in Sarajevo City ©</p>
             </div>
     </footer>
     <script src="{% static 'js/mealapp.js' %}"></script>
+    <script src="{% static 'js/uploader.js' %}"></script>
 </body>
 </html>

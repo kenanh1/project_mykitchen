@@ -3,14 +3,14 @@
 {% block content %}
 <div class="account-container">
     {% include 'account_sidebar.html' %}
-    <div class="account-content">
-        <h1>Moji Recepti</h1>
+    <div class="myrecipes-content">
+        <h2>Moji Recepti</h2>
         <div class="myrecipes-container">
-        {% for x in myrecipes %}
-            {% block myrecipes %}
-            {% include 'meal_media.html' %}
-            {% endblock %}
-        {% endfor %}
+            {% for x in myrecipes %}
+                {% block myrecipes %}
+                {% include 'meal_media.html' %}
+                {% endblock %}
+            {% endfor %}
         </div>
     </div>
 </div>

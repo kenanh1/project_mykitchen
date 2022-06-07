@@ -5,22 +5,22 @@
     <div class="recipes_container">
         <div class="recipes_search_wrap">
             <div class="content-search">
-                <input type="text" class="search-box" placeholder="Search for recipes...">
+                <input type="text" class="search-box" placeholder="Pretražite recepte . . .">
                 <i class="fa fa-search"></i>
             </div>
             <div class="content-sortby">
-                <button>Sort by:</button>
-                <ul>
-                    <li>Sort by: Latest</li>
-                    <li>Sort by: Top Rated</li>
-                    <li>Sort by: Trending</li>
-                </ul>
+                <select name="sortby" id="sortby">
+                    <option hidden>Poredaj po</option>
+                    <option class="optionhover" value="latest">Zadnje dodato</option>
+                    <option class="optionhover" value="top_rated">Ocjena jela</option>
+                    <option class="optionhover" value="trending">Popularno</option>
+                </select>
             </div>
         </div>
         <div class="featured_recipes">
-            <h2>Featured Recipes</h2>
+            <h2>Izdvojeni recepti</h2>
             <div class="featured_recipes_wrap">
-                {% for x in recept %}
+                {% for x in featuredRecipes %}
                 {% block meal-media-featured1 %}
                 {% include 'meal_media.html' %}
                 {% endblock %}
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="all_recipes_content">
-            <h2>All Recipes</h2>
+            <h2>Svi recepti</h2>
             <div class="all_recipes_wrap">
                 {% for x in recept %}
                 {% block meal-media-recipes %}

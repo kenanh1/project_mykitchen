@@ -42,19 +42,12 @@
     margin-left:-20px;
     /* margin-top:140px; */
 }
-/* .account-sidebar button a{
-    color: white;
-} */
+
 .account-sidebar button a:hover{
     background-color: var(--secondary-color);
     color:var(--primary-color);
     transition:background-color 0.5s ease-in;
 }
-
-/* .account-sidebar a{
-    color:var(--primary-color);
-    text-decoration: none;
-} */
 
 .account-sidebar ul{
     list-style:none;
@@ -62,13 +55,16 @@
 .account-sidebar li{
     margin:10px 0;
 }
-
-.account-content{
-    width:80%;
+.account-content-wrap{
+    width: 80%;
     margin-left:40px;
+}
+.account-content{
     display:flex;
-    /* justify-content: space-between; */
-    /* flex-direction: column; */
+}
+.account-content-title{
+    color:var(--primary-color);
+    margin-bottom: 20px;
 }
 
 .account-avatar-wrap{
@@ -159,9 +155,18 @@
     flex-direction: column;
 }
 
-
+.myrecipes-content h2{
+    color:var(--primary-color);
+    margin-bottom: 20px;
+}
+.myrecipes-content{
+    width: 80%;
+    margin-left:80px;
+}
 .myrecipes-container{
     display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .hidden{

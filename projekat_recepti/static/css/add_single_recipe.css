@@ -1,0 +1,215 @@
+*{
+    padding:0;
+    margin:0;
+}
+
+.add-recipe-wrap{
+    /* background-color: aqua; */
+    width: 80%;
+    margin:0 40px;
+}
+
+.add-recipe-title{
+    color:var(--primary-color);
+    margin-bottom: 20px;
+}
+/*---------------SINGLE RECIPE INFORMATIONS------------*/
+.sr-form-info{
+    padding-bottom:20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sr-form-name input{
+    border:none;
+    outline:none;
+    width:50%;
+    margin:0 auto;
+    border-bottom:2px solid var(--secondary-color);
+    font-family: 'Montserrat', sans-serif;
+    padding:5px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sr-form-description, .sr-form-name{
+    display:flex;
+    flex-direction: column;
+    margin-top:10px;
+    text-align: center;
+}
+
+.sr-form-description textarea{
+    width:70%;
+    border:none;
+    outline:none;
+    border-bottom:2px solid var(--secondary-color);
+    margin:0 auto;
+    font-family: 'Montserrat', sans-serif;
+    padding:5px;
+    font-weight: 600;
+    text-align: center;
+
+}
+.sr-form-details{
+    width:50%;
+    text-align: center;
+}
+
+.sr-form-about{
+    /* background-color: red; */
+    display:flex;
+    margin-bottom: 20px;
+    padding-top:20px;
+    justify-content: space-between;
+}
+
+.add-recipe-wrap h4{
+    background-color: var(--secondary-color);
+    text-align: center;
+    padding:5px 0;
+    margin-bottom: 10px;
+}
+.sr-form-ingredients{
+    width:50%;
+    margin-left:40px;
+    /* background-color: red; */
+}
+.sr-form-ingredients label{
+    display:none;
+}
+
+.sr-form-ingredients input{
+    border:none;
+    border-bottom:2px solid var(--secondary-color);
+    outline:none;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    /* margin:0 10px; */
+    padding:5px 0;
+    width:40%;
+    font-weight: 600;
+}
+
+.ingredient-form{
+    /* background-color: darkviolet; */
+    display:flex;
+    justify-content: space-between;
+    margin:10px 10px;
+}
+
+#add-more{ 
+    background-color: var(--primary-color);
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    padding:7px 20px;
+    margin-left:10px;   
+    
+}
+#add-more:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 0.5s ease-in;
+}
+
+#id_vrsta_obroka{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-around;
+    width: 80%;
+    /* background-color: red; */
+    margin:0 auto;
+}
+
+#id_vrsta_obroka > div{
+    margin:5px 15px;
+}
+
+#id_tezina_pripreme, #id_broj_osoba{
+    padding:5px 10px;
+    border:none;
+    outline:none;
+    border-bottom: 2px solid var(--secondary-color);
+    margin:10px 0;
+}
+
+.sr-form-prep-weight, .sr-form-prep-time{
+    /* background-color: red; */
+    margin:10px 0;
+}
+
+.sr-form-prep-time input{
+    width:15%;
+    background-color: var(--secondary-color);
+    border:none;
+    outline:none;
+    padding:5px 10px;
+    /* border-radius:20px; */
+    font-weight: 600;
+    text-align: center;
+    /* border-bottom: 2px solid var(--primary-color); */
+}
+
+.sr-form-image{
+    display: flex;
+    flex-direction: column;
+}
+.sr-form-image input{
+    background-color: var(--secondary-color);
+    text-decoration: none;
+    /* border: 1px solid var(--primary-color); */
+    /* border-radius: 20px; */
+    font-family: 'Montserrat', sans-serif;
+    /* color: white; */
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    padding:7px 50px;
+    margin-left:10px;   
+    width: 50%;
+    margin:5px auto;
+}
+
+
+.sr-form-about span{
+    font-weight: 500;
+}
+
+#btn-confirm{
+    background-color: var(--primary-color);
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    padding:7px 20px;
+    margin-top:20px;
+    float: right;
+}
+
+#btn-confirm:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 0.5s ease-in;
+}
+
+
+.delete {
+    border:none;
+    border:2px solid var(--primary-color);
+    padding:1px 6px 4px 7px;
+    border-radius: 50%;
+    font-weight: 600;
+    color:var(--primary-color);
+    background-color:white;
+}

@@ -47,7 +47,6 @@ function add_new_form(event){
 
     const currentForms = document.getElementsByClassName("ingredient-form")
     const currentFormsCount = currentForms.length
-    // console.log(currentFormsCount)
 
     const formCopy = document.getElementById("ingredient-form-list")
     const emptyForm = document.getElementById("empty-form").cloneNode(true)
@@ -57,8 +56,7 @@ function add_new_form(event){
     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
     totalForms.setAttribute("value", currentFormsCount + 1)
     formCopy.append(emptyForm)
-
-    
+   
 }
 // END FOR FIRST TEST
 
@@ -68,44 +66,31 @@ function deleteFormField(element){
 }
 
 
-const addMoreSteps = document.getElementById("add-more-steps")
-// const totalStepForms = document.getElementById("id_form-TOTAL_FORMS")
-const currentStepForms = document.getElementsByClassName("steps-form")
-addMoreSteps.addEventListener("click", add_new_step)
-
-// console.log(currentStepForms)
-function add_new_step(event){
-    // console.log(addMoreSteps, "BROJ STEPOVA")
-    if (event) {
-        event.preventDefault()
-    }
+$(document).ready(function() {
+    var max_fields      = 10; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
     
-
-    const currentStepForms = document.getElementsByClassName("steps-form")
-    const stepFormsCount = currentStepForms.length
-    // console.log(stepFormsCount)
-
-    const stepCopy = document.getElementById("steps-form-list")
-
-    const emptyStep = document.getElementById("empty-step-form").cloneNode(true)
-    emptyStep.setAttribute("class", "steps-form")
-    emptyStep.setAttribute("id", `form_step-${stepFormsCount}`)
-
-
-    var elementDiv = document.getElementById(`form_step-${stepFormsCount}`);
-    console.log(elementDiv)
-    // const textAreaQS = document.querySelector()
+    var x = 1; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            var editorId = 'editor_' +x;
+            $(wrapper).append('<div> <textarea id="'+editorId+'" class="ckeditor" name="ck[]"></textarea><a href="#" class="remove_field">Remove</a></div>'); //add input box
+            
+            CKEDITOR.replace(editorId, { height: 200 });
+        }
+    });
     
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
 
 
+for (var instance in CKEDITOR.instances)
+CKEDITOR.instances[instance].updateElement();
 
-    // const textAreaBodyId = document.getElementById("id-form-0-body").length
-    // console.log(textAreaBodyId)
-    
-    // emptyStep.setAttribute("textarea id", `body-form-id${stepFormsCount}` )
-    // const regexStep = new RegExp('__prefix__','g')
-    // emptyStep.innerHTML = emptyStep.innerHTML.replace(regexStep, stepFormsCount)
-    // totalStepForms.setAttribute("value", stepFormsCount + 1)
-    stepCopy.append(emptyStep)
-    
-}
+
+var temp = CKEDITOR.instances[instance].getData();

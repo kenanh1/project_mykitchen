@@ -3,82 +3,79 @@
 {% block content %}
 <div class="account-container">
     {% include 'account_sidebar.html' %}
-    <div class="account-content">
-        <div class="add-recipe-wrap">
+    <div class="add-recipe-wrap">
+        <div class="add-recipe-title">
+            <h2>Dodavanje recepta</h2>
+        </div>
+        <div class="add-recipe-form">
             <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
                 <div class="sr-form-info">
                     <div class="sr-form-name">
-                        <span>Naziv jela :</span>
+                        <h4>Recept</h4>
                         {{form.naziv}}
                     </div>
                     <div class="sr-form-description">
-                        <span>Kratak opis Vaseg jela :</span>
+                        <h4>Opis jela</h4>
                         {{form.opis_jela}}
                     </div>
                 </div>
                 <div class="sr-form-about">
-                    <div class="sr-form-mealtype">
-                        <span>Vrsta obroka :</span>
-                        {{form.vrsta_obroka}}
+                    <div class="sr-form-details">
+                        <h4>Detalji o jelu</h4>
+                        <div class="sr-form-mealtype">
+                            <span>Vrsta obroka :</span>
+                            {{form.vrsta_obroka}}
+                        </div>
+                        <div class="sr-form-prep-weight">
+                            <span>Težina pripreme :</span>
+                            {{form.tezina_pripreme}}
+                        </div>
+                        <div class="sr-form-prep-time">
+                            <span>Vrijeme pripreme :</span>
+                            {{form.vrijeme_pripreme}}
+                        </div>
+                        <div class="sr-form-yield">
+                            <span>Broj osoba :</span>
+                            {{form.broj_osoba}}
+                        </div>
+                        <div class="sr-form-image">
+                            <span>Slika jela :</span>
+                            {{form.slika_jela}}
+                        </div>
                     </div>
-                    <div class="sr-form-prep-weight">
-                        <span>Tezina pripreme :</span>
-                        {{form.tezina_pripreme}}
-                    </div>
-                    <div class="sr-form-prep-time">
-                        <span>Vrijeme pripreme :</span>
-                        {{form.vrijeme_pripreme}}
-                    </div>
-                    <div class="sr-form-yield">
-                        <span>Broj osoba :</span>
-                        {{form.broj_osoba}}
-                    </div>
-                    <div class="sr-form-image">
-                        <span>Slika jela:</span>
-                        {{form.slika_jela}}
+                    <div class="sr-form-ingredients">
+                        {% if formset %}
+                            <h4>Sastojci</h4>
+                            {{formset.management_form}}
+                            <div id="ingredient-form-list">
+                                {% for form in formset %}
+                                    <div class="ingredient-form">
+                                        {{form.as_p}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div id="empty-form" class="hidden">
+                                {{ formset.empty_form}}
+                                <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
+                                <!-- <button class="delete" onclick="deleteFormField(this)">&#10008;</button> -->
+                            </div>
+                            <button id="add-more" type="button">Dodaj sastojak</button><br>
+                        {% endif %}
                     </div>
                 </div>
-            
 
-                {% if formset %}
-                    <h4>Sastojci</h4>
-                    {{formset.management_form}}
-                    <div id="ingredient-form-list">
-                        {% for form in formset %}
-                            <div class="ingredient-form">
-                                {{form.as_p}}
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div id="empty-form" class="hidden">
-                        {{ formset.empty_form}}
-                        <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
-                    </div>
-                    <button id="add-more" type="button">Dodaj sastojak</button><br>
-                {% endif %}
-
-
-                {% if forma_stepova %}
-                    <h4>Koraci pravljenja</h4>
-                    {{steps_formset.management_form}}
-                    
-                    <div id="steps-form-list">
-                        <div class="input_fields_wrap">
-                            <div><textarea class="ckeditor" name="ck[]"></textarea></div> 
+                <div class="sr-form-directions">
+                    {% if rteformset %}
+                        <h4>Priprema</h4>
+                        <div class="step-form">
+                            {{rteformset.media}}
+                            {{rteformset.body}}
                         </div>
-                        <button class="add_field_button">Add More Fields</button>
-                        <!-- {% for step in steps_formset %}
-                        <div class="steps-form">
-                            {{steps.media}}
-                            {{steps.as_p}}
-                        </div>
-                        {% endfor %} -->
-                    </div>
-                {% endif %}
-
-                <button id="btn-confirm" type="submit">Submit</button>
+                    {% endif %}
+                </div>
+                <button id="btn-confirm" type="submit">Potvrdite dodavanje recepta</button>
             </form>
             {% for message in messages %}
                 <p class="alert-login-message">{{message}}</p>
