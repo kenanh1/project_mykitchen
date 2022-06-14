@@ -11,5 +11,9 @@ urlpatterns = [
     path ('account/', views.account_view, name = 'account'),
     path ('account/edit/', views.edit_account_view, name='edit-acc'),
     path ('myrecipes/',views.my_recipes_view, name='myrecipes'),
-    path ("addrecipe/", views.adding_recipes_view, name='addrecipe')
+    path ("addrecipe/", views.adding_recipes_view, name='addrecipe'),
+    path ("likes/<int:pk>", views.add_likes, name='comm-like'),
+    path ("dislikes/<int:pk>", views.add_dislikes, name='comm-dislike'),
+    path ("deletecomm/<int:pk>", views.delete_comment, name='comment-delete'),
+    path ('update/jelo/<int:id>/', views.update_recipes_view, name = 'update-jelo'),
 ]

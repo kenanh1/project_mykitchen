@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="account-container">
     {% include 'account_sidebar.html' %}
@@ -10,7 +10,12 @@
         <div class="account-content">
             <div class="account-avatar-wrap">
                 <div class="account-avatar-frame">
+                    <!-- <img src="{{ user.korisnik.avatar.url }}" alt=""> -->
+                    {% if user.korisnik.avatar.url %}
                     <img src="{{ user.korisnik.avatar.url }}" alt="">
+                    {% else %}
+                    <img src="{% static 'images/avatar-men.png' %}" alt="">
+                    {% endif %}
                 </div>
                 <div class="account-avatar-text">
                 </div>

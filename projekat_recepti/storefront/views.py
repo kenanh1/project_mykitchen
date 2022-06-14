@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Recepti, Korisnik, Komentari, ReceptiSteps
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, updateSastojkeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -31,12 +31,28 @@ def jelo_view(request,id):
     svi_komentari = Komentari.objects.filter(recept_id = id)
     commCount = svi_komentari.count()
     currentCommUser = request.user.id
+    commentForm = KomentariForm(request.POST)
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    print(obj.tezina_pripreme)
+    tezinaPripreme = int(obj.tezina_pripreme)
     
 
-    stepForma = CreateUserForm()
-    commentForm = KomentariForm(request.POST)
+
     if request.method == "POST":
+        commentForm = KomentariForm(data=request.POST)
         if commentForm.is_valid():
+            parent_obj = None
+            try:
+                parent_id = int(request.POST.get("parent_id"))
+            except:
+                parent_id=None
+
+            if parent_id:
+                parent_obj = Komentari.objects.get(id = parent_id)
+                if parent_obj:
+                    replay_comment = commentForm.save(commit=False)
+                    replay_comment.parent = parent_obj
+                    replay_comment.user_id = trenutniKorisnik.id
             commDetail = commentForm.save(commit=False)
             commDetail.user_id = currentCommUser
             commDetail.recept_id = id
@@ -49,14 +65,90 @@ def jelo_view(request,id):
         "svi_recepti":svi_recepti,
         "all_ingredients":ingredientsList,
         "userRecipes":userRecipes,
-        "step_form":stepForma,
         "comment_form": commentForm,
         "all_comments": svi_komentari,
         "comm_counter": commCount,
         "recipe_steps":allSteps,
+        "authorid" : trenutniKorisnik,
+        "tezina_pripreme": range(tezinaPripreme),
     }
     return render (request,"meal_template.html",context)
 
+def delete_comment(request,pk):
+    id = request.POST['comment_id']
+    if request.method == "POST":
+        komentar = get_object_or_404(Komentari, id=id)
+        try:
+            komentar.delete()
+            messages.success(request, 'You have successfully deleted the comment')
+
+        except:
+            messages.warning(request, 'The comment could not be deleted.')
+
+
+    return redirect('home')
+
+def add_likes(request, pk):
+    currentCommUser = request.user.id
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    komentar = get_object_or_404(Komentari, id=request.POST.get("komentar_id"))
+    
+    is_dislike = False
+
+    for dislike in komentar.dislikes.all():
+        if dislike == trenutniKorisnik:
+            is_dislike = True
+            break
+
+    if is_dislike:
+        komentar.dislikes.remove(trenutniKorisnik.id)
+
+    is_like = False
+
+    for like in komentar.likes.all():
+        if like == trenutniKorisnik:
+            is_like = True
+            break
+        
+
+    if not is_like:
+        komentar.likes.add(trenutniKorisnik.id)
+
+    if is_like:
+        komentar.likes.remove(trenutniKorisnik.id)
+
+    return redirect('home')
+
+
+def add_dislikes(request,pk):
+    currentCommUser = request.user.id
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    komentar = get_object_or_404(Komentari, id=request.POST.get("komentar_id"))
+
+    is_like = False
+
+    for like in komentar.likes.all():
+        if like == trenutniKorisnik:
+            is_like = True
+            break
+
+    if is_like:
+        komentar.likes.remove(trenutniKorisnik.id)
+
+    is_dislike = False
+
+    for dislike in komentar.dislikes.all():
+        if dislike == trenutniKorisnik:
+            is_dislike = True
+            break
+
+    if not is_dislike:
+        komentar.dislikes.add(trenutniKorisnik.id)
+
+    if is_dislike:
+        komentar.dislikes.remove(trenutniKorisnik.id)
+
+    return redirect('home')
 
 @login_required
 def account_view(request):
@@ -74,7 +166,6 @@ def account_view(request):
     else:
         account_update = EditUserProfileForm(instance=request.user)
         avatar_update = EditUserPictureForm(instance=request.user.korisnik)
-
 
         return render (request,"account.html",{'account_form':account_update, 'avatar_form':avatar_update})
 
@@ -108,7 +199,6 @@ def my_recipes_view(request):
 def adding_recipes_view(request):
     currentRecipeUser = Korisnik.objects.get(user=request.user)
 
-    
     if request.method == "POST":
         form = ReceptiForm(request.POST, request.FILES)
         formset = SastojciFormset(request.POST or None)
@@ -116,7 +206,6 @@ def adding_recipes_view(request):
 
 
         if form.is_valid() and formset.is_valid() and rteformset.is_valid():
-            print(rteformset.data, "RTEDITOR DATA")
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
             instance.save()
@@ -150,6 +239,23 @@ def adding_recipes_view(request):
     }
 
     return render (request,"add_recipe.html",context)
+
+def update_recipes_view(request,id):
+    recept = Recepti.objects.get(id = id)
+    form = ReceptiForm(instance=recept)
+    sastojci = Sastojci.objects.filter(recept_id=recept)
+    print(sastojci)
+    # sastojakForm = updateSastojkeForm()
+    # print(sastojakForm)
+    rteformset = ReceptiStepsForm(instance=recept)
+
+    context = {
+        'form': form,
+        'sastojci': sastojci,
+        "rteformset" : rteformset,
+    }
+
+    return render(request, "update_single_recipe.html", context)
 
 def login_view(request):
     if request.method == "POST":

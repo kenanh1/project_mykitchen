@@ -1,13 +1,11 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import User
-# from ckeditor.fields import RichTextField
-# from ckeditor_uploader.fields import RichTextUploadingField
 from tinymce.models import HTMLField 
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(default='default_avatar.png', upload_to='profile_avatar')
+    avatar = models.ImageField(upload_to='profile_avatar')
 
     def __str__(self):
         if self.user:
@@ -25,6 +23,7 @@ class Recepti(models.Model):
         ("4", "4"),
         ("5", "5"),
     )
+
     BROJ_OSOBA = (
             ("1", "1"),
             ("2", "2"),
@@ -32,6 +31,7 @@ class Recepti(models.Model):
             ("4", "4"),
             ("4+", "4+")
         )
+
     ODABIR_OBROKA = (
         ('Dorucak', 'Dorucak'),
         ('Rucak', 'Rucak'),
@@ -41,33 +41,14 @@ class Recepti(models.Model):
     )
     
     naziv = models.CharField(max_length=50)
-    user = models.ForeignKey(
-        Korisnik,
-        blank = True,
-        null = True,
-        on_delete = models.CASCADE
-    )
-    vrsta_obroka = MultiSelectField(
-        choices=ODABIR_OBROKA,
-    )
+    user = models.ForeignKey(Korisnik, blank = True, null = True, on_delete = models.CASCADE)
+    vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
     slika_jela = models.ImageField(upload_to='slike')
-    ocjena_jela = models.CharField(
-        max_length=20,
-        choices=RATING_JELA,
-        default=1
-        )
+    ocjena_jela = models.CharField(max_length=20, choices=RATING_JELA, default=1)
     datum_objave = models.DateField(auto_now_add=True)
-    tezina_pripreme = models.CharField(
-        max_length=20,
-        choices=RATING_JELA,
-        default=1
-        )
+    tezina_pripreme = models.CharField(max_length=20,choices=RATING_JELA,default=1)
     vrijeme_pripreme = models.PositiveIntegerField()
-    broj_osoba = models.CharField(
-        max_length=20,
-        choices=BROJ_OSOBA,
-        default=1
-    )
+    broj_osoba = models.CharField(max_length=20,choices=BROJ_OSOBA,default=1)
     opis_jela = models.TextField()
     
     def __str__(self):
@@ -84,51 +65,22 @@ class ZdravaHrana(models.Model):
         ('CAL', 'Niskokaloricna'),
         ('VEG', 'Veganska'),
     )
-    recepti_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_hrane = models.CharField(
-        max_length=3,
-        choices=ODABIR_ZDRAVE_HRANE,
-        default="Dijetalna",
-    )
+    recepti_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
+    vrsta_hrane = models.CharField(max_length=3, choices=ODABIR_ZDRAVE_HRANE, default="Dijetalna",)
     class Meta:
         verbose_name_plural = "Zdrava hrana"
 
 
 class ListaZelja(models.Model):
-    user_id = models.ForeignKey(
-        Korisnik,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    user_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
     class Meta:
         verbose_name_plural = "Lista želja"
 
 class VideoRecepta(models.Model):
     naziv_videa = models.CharField(max_length=120)
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    korisnik_id = models.ForeignKey(
-        Korisnik,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
+    korisnik_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
     videolink = models.URLField()
     def __str__(self):
         return self.naziv_videa
@@ -147,12 +99,7 @@ class Kontakt(models.Model):
         verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
     ime_sastojka = models.CharField(max_length=50)
     kolicina = models.CharField(max_length=150)
     
@@ -163,12 +110,7 @@ class Sastojci(models.Model):
     
 
 class CijenaRecepta(models.Model):
-    recept_id =  models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    recept_id =  models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
     class Meta:
         verbose_name_plural = "Cijena recepta"
 
@@ -178,10 +120,27 @@ class Komentari(models.Model):
     date = models.DateField(auto_now_add=True)
     user = models.ForeignKey(Korisnik, on_delete=models.CASCADE)
     content = models.TextField()
+    likes = models.ManyToManyField(Korisnik, blank=True, related_name='likes')
+    dislikes = models.ManyToManyField(Korisnik, blank=True, related_name='dislikes')
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
 
     def __str__(self):
-        return f"{self.user} - {self.recept.naziv}"
+        return f"{self.user}  komentarise : {self.recept.naziv}"
 
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
+
+    def children(self):
+        return Komentari.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+            return False
+        return True
 
 class ReceptiSteps(models.Model):
     recept = models.ForeignKey(Recepti, on_delete=models.CASCADE)

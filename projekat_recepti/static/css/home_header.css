@@ -127,7 +127,6 @@
     font-size:13px;
     font-weight: 500;
     position: relative;
-    /* margin-right:20px; */
 }
 
 .header-signin a:after{
@@ -186,6 +185,11 @@
     padding:2px;
     border:2px solid var(--primary-color);
 }
+.user-roles-medal{
+    fill: var(--primary-color);
+    margin-top:5px;
+    margin-left:5px;
+}
 
 /* NAVBAR BURGER MENU ON CLICK */
 .menu-bar{
@@ -209,9 +213,7 @@
 	cursor: pointer;
 
 }
-/* .menu-active .bar{
-	background-color: white;
-} */
+
 .menu-active #bar1{
 	transform: translateY(9px) rotateZ(-45deg);
 }

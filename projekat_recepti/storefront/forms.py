@@ -3,8 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Korisnik, Recepti, Sastojci, Komentari, ReceptiSteps
 from django import forms
-from django.forms import formset_factory
-# from ckeditor.widgets import CKEditorWidget
+from django.forms import formset_factory, BaseModelFormSet
 
 from tinymce.widgets import TinyMCE
 
@@ -43,7 +42,6 @@ class EditUserPictureForm(forms.ModelForm):
         fields = ['avatar']
 
 
-#FORM FOR ADDING NEW RECIPE
 class ReceptiForm(forms.ModelForm):
     naziv = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Unesite naziv Vašeg jela'}))
     opis_jela = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Kratki opis Vašeg jela'}))
@@ -97,3 +95,12 @@ class ReceptiStepsForm(forms.ModelForm):
     class Meta:
         model = ReceptiSteps
         fields = ('body',)
+
+
+class updateSastojkeForm(forms.ModelForm):
+    class Meta:
+        model = Sastojci
+        fields = (
+            'ime_sastojka',
+            'kolicina'
+        )

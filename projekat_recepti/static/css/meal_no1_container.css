@@ -68,7 +68,15 @@
     border-right:1px solid grey;
     text-align: center;
     width:33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
+}
+
+.meal_prep_weight{
+    display:flex;
+    margin:0 auto;
 }
 
 .description__mid__rigth{
@@ -190,26 +198,32 @@
 .first__comment{
     height:auto;
     padding:15px 0;
-    /* border-radius:10px; */
-    margin-bottom:20px;
+    margin-bottom:10px;
+    margin-top:10px;
     border-bottom:2px solid var(--secondary-color);
     width:100%;
-    /* border:2px solid var(--secondary-color); */
 }
 
 .comm-header{
     display:flex;
     justify-content: space-between;
     align-items: center;
-    /* border-bottom:2px solid var(--secondary-color); */
     background-color: var(--secondary-color);
     padding:5px;
     height:50px;
     /* width:110%; */
 }
-.comm-header a{
-    text-decoration: none;
+.comm-header button{
+    border: none;
+    outline:none;
     color:grey;
+    font-size:14px;
+    margin-right:15px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--secondary-color);
+    cursor:pointer;
+
+
 }
 .comm-right{
     opacity:0;
@@ -234,9 +248,36 @@
     padding-top:5px;
 }
 .comm-text{
-    padding-top:15px;
-    padding-left:15px;
+    padding:15px 0 15px 15px;
 }
+.comm-likes-wrap, .reply-likes-wrap{
+    float:right;
+    display:flex;
+    margin-right:15px;
+}
+.comm-likes-wrap button, .reply-likes-wrap button{
+    border:2px solid var(--primary-color);
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    border-radius: 500px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    background-color: var(--secondary-color);
+    margin:0 10px;
+
+}
+
+
+.comm-likes, .comm-dislikes{
+    display:flex;
+    align-items: center;
+    font-size:12px;
+}
+
+
 .product__comments img{
     width:45px;
     height:45px;
@@ -286,8 +327,8 @@
     height:auto;
     width:80%;
     margin-left:80px;
-    padding:20px;
-    border-radius:10px;
+    padding:15px 0;
+    border-bottom:2px solid var(--secondary-color);
     /* border:2px solid var(--secondary-color); */
 }
 .second__reply{

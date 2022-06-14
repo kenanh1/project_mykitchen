@@ -63,3 +63,15 @@ function deleteFormField(element){
     let formParentDiv = element.closest(".ingredient-form");
     formParentDiv.parentNode.removeChild(formParentDiv);
 }
+
+
+function commentReplyToggle(parent_id){
+    const row = document.getElementById(parent_id);
+    console.log(row)
+    
+    if (row.classList.contains('hidden')){
+        row.classList.remove('hidden');
+    } else{
+        row.classList.add('hidden')
+    }
+}

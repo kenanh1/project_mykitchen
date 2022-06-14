@@ -12,6 +12,7 @@
                 <div class="description__top">
                     <h1>{{ object.naziv }}</h1>
                     <p>{{ object.opis_jela }}</p>
+                    {{request.build_absolute_uri}}
                 </div>
                 <div class="description__mid">
                     <div class="description__left">
@@ -21,9 +22,13 @@
                         <p>{{ object.vrijeme_pripreme }} minuta</p>
                     </div>
                     <div class="description__mid__center">
-                        <svg width="28" height="28" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="future"><polyline points="19 2 18 2 18 6 14 6 14 7 19 7 19 2"></polyline><path fill="none" stroke="#000" stroke-width="1.1" d="M18,6.548 C16.709,3.29 13.354,1 9.6,1 C4.6,1 0.6,5 0.6,10 C0.6,15 4.6,19 9.6,19 C14.6,19 18.6,15 18.6,10"></path><rect x="9" y="4" width="1" height="7"></rect><path d="M13.018,14.197 L9.445,10.625" fill="none" stroke="#000" stroke-width="1.1"></path></svg>
-                        <h3>Total Time</h3>
-                        <p>minuta</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="black" d="M12.5 1.5c-1.77 0-3.33 1.17-3.83 2.87C8.14 4.13 7.58 4 7 4a4 4 0 0 0-4 4a4.01 4.01 0 0 0 3 3.87V19h13v-7.13c1.76-.46 3-2.05 3-3.87a4 4 0 0 0-4-4c-.58 0-1.14.13-1.67.37c-.5-1.7-2.06-2.87-3.83-2.87m-.5 9h1v7h-1v-7m-3 2h1v5H9v-5m6 0h1v5h-1v-5M6 20v1a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-1H6Z"/></svg>
+                        <h3>Tezina pripreme</h3>
+                        <div class="meal_prep_weight">
+                            {% for i in tezina_pripreme %}
+                            <p><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="18" height="18" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="grey" d="M12.5 1.5c-1.77 0-3.33 1.17-3.83 2.87C8.14 4.13 7.58 4 7 4a4 4 0 0 0-4 4a4.01 4.01 0 0 0 3 3.87V19h13v-7.13c1.76-.46 3-2.05 3-3.87a4 4 0 0 0-4-4c-.58 0-1.14.13-1.67.37c-.5-1.7-2.06-2.87-3.83-2.87m-.5 9h1v7h-1v-7m-3 2h1v5H9v-5m6 0h1v5h-1v-5M6 20v1a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-1H6Z"/></svg></p>
+                        {% endfor %}
+                        </div>
                     </div>
                     <div class="description__mid__right">
                         <svg width="28" height="28" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="users"><circle fill="none" stroke="#000" stroke-width="1.1" cx="7.7" cy="8.6" r="3.5"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M1,18.1 C1.7,14.6 4.4,12.1 7.6,12.1 C10.9,12.1 13.7,14.8 14.3,18.3"></path><path fill="none" stroke="#000" stroke-width="1.1" d="M11.4,4 C12.8,2.4 15.4,2.8 16.3,4.7 C17.2,6.6 15.7,8.9 13.6,8.9 C16.5,8.9 18.8,11.3 19.2,14.1"></path></svg>
@@ -67,36 +72,6 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <!-- <div class="step1">
-                        <label for="step_btn2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 448 512"><path d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"/></svg>
-                        </label>
-                        <input onclick="svgClick(this)" type="checkbox" id="step_btn2">
-                        <div class="step__text">
-                            <h4>2. STEP</h4>
-                            <p>Labour, of evaluated would he the a the our what is in the arduous sides behavioural is which the have didn't kicked records the it framework by the for traveler sure the can most well her. Entered have break himself cheek, and activity, for bit of text.</p>
-                        </div>
-                    </div> -->
-                    <!-- <div class="step1">
-                        <label for="step_btn3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 448 512"><path d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"/></svg>
-                        </label>
-                        <input onclick="svgClick(this)" type="checkbox" id="step_btn3">
-                        <div class="step__text">
-                            <h4>3. STEP</h4>
-                            <p>Labour, of evaluated would he the a the our what is in the arduous sides behavioural is which the have didn't kicked records the it framework by the for traveler sure the can most well her. Entered have break himself cheek, and activity, for bit of text.</p>
-                        </div>
-                    </div>
-                    <div class="step1">
-                        <label for="step_btn4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 448 512"><path d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"/></svg>
-                        </label>
-                        <input onclick="svgClick(this)" type="checkbox" id="step_btn4">
-                        <div class="step__text">
-                            <h4>4. STEP</h4>
-                            <p>Labour, of evaluated would he the a the our what is in the arduous sides behavioural is which the have didn't kicked records the it framework by the for traveler sure the can most well her. Entered have break himself cheek, and activity, for bit of text.</p>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="product__ingredients">
                     <h3>Sastojci</h3>
@@ -110,6 +85,7 @@
             <div class="product__text__bottom">
                 <div class="product__comments">
                     <h3>Komentari ({{comm_counter}})</h3>
+
                     <div class="comment-form">
                         <form action="" method="POST">
                             {% csrf_token %}
@@ -118,6 +94,7 @@
                         </form>
                     </div>
                     {% for comment in all_comments %}
+                        {% if not comment.parent %}
                         <div class="first__comment">
                             <div class="comm-header">
                                 <div class="comm-left">
@@ -130,73 +107,119 @@
                                     </div>
                                 </div>
                                 <div class="comm-right">
-                                    <a href="#">Reply</a>
+                                    <button onclick="commentReplyToggle('{{comment.id}}')"> Reply</button>
+                                    {% if authorid == comment.user %}
+                                    <form action = "{% url 'comment-delete' comment.id %}" method = "POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="comment_id" value="{{ comment.id }}"/>
+                                        <button style="color:red">Delete?</button>
+                                    </form>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="comm-text">
                                 <p>{{comment.content}}</p>
                             </div>
-                        </div>
-                    {% endfor %}
+                            <div class="comm-likes-wrap">
+                                    <div class="comm-likes">
+                                        <form action="{% url 'comm-like' comment.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            {% if authorid in comment.likes.all %}
+                                            <button style="background-color: var(--primary-color);" type="submit" name="komentar_id" value="{{comment.id}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--secondary-color)" d="M128 447.1V223.1c0-17.67-14.33-31.1-32-31.1H32c-17.67 0-32 14.33-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64C113.7 479.1 128 465.6 128 447.1zM512 224.1c0-26.5-21.48-47.98-48-47.98h-146.5c22.77-37.91 34.52-80.88 34.52-96.02C352 56.52 333.5 32 302.5 32c-63.13 0-26.36 76.15-108.2 141.6L178 186.6C166.2 196.1 160.2 210 160.1 224c-.0234 .0234 0 0 0 0L160 384c0 15.1 7.113 29.33 19.2 38.39l34.14 25.59C241 468.8 274.7 480 309.3 480H368c26.52 0 48-21.47 48-47.98c0-3.635-.4805-7.143-1.246-10.55C434 415.2 448 397.4 448 376c0-9.148-2.697-17.61-7.139-24.88C463.1 347 480 327.5 480 304.1c0-12.5-4.893-23.78-12.72-32.32C492.2 270.1 512 249.5 512 224.1z"/></svg>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" name="komentar_id" value="{{comment.id}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--primary-color)" d="M128 447.1V223.1c0-17.67-14.33-31.1-32-31.1H32c-17.67 0-32 14.33-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64C113.7 479.1 128 465.6 128 447.1zM512 224.1c0-26.5-21.48-47.98-48-47.98h-146.5c22.77-37.91 34.52-80.88 34.52-96.02C352 56.52 333.5 32 302.5 32c-63.13 0-26.36 76.15-108.2 141.6L178 186.6C166.2 196.1 160.2 210 160.1 224c-.0234 .0234 0 0 0 0L160 384c0 15.1 7.113 29.33 19.2 38.39l34.14 25.59C241 468.8 274.7 480 309.3 480H368c26.52 0 48-21.47 48-47.98c0-3.635-.4805-7.143-1.246-10.55C434 415.2 448 397.4 448 376c0-9.148-2.697-17.61-7.139-24.88C463.1 347 480 327.5 480 304.1c0-12.5-4.893-23.78-12.72-32.32C492.2 270.1 512 249.5 512 224.1z"/></svg>
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        <p>{{comment.total_likes}} like{{ comment.total_likes|pluralize }}</p>
+                                    </div>
+                               
+                                    <div class="comm-dislikes">
+                                        <form action="{% url 'comm-dislike' comment.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            {% if authorid in comment.dislikes.all %}
 
-                
-                    <!-- <div class="first__comment">
-                        <div class="comm-header">
-                            <div class="comm-left">
-                                <div class="first-comm-picture">
-                                    <img src="{{baseImg}}/avatar-men.png" alt="female avatar">
-                                </div>
-                                <div class="comm-info">
-                                    <h4>Tom Solender</h4>
-                                    <p>12 day ago</p>
-                                </div>
-                            </div>
-                            <div class="comm-right">
-                                <a href="#">Reply</a>
+                                                <button style="background-color: var(--primary-color);" type="submit" name="komentar_id" value="{{comment.id}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--secondary-color)" d="M96 32.04H32c-17.67 0-32 14.32-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64c17.67 0 32-14.33 32-31.1V64.03C128 46.36 113.7 32.04 96 32.04zM467.3 240.2C475.1 231.7 480 220.4 480 207.9c0-23.47-16.87-42.92-39.14-47.09C445.3 153.6 448 145.1 448 135.1c0-21.32-14-39.18-33.25-45.43C415.5 87.12 416 83.61 416 79.98C416 53.47 394.5 32 368 32h-58.69c-34.61 0-68.28 11.22-95.97 31.98L179.2 89.57C167.1 98.63 160 112.9 160 127.1l.1074 160c0 0-.0234-.0234 0 0c.0703 13.99 6.123 27.94 17.91 37.36l16.3 13.03C276.2 403.9 239.4 480 302.5 480c30.96 0 49.47-24.52 49.47-48.11c0-15.15-11.76-58.12-34.52-96.02H464c26.52 0 48-21.47 48-47.98C512 262.5 492.2 241.9 467.3 240.2z"/></svg>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" name="komentar_id" value="{{comment.id}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--primary-color)" d="M96 32.04H32c-17.67 0-32 14.32-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64c17.67 0 32-14.33 32-31.1V64.03C128 46.36 113.7 32.04 96 32.04zM467.3 240.2C475.1 231.7 480 220.4 480 207.9c0-23.47-16.87-42.92-39.14-47.09C445.3 153.6 448 145.1 448 135.1c0-21.32-14-39.18-33.25-45.43C415.5 87.12 416 83.61 416 79.98C416 53.47 394.5 32 368 32h-58.69c-34.61 0-68.28 11.22-95.97 31.98L179.2 89.57C167.1 98.63 160 112.9 160 127.1l.1074 160c0 0-.0234-.0234 0 0c.0703 13.99 6.123 27.94 17.91 37.36l16.3 13.03C276.2 403.9 239.4 480 302.5 480c30.96 0 49.47-24.52 49.47-48.11c0-15.15-11.76-58.12-34.52-96.02H464c26.52 0 48-21.47 48-47.98C512 262.5 492.2 241.9 467.3 240.2z"/></svg>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                        <p>{{comment.total_dislikes}} dislike{{ comment.total_dislikes|pluralize }}</p>
+                                    </div>
                             </div>
                         </div>
-                        <div class="comm-text">
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </div> -->
-                    <!-- <div class="first__reply">
-                        <div class="comm-header">
-                            <div class="comm-left">
-                                <div class="first-comm-picture">
-                                    <img src="{{ object.korisnik_id.slika_korisnika.url }}" alt="female avatar">
-                                </div>
-                                <div class="comm-info">
-                                    <h4>{{ object.korisnik_id.ime}} {{ object.korisnik_id.prezime}}</h4>
-                                    <p>12 day ago</p>
-                                </div>
-                            </div>
-                            <div class="comm-right">
-                                <a href="#">Reply</a>
+                        <!--REPLIES-->
+                        <div class="first__reply hidden" id="{{comment.id}}">
+                            <div class="comment-form">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {{comment_form.as_p}}
+                                    <input type="hidden" name="parent_id" value="{{comment.id}}">
+                                    <input type="submit" class="comment-submit" value="Odgovori">
+                                </form>
                             </div>
                         </div>
-                        <div class="comm-text">
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </div>
-                    <div class="second__reply">
-                        <div class="comm-header">
-                            <div class="comm-left">
-                                <div class="first-comm-picture">
-                                    <img src="{{baseImg}}/avatar-men.png" alt="female avatar">
+
+                        <!--END FOR REPLIES-->
+                        {% for reply in comment.replies.all %}
+                            <div class="first__reply">
+                                <div class="comm-header">
+                                    <div class="comm-left">
+                                        <div class="first-comm-picture">
+                                            <img src="{{ reply.user.avatar.url }}" alt="">
+                                        </div>
+                                        <div class="comm-info">
+                                            <h4>{{replay.user}}</h4>
+                                            <p>{{replay.date}}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="comm-info">
-                                    <h4>Tom Solender</h4>
-                                    <p>11 day ago</p>
+                                <div class="comm-text">
+                                    <p>{{reply.content}}</p>
+                                </div>
+                                <div class="reply-likes-wrap">
+                                    <div class="comm-likes">
+                                        <form action="{% url 'comm-like' reply.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            {% if authorid in reply.likes.all %}
+                                            <button style="background-color: var(--primary-color);" type="submit" name="komentar_id" value="{{reply.id}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--secondary-color)" d="M128 447.1V223.1c0-17.67-14.33-31.1-32-31.1H32c-17.67 0-32 14.33-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64C113.7 479.1 128 465.6 128 447.1zM512 224.1c0-26.5-21.48-47.98-48-47.98h-146.5c22.77-37.91 34.52-80.88 34.52-96.02C352 56.52 333.5 32 302.5 32c-63.13 0-26.36 76.15-108.2 141.6L178 186.6C166.2 196.1 160.2 210 160.1 224c-.0234 .0234 0 0 0 0L160 384c0 15.1 7.113 29.33 19.2 38.39l34.14 25.59C241 468.8 274.7 480 309.3 480H368c26.52 0 48-21.47 48-47.98c0-3.635-.4805-7.143-1.246-10.55C434 415.2 448 397.4 448 376c0-9.148-2.697-17.61-7.139-24.88C463.1 347 480 327.5 480 304.1c0-12.5-4.893-23.78-12.72-32.32C492.2 270.1 512 249.5 512 224.1z"/></svg>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" name="komentar_id" value="{{reply.id}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--primary-color)" d="M128 447.1V223.1c0-17.67-14.33-31.1-32-31.1H32c-17.67 0-32 14.33-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64C113.7 479.1 128 465.6 128 447.1zM512 224.1c0-26.5-21.48-47.98-48-47.98h-146.5c22.77-37.91 34.52-80.88 34.52-96.02C352 56.52 333.5 32 302.5 32c-63.13 0-26.36 76.15-108.2 141.6L178 186.6C166.2 196.1 160.2 210 160.1 224c-.0234 .0234 0 0 0 0L160 384c0 15.1 7.113 29.33 19.2 38.39l34.14 25.59C241 468.8 274.7 480 309.3 480H368c26.52 0 48-21.47 48-47.98c0-3.635-.4805-7.143-1.246-10.55C434 415.2 448 397.4 448 376c0-9.148-2.697-17.61-7.139-24.88C463.1 347 480 327.5 480 304.1c0-12.5-4.893-23.78-12.72-32.32C492.2 270.1 512 249.5 512 224.1z"/></svg>
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                        <p>{{reply.total_likes}} like{{ reply.total_likes|pluralize }}</p>
+                                    </div>
+                                    <div class="comm-dislikes">
+                                        <form action="{% url 'comm-dislike' reply.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            {% if authorid in reply.dislikes.all %}
+                                                <button style="background-color: var(--primary-color);" type="submit" name="komentar_id" value="{{reply.id}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--secondary-color)" d="M96 32.04H32c-17.67 0-32 14.32-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64c17.67 0 32-14.33 32-31.1V64.03C128 46.36 113.7 32.04 96 32.04zM467.3 240.2C475.1 231.7 480 220.4 480 207.9c0-23.47-16.87-42.92-39.14-47.09C445.3 153.6 448 145.1 448 135.1c0-21.32-14-39.18-33.25-45.43C415.5 87.12 416 83.61 416 79.98C416 53.47 394.5 32 368 32h-58.69c-34.61 0-68.28 11.22-95.97 31.98L179.2 89.57C167.1 98.63 160 112.9 160 127.1l.1074 160c0 0-.0234-.0234 0 0c.0703 13.99 6.123 27.94 17.91 37.36l16.3 13.03C276.2 403.9 239.4 480 302.5 480c30.96 0 49.47-24.52 49.47-48.11c0-15.15-11.76-58.12-34.52-96.02H464c26.52 0 48-21.47 48-47.98C512 262.5 492.2 241.9 467.3 240.2z"/></svg>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" name="komentar_id" value="{{reply.id}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512"><path fill="var(--primary-color)" d="M96 32.04H32c-17.67 0-32 14.32-32 31.1v223.1c0 17.67 14.33 31.1 32 31.1h64c17.67 0 32-14.33 32-31.1V64.03C128 46.36 113.7 32.04 96 32.04zM467.3 240.2C475.1 231.7 480 220.4 480 207.9c0-23.47-16.87-42.92-39.14-47.09C445.3 153.6 448 145.1 448 135.1c0-21.32-14-39.18-33.25-45.43C415.5 87.12 416 83.61 416 79.98C416 53.47 394.5 32 368 32h-58.69c-34.61 0-68.28 11.22-95.97 31.98L179.2 89.57C167.1 98.63 160 112.9 160 127.1l.1074 160c0 0-.0234-.0234 0 0c.0703 13.99 6.123 27.94 17.91 37.36l16.3 13.03C276.2 403.9 239.4 480 302.5 480c30.96 0 49.47-24.52 49.47-48.11c0-15.15-11.76-58.12-34.52-96.02H464c26.52 0 48-21.47 48-47.98C512 262.5 492.2 241.9 467.3 240.2z"/></svg>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                        <p>{{reply.total_dislikes}} dislike{{ reply.total_dislikes|pluralize }}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="comm-right">
-                                <a href="#">Reply</a>
-                            </div>
-                        </div>
-                        <div class="comm-text">
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </div> -->
+                        {% endfor %}
+                    {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="product__link__wrap">
                     <div class="product__tags">
@@ -210,8 +233,11 @@
                     <div class="product__share">
                         <h3>Share Recipe</h3>
                         <div class="ikonice">
-                            <span class="facebook"><i class="fa fa-facebook"></i></span>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}/">
+                                <span class="facebook"><i class="fa fa-facebook"></i></span></a>
+                            <!-- <span class="facebook"><i class="fa fa-facebook"></i></span> -->
                             <span class="linkedin"><i class="fa fa-linkedin"></i></span>
+                            <span class="instagram"><i class="fa fa-instagram"></i></span>
                             <span class="twitter"><i class="fa fa-twitter"></i></span>
                         </div>
                     </div>

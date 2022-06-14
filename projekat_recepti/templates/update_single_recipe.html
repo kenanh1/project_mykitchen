@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+    {{form.as_p}}
+    
+    {% for sastojak in sastojci %}
+        {{sastojak}}
+    
+    {% endfor %}
+
+
+
+    {{rteformset}}
+</form>
+
+{% endblock %}
