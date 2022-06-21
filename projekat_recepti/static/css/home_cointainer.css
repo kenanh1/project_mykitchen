@@ -89,8 +89,8 @@
 
 /*---parent div u kojem se nalazi sadrzaj---*/
 .content{
-    /* width:890px; */
-    max-width:890px;
+    width:890px;
+    /* max-width:890px; */
     height:100%;
     margin-left:38px;
 }
@@ -127,6 +127,7 @@
     top:10px;
     font-size:20px;
     color:var(--primary-color);
+    cursor:pointer;
 }
 /* .content__sortby{
     position:relative;
@@ -158,10 +159,11 @@
 /*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/
 .content__main{
     max-width: 890px;
-    /* margin-bottom:38px; */
+    margin-left:-14px;
+    margin-right:-14px;
     display:flex;
     flex-wrap:wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     
 }
 
@@ -170,7 +172,8 @@
     /* max-width: 266px; */
     height:210px;
     cursor:pointer;
-    margin-bottom:38px;
+    /* margin-bottom:38px; */
+    margin:0 14px 38px;
 }
 
 /*--media div dobija jos jedan poseban div zbog ikonice u gornjem desnom uglu. ovdje dodajemo sliku jela i efekat na slici*/
@@ -190,21 +193,19 @@
 .content__main .main__media img:hover{
     opacity:0.8;
 }
-.content__main .media__heart .fa{
-    color:white;
+.main__bookmark button{
     position:absolute;
-    right:15px;
-    top:15px;
-    font-size:20px;
+    top: 5px;
+    right:10px;
+    border:none;
+    background: transparent;
+    cursor:pointer;
 }
-.content__main .media__heart .fa:hover{
-    color:#eb4a36;
-    transition: 0.5s;
+.main__bookmark svg:hover{
+    padding:5px 0 0 0;
+    transition:0.3s ease-in-out;
 }
-.heart-active .media__heart .fa{
-    color:#eb4a36;
-    transition: 0.5s;
-}
+
 
 /*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
 .main__text{
@@ -222,6 +223,11 @@
     display:flex;
     justify-content: space-between;
     font-weight:400;
+}
+.main__text__sub a{
+    text-decoration: none;
+    color:var(--primary-color);
+    font-weight: 500;
 }
 .main__text .fa{
     color:#fbc418;
@@ -242,14 +248,20 @@
 }
 .content__bottom a{
     text-decoration:none;
-    margin:0 5px;
+    margin:5px 4px 0;
     font-weight: 500;
     color:var(--primary-color);
+}
+.content__bottom p{
+    color:var(--primary-color);
+    font-weight: 500;
+    margin:0 5px;
 }
 
 .content__bottom a:hover{
     color:black;
 }
+
 /* ------------------MEDIA SCREEN CONTENT------------------ */
 /*MEDIA SCREEN FOR SMALL DEVICES */
 @media screen and (max-width: 516px){

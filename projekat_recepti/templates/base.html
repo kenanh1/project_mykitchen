@@ -1,5 +1,6 @@
 {% load static %}
 {% static 'images' as baseImg %}
+{% load social_share %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +35,14 @@
     <link rel="stylesheet" href="{% static 'css/login-style.css' %}">
     <!-- ACCOUNT CONTENT STYLING -->
     <link rel="stylesheet" href="{% static 'css/account_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/userprofile_style.css' %}">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
     <!-- <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script> -->
+
+    <!-- SLICK SLIDER SETTINGS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'slick/slick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'slick/slick-theme.css' %}"/>
 
     <title>Moja Kuhinja</title>
 </head>
@@ -122,9 +128,11 @@
                     <h2>Moja kuhinja</h2>
                 </div>
                 <div class="footer-social">
-                    <span class="facebook"><i class="fa fa-facebook"></i></span>
+                    {% post_to_facebook object_or_url '<span class="facebook"><i class="fa fa-facebook"></i></span>' %}
                     <span class="instagram"><i class="fa fa-instagram"></i></span>
-                    <span class="twitter"><i class="fa fa-twitter"></i></span>
+                    {% post_to_twitter object_or_url '<span class="twitter"><i class="fa fa-twitter"></i></span>' %}
+                    <!-- <span class="facebook"><i class="fa fa-facebook"></i></span>
+                    <span class="twitter"><i class="fa fa-twitter"></i></span> -->
                 </div>
             </div>
             
@@ -156,5 +164,9 @@
     </footer>
     <script src="{% static 'js/mealapp.js' %}"></script>
     <script src="{% static 'js/uploader.js' %}"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'slick/slick.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'slick/slick.js' %}"></script>
 </body>
 </html>

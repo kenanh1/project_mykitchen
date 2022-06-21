@@ -143,6 +143,11 @@
 
 }
 
+.featured_recipes_container{
+    width:100%;
+    background-color: #f9f5f4;
+}
+
 .featured_recipes_wrap .main__media img{
     height:100%;
     width:100%;

@@ -18,12 +18,17 @@
     padding:20px 0 30px 0px;
 }
 
-.content__sub__bottom{
+/* .content__sub__bottom{
     width:100%;
     display:flex;
     justify-content: space-between;
-    /* justify-content: space-evenly; */
-    flex-wrap:wrap;
+} */
+
+.slick__main__item{
+    width:266px;
+    height:210px;
+    cursor:pointer;
+    margin-bottom:38px;
 }
 
 .main__media img{
@@ -65,12 +70,12 @@
     margin:15px 0 12px 0;
     color:var(--primary-color)
 }
-.main__text__sub{
+/* .main__text__sub{
     font-size:12px;
     display:flex;
     justify-content: space-between;
     font-weight:400;
-}
+} */
 .main__text .fa{
     color:#fbc418;
     margin-right:5px;

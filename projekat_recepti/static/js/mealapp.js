@@ -17,22 +17,7 @@ function menuClick(){
 	document.getElementById("nav-menu").classList.toggle("menu-active");
 }
 
-// HEART ICON COLOR CHANGE ON CLICK WITH TOGGLE 
-let heartIcons = document.querySelectorAll('.media__heart .fa')
 
-heartIcons.forEach(function (btn){
-    btn.addEventListener("click", function(event){
-        // console.log(event.target)
-        btn.classList.toggle("heart-active")
-        btnCheckColor = btn.classList.contains("heart-active")
-        if (btn.classList.contains("heart-active")){
-            btn.style.color = "#eb4a36"
-        } else{
-            btn.style.color = "white"
-        }
-        
-    })
-})
 // FIRST TEST FOR FORMS
 
 const addMoreBtn = document.getElementById("add-more")

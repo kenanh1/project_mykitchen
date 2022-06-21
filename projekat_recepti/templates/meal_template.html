@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+{% load social_share %}
 <section>
     <div class="meal_container">
         <div class="product__media">
@@ -12,7 +13,6 @@
                 <div class="description__top">
                     <h1>{{ object.naziv }}</h1>
                     <p>{{ object.opis_jela }}</p>
-                    {{request.build_absolute_uri}}
                 </div>
                 <div class="description__mid">
                     <div class="description__left">
@@ -33,7 +33,7 @@
                     <div class="description__mid__right">
                         <svg width="28" height="28" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="users"><circle fill="none" stroke="#000" stroke-width="1.1" cx="7.7" cy="8.6" r="3.5"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M1,18.1 C1.7,14.6 4.4,12.1 7.6,12.1 C10.9,12.1 13.7,14.8 14.3,18.3"></path><path fill="none" stroke="#000" stroke-width="1.1" d="M11.4,4 C12.8,2.4 15.4,2.8 16.3,4.7 C17.2,6.6 15.7,8.9 13.6,8.9 C16.5,8.9 18.8,11.3 19.2,14.1"></path></svg>
                         <h3>Broj osoba</h3>
-                        <p>Serviranje {{ object.broj_osoba }}</p>
+                        <p>{{ object.broj_osoba }}</p>
                     </div>
                 </div>
                 <div class="description__bottom">
@@ -43,13 +43,28 @@
                         <p>Datum objave: {{object.datum_objave|date:'d-m-Y'}}</p>
                     </div>
                     <div class="description__bottom__right">
-                        <a href="#" class="dodaj-svg" title="Save Recipe">
-                            <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="plus-circle"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9.5" cy="9.5" r="9"></circle><line fill="none" stroke="#000" x1="9.5" y1="5" x2="9.5" y2="14"></line><line fill="none" stroke="#000" x1="5" y1="9.5" x2="14" y2="9.5"></line></svg>
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'add_favourite' object.id %}" method="POST">
+                            {% csrf_token %}
+                            
+                            {% if is_favourite %}
+                            <button style="border:none" type="submit" name="post_id" value="{{object.id}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="var(--primary-color)" d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z"/></svg>
+                            </button>
+                            {% else %}
+                            <button style="border:none" type="submit" name="post_id" value="{{object.id}}">
+                                <!-- <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="plus-circle"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9.5" cy="9.5" r="9"></circle><line fill="none" stroke="#000" x1="9.5" y1="5" x2="9.5" y2="14"></line><line fill="none" stroke="#000" x1="5" y1="9.5" x2="14" y2="9.5"></line></svg> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z"/></svg>
+                            </button>
+                            {% endif %}
+                        </form>
+                        {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="grey" d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z"/></svg>
+                        {% endif %}
+                        <a href="{% url 'favouriterecipes' %}" class="saved-recipe-svg" title="Spašeni recepti">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M13.97 2.196C22.49-1.72 32.5-.3214 39.62 5.778L80 40.39L120.4 5.778C129.4-1.926 142.6-1.926 151.6 5.778L192 40.39L232.4 5.778C241.4-1.926 254.6-1.926 263.6 5.778L304 40.39L344.4 5.778C351.5-.3214 361.5-1.72 370 2.196C378.5 6.113 384 14.63 384 24V488C384 497.4 378.5 505.9 370 509.8C361.5 513.7 351.5 512.3 344.4 506.2L304 471.6L263.6 506.2C254.6 513.9 241.4 513.9 232.4 506.2L192 471.6L151.6 506.2C142.6 513.9 129.4 513.9 120.4 506.2L80 471.6L39.62 506.2C32.5 512.3 22.49 513.7 13.97 509.8C5.456 505.9 0 497.4 0 488V24C0 14.63 5.456 6.112 13.97 2.196V2.196zM96 144C87.16 144 80 151.2 80 160C80 168.8 87.16 176 96 176H288C296.8 176 304 168.8 304 160C304 151.2 296.8 144 288 144H96zM96 368H288C296.8 368 304 360.8 304 352C304 343.2 296.8 336 288 336H96C87.16 336 80 343.2 80 352C80 360.8 87.16 368 96 368zM96 240C87.16 240 80 247.2 80 256C80 264.8 87.16 272 96 272H288C296.8 272 304 264.8 304 256C304 247.2 296.8 240 288 240H96z"/></svg>
                         </a>
-                        <a href="#" class="kolica-svg" title="Shopping List">
-                            <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="cart"><circle cx="7.3" cy="17.3" r="1.4"></circle><circle cx="13.3" cy="17.3" r="1.4"></circle><polyline fill="none" stroke="#000" points="0 2 3.2 4 5.3 12.5 16 12.5 18 6.5 8 6.5"></polyline></svg>
-                        </a>
-                        <a href="#" class="print-svg" title="Print Recipe">
+                        <a href="#" class="print-svg" title="Printaj Recept">
                             <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="print"><polyline fill="none" stroke="#000" points="4.5 13.5 1.5 13.5 1.5 6.5 18.5 6.5 18.5 13.5 15.5 13.5"></polyline><polyline fill="none" stroke="#000" points="15.5 6.5 15.5 2.5 4.5 2.5 4.5 6.5"></polyline><rect fill="none" stroke="#000" width="11" height="6" x="4.5" y="11.5"></rect><rect width="8" height="1" x="6" y="13"></rect><rect width="8" height="1" x="6" y="15"></rect></svg>
                         </a>
                     </div>
@@ -59,9 +74,9 @@
         <div class="product__text">
             <div class="product__text__top"> <!--TEXT TOP-->
                 <div class="product__preparation">
-                    <h3>How to Make It</h3>
+                    <h3>Priprema</h3>
                     {% for step in recipe_steps %}
-                    <div class="step1">
+                    <!-- <div class="step1">
                         <label for="step_btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 448 512"><path d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"/></svg>
                         </label>
@@ -70,8 +85,10 @@
                             <h4>Priprema</h4>
                             <p>{{step.body|safe}}</p>
                         </div>
-                    </div>
+                    </div> -->
+                    <p>{{step.body|safe}}</p>
                     {% endfor %}
+                    
                 </div>
                 <div class="product__ingredients">
                     <h3>Sastojci</h3>
@@ -102,7 +119,7 @@
                                         <img src="{{ comment.user.avatar.url }}" alt="female avatar">
                                     </div>
                                     <div class="comm-info">
-                                        <h4>{{comment.user}}</h4>
+                                        <h4><a href="{% url 'user-acc' comment.user.id %}">{{comment.user}}</a></h4>
                                         <p>{{comment.date}}</p>
                                     </div>
                                 </div>
@@ -176,14 +193,25 @@
                                             <img src="{{ reply.user.avatar.url }}" alt="">
                                         </div>
                                         <div class="comm-info">
-                                            <h4>{{replay.user}}</h4>
-                                            <p>{{replay.date}}</p>
+                                            <h4>{{reply.user}}</h4>
+                                            <p>{{reply.date}}</p>
                                         </div>
                                     </div>
+                                    <div class="comm-right">
+                                        {% if authorid == reply.user %}
+                                        <form action = "{% url 'comment-delete' reply.id %}" method = "POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="comment_id" value="{{ reply.id }}"/>
+                                            <button style="color:red">Delete?</button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
                                 </div>
+                               
                                 <div class="comm-text">
                                     <p>{{reply.content}}</p>
                                 </div>
+                                
                                 <div class="reply-likes-wrap">
                                     <div class="comm-likes">
                                         <form action="{% url 'comm-like' reply.pk %}" method="POST">
@@ -223,7 +251,7 @@
                 </div>
                 <div class="product__link__wrap">
                     <div class="product__tags">
-                        <h3>Tags</h3>
+                        <h3>Tagovi</h3>
                         <div class="tagovi">
                             {% for tagObroka in object.vrsta_obroka %}
                                 <a class="tag_for_product" href="#">{{tagObroka}}</a>
@@ -231,14 +259,13 @@
                         </div>
                     </div>
                     <div class="product__share">
-                        <h3>Share Recipe</h3>
+                        <h3>Podijelite recept</h3>
                         <div class="ikonice">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}/">
-                                <span class="facebook"><i class="fa fa-facebook"></i></span></a>
-                            <!-- <span class="facebook"><i class="fa fa-facebook"></i></span> -->
+                            {% post_to_facebook object_or_url '<span class="facebook"><i class="fa fa-facebook"></i></span>' %}
+                            {% post_to_twitter object_or_url '<span class="twitter"><i class="fa fa-twitter"></i></span>' %}
                             <span class="linkedin"><i class="fa fa-linkedin"></i></span>
                             <span class="instagram"><i class="fa fa-instagram"></i></span>
-                            <span class="twitter"><i class="fa fa-twitter"></i></span>
+                            
                         </div>
                     </div>
                 </div>
@@ -248,13 +275,13 @@
 </section>
 <section class="sub__container__recipes">
     <div class="meal__content__sub">
-        <h2>Other Recipes You May Like</h2>
+        <h2>Recepti koji bi vam se mogli svidjeti</h2>
         <div class="content__sub__bottom">
             {% for x in svi_recepti %}
             {% block meal-media-template2 %}
-            {% include 'meal_media.html' %}
+            {% include 'slick_meal_media.html' %}
             {% endblock %}
-            {% endfor %}   
+            {% endfor %}
         </div>
     </div>
 </section>

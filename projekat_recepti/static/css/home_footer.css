@@ -75,7 +75,12 @@
     cursor:pointer;
     background-color: var(--secondary-color);
 }
-
+.footer-social{
+    display:flex;
+}
+.footer-social a{
+    text-decoration:none;
+}
 
 .footer-container .fa:hover{
     color: var(--secondary-color);

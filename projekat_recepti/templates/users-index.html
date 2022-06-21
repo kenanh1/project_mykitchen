@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="user_container_wrap">
+    <div class="user_container_content">
+        <div class="user_container_media">
+            <img src="{{ displayUser.avatar.url }}" alt="">
+        </div>
+        <div class="user_container_info">
+            <h3>{{displayUser.user.first_name}} {{displayUser.user.last_name}}</h3>
+            <h4>@{{displayUser.user.username}}</h4>
+            <p>O meni ...</p>
+            <p>Objavljeni recepti: </p>
+            <p>Omiljenih recepti: </p>
+            <p>Postavljeni komentari: </p>
+
+        </div>
+    </div>
+    <div class="user_container_meals">
+        {% for x in userRecipes %}
+        {% block user-recipes %}
+        {% include 'meal_media.html' %}
+        {% endblock %}
+        {% endfor %}
+    </div>
+</div>
+
+<h1>TESTIRAMO</h1>
+{{displayUser}}
+{{displayUser.user.username}}
+{{displayUser.user.first_name}}
+{{displayUser.avatar}}
+
+<!-- <img src="{{ displayUser.avatar.url }}" alt=""> -->
+
+{% endblock %}

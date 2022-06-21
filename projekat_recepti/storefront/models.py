@@ -6,6 +6,7 @@ from tinymce.models import HTMLField
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='profile_avatar')
+    favourites = models.ManyToManyField('Recepti', default=None, related_name="favourites", blank=True)
 
     def __str__(self):
         if self.user:
@@ -108,12 +109,6 @@ class Sastojci(models.Model):
     class Meta:
         verbose_name_plural = "Sastojci"
     
-
-class CijenaRecepta(models.Model):
-    recept_id =  models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
-    class Meta:
-        verbose_name_plural = "Cijena recepta"
-
 
 class Komentari(models.Model):
     recept = models.ForeignKey(Recepti, related_name="comments", on_delete=models.CASCADE)

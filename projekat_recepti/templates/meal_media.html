@@ -2,7 +2,21 @@
 <div class="main__item">
     <div class="main__media">
         <a href="{% url 'jelo' x.id %}"><img src="{{ x.slika_jela.url }}"  alt="food picture" class="media_picture"></a>
-        <div class="media__heart" id="media_heart_fa"><i class="fa fa-heart"></i></div>
+        <div class="main__bookmark">
+            <form action="{% url 'add_favourite' x.id %}" method="POST">
+                {% csrf_token %}
+                {% if x in user_favourites %}
+                <button  type="submit" name="post_id" value="{{x.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512"><path fill="var(--primary-color)" d="M384 48V512l-192-112L0 512V48C0 21.5 21.5 0 48 0h288C362.5 0 384 21.5 384 48z"/></svg>
+                </button>
+                {% else %}
+                <button  type="submit" name="post_id" value="{{x.id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512"><path fill="white" d="M384 48V512l-192-112L0 512V48C0 21.5 21.5 0 48 0h288C362.5 0 384 21.5 384 48z"/></svg>
+                </button>
+                {% endif %}
+                <!-- <div class="media__heart" id="media_heart_fa"><i class="fa fa-heart">{{x.id}}</i></div> -->
+            </form>
+        </div>
     </div>
     <div class="main__text">
         <h3>{{ x.naziv }}</h3>
@@ -12,7 +26,7 @@
                 <span class="rating">{{ x.ocjena_jela }}</span>
                 <span class="voting">(55)</span>
             </div>
-            <div class="main__text__sub__right">by {{ x.user.user.first_name }} {{x.user.user.last_name}}</div>
+            <div class="main__text__sub__right">by <a href="{% url 'user-acc' x.user.id %}">{{ x.user.user.first_name }} {{x.user.user.last_name}}</a></div>
         </div>
     </div>
 </div>

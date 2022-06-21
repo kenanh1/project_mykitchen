@@ -38,15 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #myapps
     'storefront.apps.StorefrontConfig',
     #libs
     'multiselectfield',
-    # 'ckeditor',
-    # 'ckeditor_uploader',
     'tinymce',
+    'django_social_share',
 ]
 
+SLICK_SLICKER_DEFAULT_OPTIONS = {
+    'dots': True,
+    'slidesToShow': 2,
+    'mobileFirst': False,
+    'slidesToScroll': 1,
+    'autoplay': True,
+    'autoplaySpeed': 1500
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -144,16 +152,4 @@ STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
-# CKEDITOR_CONFIGS = {
-# 'default': {
-#     # 'toolbar': None, #You can change this based on your requirements.
-#     'width': 'auto',
-#     # 'height': '50%',
-#     "removePlugins": "exportpdf",
-#           },
-#     'extraPlugins': 'sourcedialog'
-#     }
-
-# CKEDITOR_UPLOAD_PATH = "slike/"
 

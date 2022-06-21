@@ -4,27 +4,73 @@ from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, Kom
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 import random
 
 
 def home_view(request):
-    listaRecepata = Recepti.objects.all()
-    return render (request,"home_main.html", {"allr": listaRecepata})
+    currentCommUser = request.user.id
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    # listaRecepata = Recepti.objects.all()
+    user_favourites= trenutniKorisnik.favourites.all()
+
+    p = Paginator(Recepti.objects.all(), 6)
+    page = request.GET.get('page')
+    listaRecepata = p.get_page(page)
+    
+    searched = request.GET
+    try:
+        result = searched.get('q')
+    except:
+        result = None
+
+    is_searched = False
+    if result is not None:
+        search_result = Recepti.objects.filter(naziv__icontains=result)
+        is_searched=True
+        return render (request,"home_main.html", {"search_result": search_result, "user_favourites":user_favourites, "is_searched":is_searched})
+
+
+    return render (request,"home_main.html", {"allr": listaRecepata, "user_favourites":user_favourites})
 
 def recipes_view(request):
     recept = Recepti.objects.all()
-    featuredRecipes = random.sample(list(recept), 4)
+    # featuredRecipes = random.sample(list(recept), 4)
+    featuredRecipes = Recepti.objects.all().order_by('-ocjena_jela')[:6]
+    searched = request.GET
+
+    try:
+        result = searched.get('q')
+    except:
+        result = None
+
+    is_searched = False
+    if result is not None:
+        search_result = Recepti.objects.filter(naziv__icontains=result)
+        is_searched=True
+        return render (request,"recipes_main.html",{"search_result":search_result, "featuredRecipes": featuredRecipes, "is_searched":is_searched})
     context = {
         "recept" : recept,
         "featuredRecipes" : featuredRecipes,
     }
-
     return render (request,"recipes_main.html",context)
 
+def users_view(request,id):
+    user = Korisnik.objects.get(id=id)
+    userRecipes = Recepti.objects.filter(user_id=id)
+    print(userRecipes)
+
+    context = {
+        "displayUser":user,
+        "userRecipes":userRecipes
+    }
+
+    return render (request, "users-index.html", context)
 
 def jelo_view(request,id):
     obj = Recepti.objects.get(id = id)
-    svi_recepti = Recepti.objects.all()
+    svi_recepti = Recepti.objects.all()[:8]
     userRecipes = Recepti.objects.filter(user_id = obj.user_id).count()
     allSteps = ReceptiSteps.objects.filter(recept_id = id)
     ingredientsList = Sastojci.objects.filter(recept_id = id)
@@ -33,10 +79,13 @@ def jelo_view(request,id):
     currentCommUser = request.user.id
     commentForm = KomentariForm(request.POST)
     trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
-    print(obj.tezina_pripreme)
     tezinaPripreme = int(obj.tezina_pripreme)
-    
+    svi_korisnici = Korisnik.objects.all()
 
+    #TEST ZA FAVOURITES
+    is_favourite = False
+    if trenutniKorisnik.favourites.filter(id=obj.id):
+        is_favourite = True
 
     if request.method == "POST":
         commentForm = KomentariForm(data=request.POST)
@@ -57,7 +106,7 @@ def jelo_view(request,id):
             commDetail.user_id = currentCommUser
             commDetail.recept_id = id
             commDetail.save()
-            return redirect('account')
+            return HttpResponseRedirect(request.path_info)
 
 
     context = {
@@ -71,11 +120,22 @@ def jelo_view(request,id):
         "recipe_steps":allSteps,
         "authorid" : trenutniKorisnik,
         "tezina_pripreme": range(tezinaPripreme),
+        "svi_korisnici": svi_korisnici,
+        "is_favourite":is_favourite,
     }
     return render (request,"meal_template.html",context)
 
+# def recipe_search_view(request):
+#     if request.method == "GET":
+#         searched = request.POST.get('pretrazivanje')
+#         print(searched)
+
+
 def delete_comment(request,pk):
     id = request.POST['comment_id']
+    komentar = get_object_or_404(Komentari, id=id)
+    post = Recepti.objects.get(id=komentar.recept_id)
+
     if request.method == "POST":
         komentar = get_object_or_404(Komentari, id=id)
         try:
@@ -86,12 +146,14 @@ def delete_comment(request,pk):
             messages.warning(request, 'The comment could not be deleted.')
 
 
-    return redirect('home')
+    return redirect('jelo',id=post.id)
 
 def add_likes(request, pk):
     currentCommUser = request.user.id
     trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
     komentar = get_object_or_404(Komentari, id=request.POST.get("komentar_id"))
+    post = Recepti.objects.get(id=komentar.recept_id)
+
     
     is_dislike = False
 
@@ -117,13 +179,14 @@ def add_likes(request, pk):
     if is_like:
         komentar.likes.remove(trenutniKorisnik.id)
 
-    return redirect('home')
+    return redirect('jelo',id=post.id)
 
 
 def add_dislikes(request,pk):
     currentCommUser = request.user.id
     trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
     komentar = get_object_or_404(Komentari, id=request.POST.get("komentar_id"))
+    post = Recepti.objects.get(id=komentar.recept_id)
 
     is_like = False
 
@@ -148,7 +211,7 @@ def add_dislikes(request,pk):
     if is_dislike:
         komentar.dislikes.remove(trenutniKorisnik.id)
 
-    return redirect('home')
+    return redirect('jelo',id = post.id )
 
 @login_required
 def account_view(request):
@@ -188,10 +251,29 @@ def edit_account_view(request):
 
 
         return render (request,"edit_account.html",{'account_form':account_update, 'avatar_form':avatar_update})
+
+  
+def favourite_recipes_view(request):
+    userid = request.user.id
+    favourites = Korisnik.objects.get(user_id = userid)
+    return render (request, "saved_recipes.html", {"favourites":favourites})
+
+
+def add_favourite_view(request, id):
+    currentCommUser = request.user.id
+    korisnik = Korisnik.objects.get(user_id = currentCommUser)
+    is_favourite = False
+    if korisnik.favourites.filter(id = id).exists():
+        korisnik.favourites.remove(id)
+        is_favourite = False
+    else:
+        korisnik.favourites.add(id)
+        is_favourite = True
+    return redirect('home')
     
+
 def my_recipes_view(request):
     current_user = request.user.id
-
     my_recipes = Recepti.objects.filter(user_id = current_user)
     return render (request, "account_recipes.html", {"myrecipes":my_recipes})
 
@@ -216,7 +298,6 @@ def adding_recipes_view(request):
                 if child.recept_id is None:
                     child.recept_id = instance
                 child.save()
-                print(child.recept_id,"CHIIIIIIIIIILD")
 
             stepsForm = rteformset.save(commit=False)
             if stepsForm.recept_id is None:
@@ -244,9 +325,6 @@ def update_recipes_view(request,id):
     recept = Recepti.objects.get(id = id)
     form = ReceptiForm(instance=recept)
     sastojci = Sastojci.objects.filter(recept_id=recept)
-    print(sastojci)
-    # sastojakForm = updateSastojkeForm()
-    # print(sastojakForm)
     rteformset = ReceptiStepsForm(instance=recept)
 
     context = {
@@ -294,3 +372,4 @@ def register_view(request):
             return redirect('login')
 
     return render(request,"register.html",{'form':form})
+
