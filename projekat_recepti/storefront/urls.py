@@ -20,5 +20,5 @@ urlpatterns = [
     path ("deletecomm/<int:pk>", views.delete_comment, name='comment-delete'),
     path ('update/jelo/<int:id>/', views.update_recipes_view, name = 'update-jelo'),
     path ('korisnik/<int:id>/', views.users_view, name='user-acc'),
-    # path ('search/', views.recipe_search_view, name='search-recipe')
+    path ('search/', views.recipe_search_view, name='search-recipe')
 ]

@@ -206,7 +206,7 @@
     padding-top:20px;
     display:flex;
     flex-wrap:wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .all_recipes_content h2{

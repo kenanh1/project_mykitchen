@@ -60,3 +60,26 @@ function commentReplyToggle(parent_id){
         row.classList.add('hidden')
     }
 }
+
+// $('#sortby').on('change', 'input, select', function(event){
+//     // id = this.id; // you can use this.id to get the corresponding id.
+
+//         var word = $("#sortby").val();
+
+//         console.log(word)
+
+//         $.ajax({ 
+//             type: 'GET',
+//             url: '{% url <home> %}',
+//             data: {
+//                 word: word,
+//             },
+//             success: function (response) { 
+//                 console.log(response); // print response.content and response.data to see the data in the console. And later you can use those data in template using javascript.
+//             },
+//             error: function (error_data) {
+//                 console.log(error_data)
+//             }
+//         });
+
+//    });

@@ -71,13 +71,17 @@
                         </label>
                     <input type="checkbox" id="search_click">
                         <div class="search_slide">
-                            <input type="text" class="searchbox_slide" placeholder="Search...">
+                            <form action="{% url 'search-recipe' %}">
+                                <input type="text" name="pretraga" class="search_box" placeholder="Pretražite recepte . . .">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                            <!-- <input type="text" class="searchbox_slide" placeholder="Search..."> -->
                         </div>
                 </div>
                 {% if user.is_authenticated %}
-                    <div class="header-signin">
+                    <!-- <div class="header-signin">
                         <a href="{% url 'logout' %}">Logout</a>
-                    </div>
+                    </div> -->
                     <div class="header-signup-active">
                         <p>Hi, <span>
                             {{user.username}}

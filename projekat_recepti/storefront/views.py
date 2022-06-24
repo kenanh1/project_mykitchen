@@ -7,38 +7,66 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 import random
+from django.db.models import Q
 
 
 def home_view(request):
-    currentCommUser = request.user.id
-    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
     # listaRecepata = Recepti.objects.all()
-    user_favourites= trenutniKorisnik.favourites.all()
-
+    # PAGINATION 
     p = Paginator(Recepti.objects.all(), 6)
     page = request.GET.get('page')
     listaRecepata = p.get_page(page)
-    
-    searched = request.GET
-    try:
-        result = searched.get('q')
-    except:
-        result = None
 
-    is_searched = False
-    if result is not None:
-        search_result = Recepti.objects.filter(naziv__icontains=result)
-        is_searched=True
-        return render (request,"home_main.html", {"search_result": search_result, "user_favourites":user_favourites, "is_searched":is_searched})
+    # END OF PAGINATION 
+    if request.user.is_authenticated:
+        currentCommUser = request.user.id
+        trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+        user_favourites= trenutniKorisnik.favourites.all()
 
+        # FILTER OPTIONS WITH SELECT
+        dropdown = request.GET.get('sortby')
+        is_dropdown = False
+        if dropdown:
+            if dropdown == "zadnje_dodato":
+                print("ZADNJE DODATO")
+                dropdown_result = Recepti.objects.all().order_by('-datum_objave')
+                is_dropdown = True
+                return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
 
-    return render (request,"home_main.html", {"allr": listaRecepata, "user_favourites":user_favourites})
+            elif dropdown == "ocjena_jela":
+                print("OCJENA JELA")
+                dropdown_result = Recepti.objects.all().order_by('-ocjena_jela')
+                is_dropdown = True
+                return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
+            else:
+                print("TRENDING")
+
+        # SEARCHBOX RESULTS 
+        # searched = request.GET.get('q')
+        try:
+            result = request.GET.get('q')
+        except:
+            result = None
+
+        is_searched = False
+        if result is not None:
+            search_result = Recepti.objects.filter(naziv__icontains=result)
+            is_searched=True
+            return render (request,"home_main.html", {"search_result": search_result, "user_favourites":user_favourites, "is_searched":is_searched})
+        
+        # END OF SEARCHBOX
+        return render (request,"home_main.html", {"allr": listaRecepata, "user_favourites":user_favourites})
+    else:
+        return render (request,"home_main.html", {"allr": listaRecepata})
 
 def recipes_view(request):
     recept = Recepti.objects.all()
-    # featuredRecipes = random.sample(list(recept), 4)
     featuredRecipes = Recepti.objects.all().order_by('-ocjena_jela')[:6]
     searched = request.GET
+
+    currentCommUser = request.user.id
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    user_favourites= trenutniKorisnik.favourites.all()
 
     try:
         result = searched.get('q')
@@ -49,17 +77,17 @@ def recipes_view(request):
     if result is not None:
         search_result = Recepti.objects.filter(naziv__icontains=result)
         is_searched=True
-        return render (request,"recipes_main.html",{"search_result":search_result, "featuredRecipes": featuredRecipes, "is_searched":is_searched})
+        return render (request,"recipes_main.html",{"search_result":search_result, "featuredRecipes": featuredRecipes, "is_searched":is_searched, "user_favourites": user_favourites})
     context = {
         "recept" : recept,
         "featuredRecipes" : featuredRecipes,
+        "user_favourites" : user_favourites
     }
     return render (request,"recipes_main.html",context)
 
 def users_view(request,id):
     user = Korisnik.objects.get(id=id)
     userRecipes = Recepti.objects.filter(user_id=id)
-    print(userRecipes)
 
     context = {
         "displayUser":user,
@@ -125,10 +153,27 @@ def jelo_view(request,id):
     }
     return render (request,"meal_template.html",context)
 
-# def recipe_search_view(request):
-#     if request.method == "GET":
-#         searched = request.POST.get('pretrazivanje')
-#         print(searched)
+def recipe_search_view(request):
+    if request.method == "GET":
+        full_search = request.GET.get('pretraga')
+        
+        try:
+            full_search = request.GET.get('pretraga')
+        except:
+            full_search = None
+        
+        is_fullsearch = False
+
+        if full_search:
+            pass
+            # full_search_result = Recepti.objects.filter(Q(user__in=Korisnik.objects.filter(korisnik_user__icontains=full_search)))
+            # full_search_result = Recepti.objects.filter(user__icontains=full_search)
+            userSearch = Recepti.objects.all().filter( user__contains=full_search )
+            # TEST ZA USERE I RECEPTE
+            # scans = Scan.objects.filter(product__in=Product.objects.filter(product_name__icontains=q))
+            print(userSearch, "USEEEEEEEEEEER")
+
+        return render(request,"search.html")
 
 
 def delete_comment(request,pk):
@@ -256,7 +301,11 @@ def edit_account_view(request):
 def favourite_recipes_view(request):
     userid = request.user.id
     favourites = Korisnik.objects.get(user_id = userid)
-    return render (request, "saved_recipes.html", {"favourites":favourites})
+
+    currentCommUser = request.user.id
+    trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
+    user_favourites= trenutniKorisnik.favourites.all()
+    return render (request, "saved_recipes.html", {"favourites":favourites,"user_favourites":user_favourites})
 
 
 def add_favourite_view(request, id):
