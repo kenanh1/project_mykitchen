@@ -8,12 +8,12 @@
             <img src="{{ displayUser.avatar.url }}" alt="">
         </div>
         <div class="user_container_info">
-            <h3>{{displayUser.user.first_name}} {{displayUser.user.last_name}}</h3>
-            <h4>@{{displayUser.user.username}}</h4>
-            <p>O meni ...</p>
-            <p>Objavljeni recepti: </p>
-            <p>Omiljenih recepti: </p>
-            <p>Postavljeni komentari: </p>
+            <h2>{{displayUser.user.first_name}} {{displayUser.user.last_name}}</h2>
+            <h3>@{{displayUser.user.username}}</h3>
+            <p class="user_bio">{{displayUser.biografija}}</p>
+            <p>Objavljeni recepti:{{userRecipes.count}} </p>
+            <p>Omiljeni recepti: {{displayUser.favourites.all.count}}</p>
+            <p>Postavljeni komentari: {{userComments.count}} </p>
 
         </div>
     </div>
@@ -25,13 +25,5 @@
         {% endfor %}
     </div>
 </div>
-
-<h1>TESTIRAMO</h1>
-{{displayUser}}
-{{displayUser.user.username}}
-{{displayUser.user.first_name}}
-{{displayUser.avatar}}
-
-<!-- <img src="{{ displayUser.avatar.url }}" alt=""> -->
 
 {% endblock %}

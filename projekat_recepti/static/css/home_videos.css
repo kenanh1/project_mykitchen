@@ -11,23 +11,22 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.video_item1, .video_item2, .video_item3 {
-    width:25%;
+.video_item1, .video_item2, .video_item3,.video_item4 {
+    width:84%;
     height:auto;
-    margin-right:40px;
     border-radius:15px;
     cursor:pointer;
     display:flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     background-size: cover;
     background-position: center;
     padding:20px;
 }
 
-.video_item4{
-    width:25%;
+/* .video_item4{
+    width:84%;
     height: auto;
     border-radius:15px;
     display:flex;
@@ -37,13 +36,15 @@
     background-size: cover;
     background-position: center;
     padding:20px;
-}
+} */
 
 .video_item1:hover, .video_item2:hover, .video_item3:hover, .video_item4:hover{
     opacity:0.8;
 }
 .video_media{
     margin-top: 50%;
+    text-align: center;
+    margin-bottom:40px;
 }
 .video_media svg{
     fill:white;

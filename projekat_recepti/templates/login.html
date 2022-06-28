@@ -16,13 +16,33 @@
                     <p class="login-info">Password</p>
                     <input type="password" name="password">
                 </div>
-                {% for message in messages %}
-                    <p class="alert-login-message">{{message}}</p>
-                {% endfor %}
+                
                 <div class="login-confirm">
                     <input class="btn login_btn" type="submit" value="Login">
                 </div>
-            </form> 
+                {% for message in messages %}
+                    {% if message.tags == "success" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Uspješna registracija", m,"success");
+                        </script>
+                    {% elif message.tags == "info" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Vidimo se opet", m,"info");
+                        </script>
+                    {% elif message.tags == "error" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Greška!", m,"error");
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            </form>
+                
         </div>
         <div class="login-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
             <h1>Hello there?</h1>

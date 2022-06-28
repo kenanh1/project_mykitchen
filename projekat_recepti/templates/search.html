@@ -19,6 +19,23 @@
                 </select>
             </div>
         </div>
+        <div class="user-search-result">
+            {% for users in user_search %}
+                <!-- {{users.user}}
+                {{users.avatar.url}} -->
+                <img src="{{users.avatar.url}}" alt="">
+                <a href="{% url 'user-acc' users.id %}">{{users.user}}</a>
+                
+            {% endfor %}
+        </div>
+        <div class="recipe-search-result">
+            {% for x in recipe_search %}
+                {% block meal-media-search %}
+                {% include 'meal_media.html' %}
+                {% endblock %}
+            {% endfor %}
+        
+        </div>
         <!-- <div class="featured_recipes">
             <h2>Izdvojeni recepti</h2>
             <div class="featured_recipes_wrap">

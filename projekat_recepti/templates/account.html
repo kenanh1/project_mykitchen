@@ -4,6 +4,15 @@
 <div class="account-container">
     {% include 'account_sidebar.html' %}
     <div class="account-content-wrap">
+        {% for message in messages %}
+                {% if message.tags == "success" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Uspješno!", m,"success");
+                </script>
+                {% endif %}
+        {% endfor %}
         <div class="account-content-title">
             <h2>Moj profil</h2>
         </div>

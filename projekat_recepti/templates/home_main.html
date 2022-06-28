@@ -4,6 +4,21 @@
     {% load static %}
     <section class="hero">
         {% include 'home_hero.html' %}
+        {% for message in messages %}
+                {% if message.tags == "success" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Dodato", m,"success");
+                </script>
+                {% elif message.tags == "warning" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Uklonjeno", m,"warning");
+                </script>
+                {% endif %}
+        {% endfor %}
     </section>
     <section class=page__container>
         <div class="container">
@@ -76,8 +91,6 @@
                             <input type="text" name="q" class="search_box" placeholder="Pretražite recepte . . .">
                             <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
-                        <!-- <input type="text" class="search_box" placeholder="Pretražite recepte . . ."> -->
-                        <!-- <i class="fa fa-search"></i> -->
                     </div>
                     <div class="content__sortby">
                         <form action="" method="GET">
@@ -126,6 +139,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 512"><path fill="var(--primary-color)" d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"/></svg>
                     </a>
                     {% endif %}
+                    
                     <p>{{ allr.number }} od {{allr.paginator.num_pages}}</p>
                     {% if allr.has_next %}
                     <a href="?page={{allr.next_page_number}}">

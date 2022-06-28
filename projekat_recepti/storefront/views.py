@@ -1,3 +1,4 @@
+from operator import is_
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Recepti, Korisnik, Komentari, ReceptiSteps
 from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, updateSastojkeForm
@@ -6,8 +7,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
-import random
-from django.db.models import Q
+
+#PDF FILES IMPORT 
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 
 def home_view(request):
@@ -88,10 +92,12 @@ def recipes_view(request):
 def users_view(request,id):
     user = Korisnik.objects.get(id=id)
     userRecipes = Recepti.objects.filter(user_id=id)
+    userComments = Komentari.objects.filter(user_id = id)
 
     context = {
         "displayUser":user,
-        "userRecipes":userRecipes
+        "userRecipes":userRecipes,
+        "userComments":userComments,
     }
 
     return render (request, "users-index.html", context)
@@ -165,14 +171,16 @@ def recipe_search_view(request):
         is_fullsearch = False
 
         if full_search:
-            pass
-            # full_search_result = Recepti.objects.filter(Q(user__in=Korisnik.objects.filter(korisnik_user__icontains=full_search)))
-            # full_search_result = Recepti.objects.filter(user__icontains=full_search)
-            userSearch = Recepti.objects.all().filter( user__contains=full_search )
-            # TEST ZA USERE I RECEPTE
-            # scans = Scan.objects.filter(product__in=Product.objects.filter(product_name__icontains=q))
+            userSearch = Korisnik.objects.all().filter( user__username__icontains=full_search )
+            recipeSearch = Recepti.objects.all().filter( naziv__icontains = full_search)
             print(userSearch, "USEEEEEEEEEEER")
+            print(recipeSearch, "RECEEPPTI")
+            context ={
+                'user_search':userSearch,
+                'recipe_search':recipeSearch,
+            }
 
+            return render(request,"search.html", context)
         return render(request,"search.html")
 
 
@@ -314,11 +322,13 @@ def add_favourite_view(request, id):
     is_favourite = False
     if korisnik.favourites.filter(id = id).exists():
         korisnik.favourites.remove(id)
+        messages.warning(request, "Uspješno ste uklonili recept iz favorita.")
         is_favourite = False
     else:
         korisnik.favourites.add(id)
+        messages.success(request, "Uspješno ste dodali recept u favorite.")
         is_favourite = True
-    return redirect('home')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     
 
 def my_recipes_view(request):
@@ -353,6 +363,7 @@ def adding_recipes_view(request):
                     stepsForm.recept_id = instance
             
             ReceptiSteps.objects.create(recept=stepsForm.recept_id, body=stepsForm.body)
+            messages.success(request, "Uspješno ste dodali recept!")
             
 
             return redirect('myrecipes')
@@ -393,15 +404,17 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            messages.success(request, "Uspjesno ste se logirali")
+            return HttpResponseRedirect('/receptiapp/account/')
         else:
-            messages.info(request, "Username or password is not correct")
+            messages.error(request, "Korisničko ime ili šifra nisu tačni.")
 
     context = {}
     return render(request,"login.html",context)
 
 def logout_view(request):
     logout(request)
+    messages.info(request, "Uspješno ste se odjavili.")
     return redirect('login')
 
 def register_view(request):
@@ -422,3 +435,26 @@ def register_view(request):
 
     return render(request,"register.html",{'form':form})
 
+
+#PDF FUNCTIONS START
+
+def render_pdf_view(request, id):
+    id = id
+    recept = get_object_or_404(Recepti, id=id)
+    allSteps = ReceptiSteps.objects.filter(recept_id = id)
+    ingredientsList = Sastojci.objects.filter(recept_id = id)
+
+    template_path = 'recept_pdf.html'
+    context = {'object': recept,'recipe_steps':allSteps, "all_ingredients":ingredientsList}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{recept.naziv}.pdf"'
+    template = get_template(template_path)
+    html = template.render(context)
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+#PDF FUNCTIONS END

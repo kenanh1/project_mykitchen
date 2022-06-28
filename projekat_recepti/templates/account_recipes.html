@@ -4,6 +4,15 @@
 <div class="account-container">
     {% include 'account_sidebar.html' %}
     <div class="myrecipes-content">
+        {% for message in messages %}
+            {% if message.tags == "success" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Uspješna registracija", m,"success");
+                </script>
+            {% endif %}
+        {% endfor %}
         <h2>Moji Recepti</h2>
         <div class="myrecipes-container">
             {% for x in myrecipes %}

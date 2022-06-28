@@ -12,6 +12,38 @@ function svgClick(element){
     }
 };
 
+function searchChange(item){
+    let searchBtn = document.getElementById("search_click")
+    let searchOpen = document.getElementById("searchOpen")
+    let searchClose = document.getElementById("searchClose")
+    let searchFormBtn = document.getElementById("searchFormBtn")
+    console.log(item)
+    
+    if (searchBtn.checked == true){
+        searchClose.style.display = "none";
+        searchOpen.style.display = "block"
+        searchFormBtn.style.opacity = "0"
+    } else {
+        searchOpen.style.display = "none";
+        searchClose.style.display = "block"
+        searchFormBtn.style.opacity = "1"
+    }
+
+}
+// console.log(document.getElementById("search_click"))
+// let searchBtn = document.getElementById("search_click")
+// let searchParentDiv = element.closest(".header-search");
+// let searchOpen = searchParentDiv.querySelectorAll("svg")
+// // let searchClose = document.getElementById("searchClose");
+console.log(searchBtn)
+if (searchBtn.checked == true){
+    console.log("ovo radi")
+} else{
+    // searchOpen.style.display = "block";
+    // searchClose.style.display = "none";
+    console.log("ne radi")
+}
+
 // BURGER MENI ON CLICK
 function menuClick(){
 	document.getElementById("nav-menu").classList.toggle("menu-active");

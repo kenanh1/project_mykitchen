@@ -93,7 +93,6 @@
     text-align: center;
     width:70%;
     margin-left:40px;
-    background-color: s;
 }
 
 .account-detail-wrap p{
@@ -161,12 +160,12 @@
 }
 .myrecipes-content{
     width: 80%;
-    margin-left:80px;
+    margin-left:40px;
 }
 .myrecipes-container{
     display:flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .hidden{

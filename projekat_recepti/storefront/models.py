@@ -5,8 +5,9 @@ from tinymce.models import HTMLField
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='profile_avatar')
+    avatar = models.ImageField(upload_to='profile_avatar', default='profile_avatar/default_avatar.jpg')
     favourites = models.ManyToManyField('Recepti', default=None, related_name="favourites", blank=True)
+    biografija = models.TextField()
 
     def __str__(self):
         if self.user:
