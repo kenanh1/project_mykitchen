@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="account-container">
-    {% include 'account_sidebar.html' %}
+    {% include 'account/sidebar.html' %}
     <div class="account-content-wrap">
         {% for message in messages %}
                 {% if message.tags == "success" %}

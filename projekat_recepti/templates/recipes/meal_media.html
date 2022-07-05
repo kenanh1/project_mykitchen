@@ -26,8 +26,7 @@
                 <span class="rating">{{ x.ocjena_jela }}</span>
                 <span class="voting">(55)</span>
             </div>
-            <div class="main__text__sub__right">by <a href="{% url 'user-acc' x.user.id %}">{{ x.user.user.first_name }} {{x.user.user.last_name}}</a></div>
-            {{x.datum_objave}}
+            <div class="main__text__sub__right">by <a href="{% url 'user-acc' x.user.id %}">{{x.user.user.username}}</a></div>
         </div>
     </div>
 </div>

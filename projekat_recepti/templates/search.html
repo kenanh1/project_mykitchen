@@ -10,14 +10,14 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div> -->
-            <div class="content-sortby">
+            <!-- <div class="content-sortby">
                 <select name="sortby" id="sortby">
                     <option hidden>Poredaj po</option>
                     <option class="optionhover" value="latest">Zadnje dodato</option>
                     <option class="optionhover" value="top_rated">Ocjena jela</option>
                     <option class="optionhover" value="trending">Popularno</option>
                 </select>
-            </div>
+            </div> -->
         </div>
         <div class="user-search-result">
             {% for users in user_search %}
@@ -25,55 +25,20 @@
                 {{users.avatar.url}} -->
                 <img src="{{users.avatar.url}}" alt="">
                 <a href="{% url 'user-acc' users.id %}">{{users.user}}</a>
-                
+                {% empty %}
+                <p>Nažalost nismo uspjeli pronaći korisnika pod tim imenom</p>
             {% endfor %}
         </div>
         <div class="recipe-search-result">
             {% for x in recipe_search %}
                 {% block meal-media-search %}
-                {% include 'meal_media.html' %}
+                {% include 'recipes/meal_media.html' %}
                 {% endblock %}
+            {% empty %}
+            <p>Nažalost nismo uspjeli pronaći recept pod tim nazivom</p>
             {% endfor %}
+        </div>
         
-        </div>
-        <!-- <div class="featured_recipes">
-            <h2>Izdvojeni recepti</h2>
-            <div class="featured_recipes_wrap">
-                {% for x in featuredRecipes %}
-                {% block meal-media-featured1 %}
-                {% include 'slick_meal_media.html' %}
-                {% endblock %}
-                {% endfor %}
-            </div>
-        </div> -->
-        <!-- <div class="all_recipes_content">
-            <h2>Svi recepti</h2>
-            <div class="all_recipes_wrap">
-                {% if is_searched %}
-                    {% for x in search_result %}
-                        {% block meal-media-recipes2 %}
-                        {% include 'meal_media.html' %}
-                        {% endblock %}
-                    {% endfor %}
-                {% elif not is_searched %}
-                    {% for x in recept %}
-                            {% block meal-media-recipes %}
-                            {% include 'meal_media.html' %}
-                            {% endblock %}
-                        {% endfor %}
-                {% else %}
-                    <p>no result</p>
-                {% endif %}
-            </div> -->
-            <!-- <div class="content-bottom">
-                <a href="#" class="content__pagination"><i class="fa fa-angle-left"></i></a>
-                <a href="#" class="content__pagination">1</a>
-                <a href="#" class="content__pagination">2</a>
-                <a href="#" class="content__pagination">3</a>
-                <a href="#" class="content__pagination">4</a>
-                <a href="#" class="content__pagination"><i class="fa fa-angle-right"></i></a>
-            </div> -->
-        </div>
     </div>
 </section>
 

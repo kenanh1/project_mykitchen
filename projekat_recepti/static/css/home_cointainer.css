@@ -15,7 +15,7 @@
 /*---navbar sa lijeve strane sa position sticky koja nam omogucava da ovaj div ostane na mjestu kada listamo stranicu---*/
 .navbar__left{
     width:25%;
-    /* height:25%; */
+    height:25%;
     position:sticky;
     top:20%;
     color:var(--primary-color)
@@ -25,6 +25,7 @@
     font-size:16px;
     font-weight:500;
     margin-bottom:15px;
+    color:var(--text-color)
 }
 
 .navbar__parent ul{
@@ -119,6 +120,9 @@
     padding-left:40px;
     font-family: 'Montserrat', sans-serif;
 }
+.search_box::placeholder{
+    color:var(--text-color);
+}
 /*--font awesome ikonica za search bar---*/
 .content__search .fa{
     position:absolute;
@@ -128,9 +132,6 @@
     color:var(--primary-color);
     cursor:pointer;
 }
-/* .content__sortby{
-    position:relative;
-} */
 
 /*--- sort by button--*/
 #sortby{

@@ -41,6 +41,11 @@
                         <h3>Created by <a href="#">{{ object.user.user.first_name }} {{ object.user.user.last_name }}</a></h3>
                         <p>Broj recepata: {{userRecipes}}</p>
                         <p>Datum objave: {{object.datum_objave|date:'d-m-Y'}}</p>
+                        {% if average_rating == '-' %}
+                        <p>Ocjena jela: {{average_rating}}</p>
+                        {% else %}
+                        <p>Ocjena jela: {{average_rating}} <span class="fa fa-star checked"></span></p>
+                        {% endif %}
                     </div>
                     <div class="description__bottom__right">
                         {% if user.is_authenticated %}
@@ -69,6 +74,20 @@
                             <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="print"><polyline fill="none" stroke="#000" points="4.5 13.5 1.5 13.5 1.5 6.5 18.5 6.5 18.5 13.5 15.5 13.5"></polyline><polyline fill="none" stroke="#000" points="15.5 6.5 15.5 2.5 4.5 2.5 4.5 6.5"></polyline><rect fill="none" stroke="#000" width="11" height="6" x="4.5" y="11.5"></rect><rect width="8" height="1" x="6" y="13"></rect><rect width="8" height="1" x="6" y="15"></rect></svg>
                         </a>
                     </div>
+                </div>
+                <div class="description__bottom__rating">
+                    {% if is_rated %}
+                    <form class="rate-form" action="{% url 'rate-view' object.id %}" method="POST" id="{{object.id}}">
+                        {% csrf_token %}
+                        <button type="submit" name="first" class="fa fa-star checked" id="first"></button>
+                        <button type="submit" name="second" class="fa fa-star" id="second"></button>
+                        <button type="submit" name="third" class="fa fa-star" id="third"></button>
+                        <button type="submit" name="fourth" class="fa fa-star" id="fourth"></button>
+                        <button type="submit" name="fifth" class="fa fa-star" id="fifth"></button>
+                    </form>
+                    {% else %}
+                    <p>Glasali ste</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -281,7 +300,7 @@
         <div class="content__sub__bottom">
             {% for x in svi_recepti %}
             {% block meal-media-template2 %}
-            {% include 'slick_meal_media.html' %}
+            {% include 'recipes/slick_meal_media.html' %}
             {% endblock %}
             {% endfor %}
         </div>

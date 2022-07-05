@@ -7,16 +7,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- CSS CUSTOM -->
-    <!-- HEADER I FOOTER KOJI NASLIJEDJUJEMO-->
+    <!-- BASE HTML HEADER AND FOOTER -->
     <link rel="stylesheet" href="{% static 'css/home_header.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_footer.css' %}">
 
-    <!-- POCETNA STRANICA CONTENT STYLING-->
+    <!-- HOME PAGE CONTENT STYLING-->
     <link rel="stylesheet" href="{% static 'css/home_hero.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_cointainer.css' %}">
     <link rel="stylesheet" href="{% static 'css/home_videos.css' %}">
@@ -37,13 +38,14 @@
     <link rel="stylesheet" href="{% static 'css/account_style.css' %}">
     <link rel="stylesheet" href="{% static 'css/userprofile_style.css' %}">
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script> -->
 
     <!-- SLICK SLIDER SETTINGS -->
     <link rel="stylesheet" type="text/css" href="{% static 'slick/slick.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'slick/slick-theme.css' %}"/>
-
+    <!-- SWEET ALERT STYLING -->
+    <link rel="stylesheet" href="{% static 'css/sweet_alert_msg.css' %}">
     <title>Moja Kuhinja</title>
 </head>
 <body>
@@ -56,6 +58,7 @@
                 <div class="header-navigation">
                     <nav>
                         <ul>
+                            
                             <li><a href="{% url 'home' %}">Početna</a></li>
                             <li><a href="{% url 'recipes' %}">Recepti</a></li>
                             <!-- <li><a href="#">Search</a></li> -->
@@ -86,7 +89,8 @@
                         <p>Hi, <span>
                             {{user.username}}
                             {% if request.user.is_superuser %}
-                                <p title="admin" class="user-roles-medal"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512"><path d="M223.7 130.8L149.1 7.77C147.1 2.949 141.9 0 136.3 0H16.03c-12.95 0-20.53 14.58-13.1 25.18l111.3 158.9C143.9 156.4 181.7 137.3 223.7 130.8zM256 160c-97.25 0-176 78.75-176 176S158.8 512 256 512s176-78.75 176-176S353.3 160 256 160zM348.5 317.3l-37.88 37l8.875 52.25c1.625 9.25-8.25 16.5-16.63 12l-46.88-24.62L209.1 418.5c-8.375 4.5-18.25-2.75-16.63-12l8.875-52.25l-37.88-37C156.6 310.6 160.5 299 169.9 297.6l52.38-7.625L245.7 242.5c2-4.25 6.125-6.375 10.25-6.375S264.2 238.3 266.2 242.5l23.5 47.5l52.38 7.625C351.6 299 355.4 310.6 348.5 317.3zM495.1 0H375.7c-5.621 0-10.83 2.949-13.72 7.77l-73.76 122.1c42 6.5 79.88 25.62 109.5 53.38l111.3-158.9C516.5 14.58 508.9 0 495.1 0z"/></svg></p>
+                                <p title="admin" class="user-roles-medal"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512"><path d="M256.3-.0068C261.9-.0507 267.3 1.386 272.1 4.066L476.5 90.53C487.7 95.27 495.2 105.1 495.9 118.1C501.6 213.6 466.7 421.9 272.5 507.7C267.6 510.5 261.1 512.1 256.3 512C250.5 512.1 244.9 510.5 239.1 507.7C45.8 421.9 10.95 213.6 16.57 118.1C17.28 105.1 24.83 95.27 36.04 90.53L240.4 4.066C245.2 1.386 250.7-.0507 256.3-.0068H256.3zM266.1 363.4L364.2 263.6C392.2 234.7 390.5 186.6 358.1 159.5C331.8 135.8 291.5 140.2 266.1 166.5L256.4 176.1L245.9 166.5C221.4 140.2 180.2 135.8 153 159.5C121.5 186.6 119.8 234.7 147.8 263.6L244.2 363.4C251.2 369.5 260.8 369.5 266.1 363.4V363.4z"/></svg>
+                                </p>
                             {% endif %}
                         </span></p>
                         <a href="{% url 'account' %}">
@@ -132,9 +136,7 @@
                     <h2>Moja kuhinja</h2>
                 </div>
                 <div class="footer-social">
-                    {% post_to_facebook object_or_url '<span class="facebook"><i class="fa fa-facebook"></i></span>' %}
-                    <span class="instagram"><i class="fa fa-instagram"></i></span>
-                    {% post_to_twitter object_or_url '<span class="twitter"><i class="fa fa-twitter"></i></span>' %}
+                    
                     <!-- <span class="facebook"><i class="fa fa-facebook"></i></span>
                     <span class="twitter"><i class="fa fa-twitter"></i></span> -->
                 </div>
@@ -168,6 +170,7 @@
     </footer>
     <script src="{% static 'js/mealapp.js' %}"></script>
     <script src="{% static 'js/uploader.js' %}"></script>
+    <script src="{% static 'js/rating.js' %}"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="{% static 'slick/slick.min.js' %}"></script>
@@ -175,5 +178,32 @@
 
     <!--SWEET ALERT-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#sortby').on('change', function(){
+                var word = $(this).val();
+                console.log(word);
+                $.ajax({ 
+                    type: 'GET',
+                    url: '/receptiapp/home/',
+                    // url: '{% url "home" %}',
+                    data: {
+                        word: word,
+                    },
+                    success: function (data) {
+                        noFilterData = ($(".content__main").html);
+                        console.log(noFilterData);
+                        console.log($('.content__main').html(data.html), "CONTEEENT AJAX DATA");
+                        noFilterData.replaceWith(data.html);
+                        // console.log(data)// console.log(data); // print response.content and response.data to see the data in the console. And later you can use those data in template using javascript.
+                    },
+                    
+                    error: function (error_data) {
+                        console.log(error_data)
+                    }
+                });        
+        });
+    });
+    </script>
 </body>
 </html>

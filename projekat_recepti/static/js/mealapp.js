@@ -93,7 +93,7 @@ function commentReplyToggle(parent_id){
     }
 }
 
-// $('#sortby').on('change', 'input, select', function(event){
+// $('#sortby').on('change', 'select', function(event){
 //     // id = this.id; // you can use this.id to get the corresponding id.
 
 //         var word = $("#sortby").val();
@@ -115,3 +115,53 @@ function commentReplyToggle(parent_id){
 //         });
 
 //    });
+
+// $(document).ready (function () {  
+//     // $("#sortby").change (function () {  
+//     //     var selectedCountry = $(this).children("option:selected").val();  
+//     //     alert ("You have selected the country - " + selectedCountry);  
+//     // });
+
+//     $('#sortby').on('change', 'select', function(event){
+//         // id = this.id; // you can use this.id to get the corresponding id.
+
+//             var word = $("#sortby").val();
+
+//             console.log(word)
+
+//     //         $.ajax({ 
+//     //             type: 'GET',
+//     //             url: '{% url <home> %}',
+//     //             data: {
+//     //                 word: word,
+//     //             },
+//     //             success: function (response) { 
+//     //                 console.log(response); // print response.content and response.data to see the data in the console. And later you can use those data in template using javascript.
+//     //             },
+//     //             error: function (error_data) {
+//     //                 console.log(error_data)
+//     //             }
+//     //         });
+
+//        });
+// });  
+
+
+// function getval(sel)
+// {
+//     alert(sel.value);
+// }
+
+$(document).ready(function(){
+    $('#sortby').on('change', function(){
+        var data = $(this).val();
+        console.log(data)
+    })
+})
+
+// $(function(){
+//     $("#sortby").change(function(){
+//         var displayResult =$("#sortby option:selected").val();
+//         console.log(displayResult)
+//     })
+// })

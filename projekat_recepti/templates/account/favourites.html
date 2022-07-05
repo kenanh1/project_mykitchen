@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="account-container">
-    {% include 'account_sidebar.html' %}
+    {% include 'account/sidebar.html' %}
     <div class="myrecipes-content">
         <h2>Spašeni Recepti</h2>
         <div class="myrecipes-container">
             {% for x in favourites.favourites.all  %}
                 {% block myrecipes %}
-                {% include 'meal_media.html' %}
+                {% include 'recipes/meal_media.html' %}
                 {% endblock %}
             {% endfor %}
         </div>

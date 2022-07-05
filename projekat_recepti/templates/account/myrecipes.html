@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="account-container">
-    {% include 'account_sidebar.html' %}
+    {% include 'account/sidebar.html' %}
     <div class="myrecipes-content">
         {% for message in messages %}
             {% if message.tags == "success" %}
@@ -17,7 +17,7 @@
         <div class="myrecipes-container">
             {% for x in myrecipes %}
                 {% block myrecipes %}
-                {% include 'meal_media.html' %}
+                {% include 'recipes/meal_media.html' %}
                 {% endblock %}
             {% endfor %}
         </div>

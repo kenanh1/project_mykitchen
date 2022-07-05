@@ -1,7 +1,8 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import User
-from tinymce.models import HTMLField 
+from tinymce.models import HTMLField
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -46,7 +47,7 @@ class Recepti(models.Model):
     user = models.ForeignKey(Korisnik, blank = True, null = True, on_delete = models.CASCADE)
     vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
     slika_jela = models.ImageField(upload_to='slike')
-    ocjena_jela = models.CharField(max_length=20, choices=RATING_JELA, default=1)
+    ocjena_jela = models.CharField(max_length=20, choices=RATING_JELA, default=1) #RATING JELA
     datum_objave = models.DateField(auto_now_add=True)
     tezina_pripreme = models.CharField(max_length=20,choices=RATING_JELA,default=1)
     vrijeme_pripreme = models.PositiveIntegerField()
@@ -144,3 +145,8 @@ class ReceptiSteps(models.Model):
 
     def __str__(self):
         return f"Koraci pripreme - {self.recept.naziv}"
+
+class RatingRecepta(models.Model):
+    recept = models.ForeignKey(Recepti, related_name="rating_recepta", on_delete=models.CASCADE)
+    user = models.ForeignKey(Korisnik, null=True, related_name='korisnik_rating', on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])

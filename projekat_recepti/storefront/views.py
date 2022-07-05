@@ -1,12 +1,19 @@
-from operator import is_
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Recepti, Korisnik, Komentari, ReceptiSteps
+from .models import RatingRecepta, Recepti, Korisnik, Komentari, ReceptiSteps
 from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, updateSastojkeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
+from django.db.models import Sum
+from django.db.models import Q
+
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+import json
+from django.core import serializers
+from django.template import loader, RequestContext
 
 #PDF FILES IMPORT 
 from django.http import HttpResponse
@@ -28,25 +35,40 @@ def home_view(request):
         user_favourites= trenutniKorisnik.favourites.all()
 
         # FILTER OPTIONS WITH SELECT
-        dropdown = request.GET.get('sortby')
-        is_dropdown = False
-        if dropdown:
-            if dropdown == "zadnje_dodato":
-                print("ZADNJE DODATO")
-                dropdown_result = Recepti.objects.all().order_by('-datum_objave')
-                is_dropdown = True
-                return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
+        # dropdown = request.GET.get('sortby')
+        # is_dropdown = False
+        # if dropdown:
+        #     if dropdown == "zadnje_dodato":
+        #         print("ZADNJE DODATO")
+        #         dropdown_result = Recepti.objects.all().order_by('-datum_objave')
+        #         is_dropdown = True
+        #         return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
 
-            elif dropdown == "ocjena_jela":
-                print("OCJENA JELA")
-                dropdown_result = Recepti.objects.all().order_by('-ocjena_jela')
-                is_dropdown = True
-                return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
-            else:
-                print("TRENDING")
+        #     elif dropdown == "ocjena_jela":
+        #         print("OCJENA JELA")
+        #         dropdown_result = Recepti.objects.all().order_by('-ocjena_jela')
+        #         is_dropdown = True
+        #         return render (request,"home_main.html", {"dropdown_result": dropdown_result, "is_dropdown":is_dropdown})
+        #     else:
+        #         print("TRENDING")
+        # print(request.is_ajax)
+        if request.is_ajax() and request.method == "GET":
+            is_dropdown = False
+            print(request.is_ajax, "OVO JE AJAX")
+            print(request.method, "OVO JE GET METODA")
+            
+            dropdownOdabir = request.GET.get("word")
+            if dropdownOdabir == "zadnje_dodato":
+                allr = list(Recepti.objects.all().order_by('-datum_objave'))
+                # print(allr)
+                t = loader.get_template('home/main.html')
+                html = t.render({'allr': allr})
+                return HttpResponse(json.dumps({'html': html}))
+                
+                # return JsonResponse({'data':json_str}, status=200)
+                # return HttpResponse(allr)
 
         # SEARCHBOX RESULTS 
-        # searched = request.GET.get('q')
         try:
             result = request.GET.get('q')
         except:
@@ -56,12 +78,12 @@ def home_view(request):
         if result is not None:
             search_result = Recepti.objects.filter(naziv__icontains=result)
             is_searched=True
-            return render (request,"home_main.html", {"search_result": search_result, "user_favourites":user_favourites, "is_searched":is_searched})
+            return render (request,"home/main.html", {"search_result": search_result, "user_favourites":user_favourites, "is_searched":is_searched})
         
         # END OF SEARCHBOX
-        return render (request,"home_main.html", {"allr": listaRecepata, "user_favourites":user_favourites})
+        return render (request,"home/main.html", {"allr": listaRecepata, "user_favourites":user_favourites})
     else:
-        return render (request,"home_main.html", {"allr": listaRecepata})
+        return render (request,"home/main.html", {"allr": listaRecepata})
 
 def recipes_view(request):
     recept = Recepti.objects.all()
@@ -81,13 +103,13 @@ def recipes_view(request):
     if result is not None:
         search_result = Recepti.objects.filter(naziv__icontains=result)
         is_searched=True
-        return render (request,"recipes_main.html",{"search_result":search_result, "featuredRecipes": featuredRecipes, "is_searched":is_searched, "user_favourites": user_favourites})
+        return render (request,"recipes/recipes_main.html",{"search_result":search_result, "featuredRecipes": featuredRecipes, "is_searched":is_searched, "user_favourites": user_favourites})
     context = {
         "recept" : recept,
         "featuredRecipes" : featuredRecipes,
         "user_favourites" : user_favourites
     }
-    return render (request,"recipes_main.html",context)
+    return render (request,"recipes/recipes_main.html",context)
 
 def users_view(request,id):
     user = Korisnik.objects.get(id=id)
@@ -100,7 +122,7 @@ def users_view(request,id):
         "userComments":userComments,
     }
 
-    return render (request, "users-index.html", context)
+    return render (request, "account/profiles.html", context)
 
 def jelo_view(request,id):
     obj = Recepti.objects.get(id = id)
@@ -115,6 +137,24 @@ def jelo_view(request,id):
     trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
     tezinaPripreme = int(obj.tezina_pripreme)
     svi_korisnici = Korisnik.objects.all()
+
+    usersRated = RatingRecepta.objects.filter(recept_id=id).count() 
+    rating = RatingRecepta.objects.filter(recept_id=id).aggregate(total_rating=Sum('rating'))['total_rating']
+    ratingRecipeCheck = RatingRecepta.objects.filter(recept_id=id)
+    ratingUserCheck = RatingRecepta.objects.filter(user_id=currentCommUser)
+    ratingCheck = RatingRecepta.objects.filter(Q(recept_id=id), Q(user_id=currentCommUser))
+    try:
+        averageRating = round(int(rating) /int(usersRated))
+    except:
+        averageRating = "-"
+    
+    is_rated = True
+    if ratingCheck:
+        is_rated = False
+
+    # print(ratingCheck)
+
+
 
     #TEST ZA FAVOURITES
     is_favourite = False
@@ -156,8 +196,11 @@ def jelo_view(request,id):
         "tezina_pripreme": range(tezinaPripreme),
         "svi_korisnici": svi_korisnici,
         "is_favourite":is_favourite,
+        "rating":rating,
+        "average_rating":averageRating,
+        "is_rated":is_rated,
     }
-    return render (request,"meal_template.html",context)
+    return render (request,"recipes/meal_template.html",context)
 
 def recipe_search_view(request):
     if request.method == "GET":
@@ -173,8 +216,6 @@ def recipe_search_view(request):
         if full_search:
             userSearch = Korisnik.objects.all().filter( user__username__icontains=full_search )
             recipeSearch = Recepti.objects.all().filter( naziv__icontains = full_search)
-            print(userSearch, "USEEEEEEEEEEER")
-            print(recipeSearch, "RECEEPPTI")
             context ={
                 'user_search':userSearch,
                 'recipe_search':recipeSearch,
@@ -283,7 +324,7 @@ def account_view(request):
         account_update = EditUserProfileForm(instance=request.user)
         avatar_update = EditUserPictureForm(instance=request.user.korisnik)
 
-        return render (request,"account.html",{'account_form':account_update, 'avatar_form':avatar_update})
+        return render (request,"account/account.html",{'account_form':account_update, 'avatar_form':avatar_update})
 
 @login_required
 def edit_account_view(request):
@@ -303,7 +344,7 @@ def edit_account_view(request):
         avatar_update = EditUserPictureForm(instance=request.user.korisnik)
 
 
-        return render (request,"edit_account.html",{'account_form':account_update, 'avatar_form':avatar_update})
+        return render (request,"account/edit_account.html",{'account_form':account_update, 'avatar_form':avatar_update})
 
   
 def favourite_recipes_view(request):
@@ -313,7 +354,7 @@ def favourite_recipes_view(request):
     currentCommUser = request.user.id
     trenutniKorisnik = Korisnik.objects.get(user_id = currentCommUser)
     user_favourites= trenutniKorisnik.favourites.all()
-    return render (request, "saved_recipes.html", {"favourites":favourites,"user_favourites":user_favourites})
+    return render (request, "account/favourites.html", {"favourites":favourites,"user_favourites":user_favourites})
 
 
 def add_favourite_view(request, id):
@@ -334,7 +375,7 @@ def add_favourite_view(request, id):
 def my_recipes_view(request):
     current_user = request.user.id
     my_recipes = Recepti.objects.filter(user_id = current_user)
-    return render (request, "account_recipes.html", {"myrecipes":my_recipes})
+    return render (request, "account/myrecipes.html", {"myrecipes":my_recipes})
 
 
 def adding_recipes_view(request):
@@ -379,7 +420,7 @@ def adding_recipes_view(request):
         "rteformset":rteformset,
     }
 
-    return render (request,"add_recipe.html",context)
+    return render (request,"recipes/add_recipe.html",context)
 
 def update_recipes_view(request,id):
     recept = Recepti.objects.get(id = id)
@@ -393,7 +434,7 @@ def update_recipes_view(request,id):
         "rteformset" : rteformset,
     }
 
-    return render(request, "update_single_recipe.html", context)
+    return render(request, "recipes/update_single_recipe.html", context)
 
 def login_view(request):
     if request.method == "POST":
@@ -405,7 +446,8 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Uspjesno ste se logirali")
-            return HttpResponseRedirect('/receptiapp/account/')
+            # return HttpResponseRedirect('account')
+            return redirect('account')
         else:
             messages.error(request, "Korisničko ime ili šifra nisu tačni.")
 
@@ -444,7 +486,7 @@ def render_pdf_view(request, id):
     allSteps = ReceptiSteps.objects.filter(recept_id = id)
     ingredientsList = Sastojci.objects.filter(recept_id = id)
 
-    template_path = 'recept_pdf.html'
+    template_path = 'recepti/recept_pdf.html'
     context = {'object': recept,'recipe_steps':allSteps, "all_ingredients":ingredientsList}
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename="{recept.naziv}.pdf"'
@@ -458,3 +500,34 @@ def render_pdf_view(request, id):
 
 
 #PDF FUNCTIONS END
+
+
+def rate_recipes(request,id):
+    currentUser = request.user.id
+    print(request.method)
+    if request.method == 'POST':
+        recept = Recepti.objects.get(id=id)
+        korisnik = Korisnik.objects.get(id=currentUser)
+
+        if "first" in request.POST:
+            RatingRecepta.objects.create(recept=recept, user=korisnik, rating=1)
+        elif "second" in request.POST:
+            RatingRecepta.objects.create(recept=recept, user=korisnik, rating=2)
+        elif "third" in request.POST:
+            RatingRecepta.objects.create(recept=recept, user=korisnik, rating=3)
+        elif "fourth" in request.POST:
+            RatingRecepta.objects.create(recept=recept, user=korisnik, rating=4)
+        else:
+            RatingRecepta.objects.create(recept=recept, user=korisnik, rating=5)
+
+        # el_id = request.POST.get('el_id')
+        # val = request.POST.get('val')
+        # recept = Recepti.objects.get(id=el_id)
+        # recept = Recepti.objects.get(id=id)
+        # print(recept)
+
+        # korisnik = Korisnik.objects.get(id=currentUser)
+        # RatingRecepta.objects.create(recept=recept, user=korisnik, rating=val)
+        # return JsonResponse({'success':'true', 'rating': val}, safe=False)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return JsonResponse({'success':'false'})
