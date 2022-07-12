@@ -306,12 +306,15 @@
     /* background-color: red; */
     width:100%;
 }
+
 .comment-form #id_content{
     width:96.5%;
     /* background-color: blue; */
     padding:10px;
     font-family: 'Montserrat', sans-serif;
     border:2px solid var(--secondary-color);
+    outline: none;
+    resize: none;
 }
 .comment-form label{
     display:none;

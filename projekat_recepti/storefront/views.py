@@ -380,30 +380,35 @@ def my_recipes_view(request):
 
 def adding_recipes_view(request):
     currentRecipeUser = Korisnik.objects.get(user=request.user)
+    print(request.GET, "GET METODA")
 
     if request.method == "POST":
         form = ReceptiForm(request.POST, request.FILES)
         formset = SastojciFormset(request.POST or None)
         rteformset = ReceptiStepsForm(request.POST or None)
+        formsteps = request.POST.get('step-form-editor')
+        print(formsteps, "DATA FROM POST")
+        print(request.POST, "OVO JE POST")
+
 
 
         if form.is_valid() and formset.is_valid() and rteformset.is_valid():
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
-            instance.save()
+            # instance.save()
             
 
             for fs_item in formset:
                 child = fs_item.save(commit=False)
                 if child.recept_id is None:
                     child.recept_id = instance
-                child.save()
+                # child.save()
 
             stepsForm = rteformset.save(commit=False)
             if stepsForm.recept_id is None:
                     stepsForm.recept_id = instance
             
-            ReceptiSteps.objects.create(recept=stepsForm.recept_id, body=stepsForm.body)
+            # ReceptiSteps.objects.create(recept=stepsForm.recept_id, body=stepsForm.body)
             messages.success(request, "Uspješno ste dodali recept!")
             
 

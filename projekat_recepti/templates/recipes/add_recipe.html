@@ -8,7 +8,7 @@
             <h2>Dodavanje recepta</h2>
         </div>
         <div class="add-recipe-form">
-            <form method="POST" enctype="multipart/form-data" action="">
+            <form method="POST" enctype="multipart/form-data" action="" name="recipe-steps-form">
                 {% csrf_token %}
                 <div class="sr-form-info">
                     <div class="sr-form-name">
@@ -67,13 +67,13 @@
                 </div>
 
                 <div class="sr-form-directions">
-                    {% if rteformset %}
                         <h4>Priprema</h4>
                         <div class="step-form">
-                            {{rteformset.media}}
-                            {{rteformset.body}}
+                           
+                            <!-- <textarea class="step-form-editor" id="form-editor-1" style="width:100%;; margin-left:-4px; margin-right:auto; resize:none;" rows="6"></textarea> -->
+                            <!-- <button id="add-new-step" type="button">Dodajte novi korak</button> -->
                         </div>
-                    {% endif %}
+                        <button id="add-new-step" type="button">Dodajte novi korak</button>
                 </div>
                 <button id="btn-confirm" type="submit">Potvrdite dodavanje recepta</button>
             </form>

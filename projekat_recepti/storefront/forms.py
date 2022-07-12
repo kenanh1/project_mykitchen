@@ -39,7 +39,8 @@ class EditUserPictureForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'label':'Avatar'}))
     class Meta:
         model = Korisnik
-        fields = ['avatar']
+        # fields = ['avatar']
+        fields = ('avatar', 'biografija',)
 
 
 class ReceptiForm(forms.ModelForm):
@@ -73,6 +74,7 @@ class KomentariForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
         'rows':'4',
         'placeholder':'Dodajte Vas komentar...',
+        'resize': 'none',
         }))
 
     class Meta:
@@ -87,11 +89,7 @@ class TinyMCEWidget(TinyMCE):
 
 
 class ReceptiStepsForm(forms.ModelForm):
-    body = forms.CharField(
-        widget=TinyMCEWidget(
-            attrs={'required': False, 'cols': 30, 'rows': 10}
-        )
-    )
+    body = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Kratki opis Vašeg jela','class':'step-form-editor'}))
     class Meta:
         model = ReceptiSteps
         fields = ('body',)
