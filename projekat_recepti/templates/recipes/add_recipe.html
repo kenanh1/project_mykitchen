@@ -33,7 +33,7 @@
                         </div>
                         <div class="sr-form-prep-time">
                             <span>Vrijeme pripreme :</span>
-                            {{form.vrijeme_pripreme}}
+                            {{form.vrijeme_pripreme}} min.
                         </div>
                         <div class="sr-form-yield">
                             <span>Broj osoba :</span>
@@ -68,10 +68,20 @@
 
                 <div class="sr-form-directions">
                         <h4>Priprema</h4>
-                        <div class="step-form">
-                           
-                            <!-- <textarea class="step-form-editor" id="form-editor-1" style="width:100%;; margin-left:-4px; margin-right:auto; resize:none;" rows="6"></textarea> -->
-                            <!-- <button id="add-new-step" type="button">Dodajte novi korak</button> -->
+                        {{ rteformset.management_form }}
+                      
+                        <div id="steps-form-list">
+                            {% for step in rteformset %}
+                                <div class="step-form">
+                                    {{step.as_p}}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+
+                        <div id="empty-step" class="hidden">
+                            {{ rteformset.empty_form}}
+                            <!-- <button class="delete" onclick="deleteStepField(this)">&#10008;</button> -->
                         </div>
                         <button id="add-new-step" type="button">Dodajte novi korak</button>
                 </div>

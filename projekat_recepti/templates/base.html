@@ -57,9 +57,10 @@
                 <div class="header-navigation">
                     <nav>
                         <ul>
-                            
-                            <li><a href="{% url 'home' %}">Početna</a></li>
-                            <li><a href="{% url 'recipes' %}">Recepti</a></li>
+                            {% url 'home' as home %}
+                            <li class="nav-link {% if request.path == home %}active-link{% endif %}"><a href="{% url 'home' %}">Početna</a></li>
+                            {% url 'recipes' as recipes %}
+                            <li class="nav-link {% if request.path == recipes %}active-link{% endif %}"><a href="{% url 'recipes' %}">Recepti</a></li>
                             <!-- <li><a href="#">Search</a></li> -->
                             <li><a href="#">Kontakt</a></li>
                         </ul>

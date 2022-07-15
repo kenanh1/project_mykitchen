@@ -23,7 +23,7 @@
         <div class="main__text__sub">
             <div class="main__text__sub__left">
                 <span class="star"><i class="fa fa-star"></i></span>
-                <span class="rating">{{ x.ocjena_jela }}</span>
+                <span class="rating">{{ x.ocjena_jela }}{{average_rating}}</span>
                 <span class="voting">(55)</span>
             </div>
             <div class="main__text__sub__right">by <a href="{% url 'user-acc' x.user.id %}">{{x.user.user.username}}</a></div>

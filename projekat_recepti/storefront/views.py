@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import RatingRecepta, Recepti, Korisnik, Komentari, ReceptiSteps
-from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, updateSastojkeForm
+from .forms import CreateUserForm, EditUserProfileForm, EditUserPictureForm, KomentariForm, ReceptiForm, SastojciFormset, Sastojci, ReceptiStepsForm, updateSastojkeForm, StepsFormset
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -87,7 +87,7 @@ def home_view(request):
 
 def recipes_view(request):
     recept = Recepti.objects.all()
-    featuredRecipes = Recepti.objects.all().order_by('-ocjena_jela')[:6]
+    featuredRecipes = Recepti.objects.all().order_by('-datum_objave')[:6]
     searched = request.GET
 
     currentCommUser = request.user.id
@@ -380,43 +380,39 @@ def my_recipes_view(request):
 
 def adding_recipes_view(request):
     currentRecipeUser = Korisnik.objects.get(user=request.user)
-    print(request.GET, "GET METODA")
+    # print(request.GET, "GET METODA")
 
     if request.method == "POST":
         form = ReceptiForm(request.POST, request.FILES)
         formset = SastojciFormset(request.POST or None)
-        rteformset = ReceptiStepsForm(request.POST or None)
-        formsteps = request.POST.get('step-form-editor')
-        print(formsteps, "DATA FROM POST")
-        print(request.POST, "OVO JE POST")
-
+        rteformset = StepsFormset(request.POST or None)
 
 
         if form.is_valid() and formset.is_valid() and rteformset.is_valid():
             instance = form.save(commit=False)
             instance.user = currentRecipeUser
-            # instance.save()
+            instance.save()
             
-
             for fs_item in formset:
                 child = fs_item.save(commit=False)
                 if child.recept_id is None:
                     child.recept_id = instance
-                # child.save()
+                child.save()
 
-            stepsForm = rteformset.save(commit=False)
-            if stepsForm.recept_id is None:
-                    stepsForm.recept_id = instance
+            for step in rteformset:
+                secondChild = step.save(commit=False)
+                if secondChild.recept_id is None:
+                    secondChild.recept_id = instance.id
+                secondChild.save()
             
-            # ReceptiSteps.objects.create(recept=stepsForm.recept_id, body=stepsForm.body)
+            # ReceptiSteps.objects.create(recept_id=secondChild.recept_id, body=secondChild.body)
             messages.success(request, "Uspješno ste dodali recept!")
             
-
             return redirect('myrecipes')
     else:
         form = ReceptiForm()
         formset = SastojciFormset()
-        rteformset = ReceptiStepsForm()
+        rteformset = StepsFormset()
         
         
     context ={

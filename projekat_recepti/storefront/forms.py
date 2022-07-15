@@ -89,11 +89,12 @@ class TinyMCEWidget(TinyMCE):
 
 
 class ReceptiStepsForm(forms.ModelForm):
-    body = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Kratki opis Vašeg jela','class':'step-form-editor'}))
+    # body = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Kratki opis Vašeg jela','class':'step-form-editor'}))
     class Meta:
         model = ReceptiSteps
         fields = ('body',)
 
+StepsFormset = formset_factory(ReceptiStepsForm, extra=0, max_num=6)
 
 class updateSastojkeForm(forms.ModelForm):
     class Meta:

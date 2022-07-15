@@ -78,6 +78,17 @@
     transform: scaleX(1);
     transform-origin: bottom left;
 }
+.active-link a{
+    background-color: var(--primary-color);
+    color:white;
+    padding:2px 4px;
+    font-weight: 300;
+    border-radius: 5px;
+}
+.active-link a:hover:after{
+    text-decoration: none;
+    transform: scaleX(0);
+}
 /* HEADER RIGHT SIDE  */
 .header-right{
     display:flex;

@@ -47,7 +47,6 @@ class Recepti(models.Model):
     user = models.ForeignKey(Korisnik, blank = True, null = True, on_delete = models.CASCADE)
     vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
     slika_jela = models.ImageField(upload_to='slike')
-    ocjena_jela = models.CharField(max_length=20, choices=RATING_JELA, default=1) #RATING JELA
     datum_objave = models.DateField(auto_now_add=True)
     tezina_pripreme = models.CharField(max_length=20,choices=RATING_JELA,default=1)
     vrijeme_pripreme = models.PositiveIntegerField()

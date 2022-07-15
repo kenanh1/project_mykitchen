@@ -27,4 +27,6 @@ function add_new_form(event){
 function deleteFormField(element){
     let formParentDiv = element.closest(".ingredient-form");
     formParentDiv.parentNode.removeChild(formParentDiv);
+    const currentFormsCount = currentForms.length
+    totalForms.setAttribute("value", currentFormsCount)
 }
