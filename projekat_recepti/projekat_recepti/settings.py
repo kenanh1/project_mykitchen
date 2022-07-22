@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'tinymce',
     'django_social_share',
+    'xhtml2pdf',
 ]
 
 SLICK_SLICKER_DEFAULT_OPTIONS = {

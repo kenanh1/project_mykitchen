@@ -1,42 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<section class="all_recipes_container">
-    <div class="recipes_container">
-        <div class="recipes_search_wrap">
-            <!-- <div class="content-search">
+<section class="search_container_wrapper">
+    <div class="search_container">
+        <!-- <div class="recipes_search_wrap">
+            <div class="content-search">
                 <form action="">
                     <input type="text" name="q" class="search_box" placeholder="Pretražite recepte . . .">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
-            </div> -->
-            <!-- <div class="content-sortby">
+            </div>
+            <div class="content-sortby">
                 <select name="sortby" id="sortby">
                     <option hidden>Poredaj po</option>
                     <option class="optionhover" value="latest">Zadnje dodato</option>
                     <option class="optionhover" value="top_rated">Ocjena jela</option>
                     <option class="optionhover" value="trending">Popularno</option>
                 </select>
-            </div> -->
+            </div>
+        </div> -->
+        <div class="user-search-wrapper">
+            <h3>Korisnici</h3>
+            <div class="search-result-display">
+                {% for users in user_search %}
+                    {% block users-media-search %}
+                        {% include 'search/search_users.html' %}
+                    {% endblock %}
+                    {% empty %}
+                    <p>Nažalost nismo uspjeli pronaći korisnika pod tim imenom</p>
+                {% endfor %}
+            </div>
+            
         </div>
-        <div class="user-search-result">
-            {% for users in user_search %}
-                <!-- {{users.user}}
-                {{users.avatar.url}} -->
-                <img src="{{users.avatar.url}}" alt="">
-                <a href="{% url 'user-acc' users.id %}">{{users.user}}</a>
-                {% empty %}
-                <p>Nažalost nismo uspjeli pronaći korisnika pod tim imenom</p>
-            {% endfor %}
-        </div>
-        <div class="recipe-search-result">
-            {% for x in recipe_search %}
-                {% block meal-media-search %}
-                {% include 'recipes/meal_media.html' %}
-                {% endblock %}
-            {% empty %}
-            <p>Nažalost nismo uspjeli pronaći recept pod tim nazivom</p>
-            {% endfor %}
+        <div class="recipe-search-wrapper">
+            <h3>Recepti</h3>
+            <div class="search-result-display">
+                {% for x in recipe_search %}
+                    {% block meal-media-search %}
+                        {% include 'recipes/meal_media.html' %}
+                    {% endblock %}
+                    {% empty %}
+                        <p>Nažalost nismo uspjeli pronaći recept pod tim nazivom</p>
+                {% endfor %}
+            </div>
+           
         </div>
         
     </div>

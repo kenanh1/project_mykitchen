@@ -125,7 +125,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$260000$D3n4JHTXckpBc2Iiv412oz$9LZSeYT6mbp9MlfRhllpWOnPlMVf+jbzKw15cZKc+Eg=','2022-07-04 20:21:26.015384',1,'kenan','Kenan','Hodzic','hodzickenan96@gmail.com',1,1,'2022-03-21 00:57:22.000000'),(2,'pbkdf2_sha256$260000$JKIhiOmMd0Cyqs0KSbpBw3$xFYTQlkNed/outnfkPjoHz63fPF9kDA1ck6MCIZYdJE=','2022-07-04 18:27:34.343161',0,'testadmin','','','keo.aimface@gmail.com',0,1,'2022-06-25 23:16:35.483167');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$260000$D3n4JHTXckpBc2Iiv412oz$9LZSeYT6mbp9MlfRhllpWOnPlMVf+jbzKw15cZKc+Eg=','2022-07-21 19:25:08.272944',1,'kenan','Kenan','Hodzic','hodzickenan96@gmail.com',1,1,'2022-03-21 00:57:22.000000'),(2,'pbkdf2_sha256$260000$JKIhiOmMd0Cyqs0KSbpBw3$xFYTQlkNed/outnfkPjoHz63fPF9kDA1ck6MCIZYdJE=','2022-07-21 18:50:08.833040',0,'testadmin','','','keo.aimface@gmail.com',0,1,'2022-06-25 23:16:35.483167');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +294,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('1piehyb7r19arm0hpkpwxxn5pjzzclzs','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nsnet:uIeFkXziYmFKCs2EXtcQVnVK1iFXVWphtGMVjb1L3BI','2022-06-05 15:38:19.240698'),('2577lowkynqb2701reqs9radd31r65y4','e30:1o5uw3:jX4enBGSW1Jrhuv30ZYk0qbfrEAsDOuW1Ft9DSQtItY','2022-07-11 20:02:15.034095'),('4a6h2xz0es0ej53oqwr683jn8u81o79c','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nj6SZ:KIXlhsRfAoZUplkQiL91hJ6BKWeXQBiqrkENAHFzpVU','2022-05-09 21:41:31.582060'),('8jm77pp6zl605s0nzagt0yrfy2qo1jzp','e30:1o5v5f:1BJP574D_fBlHZT2t2yzkUIgoZEoJ1U6pvWqS6x00y4','2022-07-11 20:12:11.129671'),('9dzum63uswe4p1naimxp0mv5m4eb3n1p','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1o67um:QthzeXo-XfwXXDbWc-B7Rw-vMObQAPGHE4qn9ZjzUqY','2022-07-12 09:53:48.151259'),('9kjyii2vl8npzxrnisj27b5z0hbw0zmt','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1o8SZS:IbLU8Zs3oGN0kKixAZsQeDqandNcNnwbtukYKF5b4Yg','2022-07-18 20:21:26.098766'),('fx2xvz292a65jwl3wrh3uj51cndtgtco','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nYT30:RFaze4NcI8oFSfHkvWZImgP_NAAnqye5QWF2Q7OkqH4','2022-04-10 13:35:10.061617'),('k0p51cgdphql5dsrfamqp3po2dqdjdq1','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nlxt2:B1fZ45AyF6R8tJHrD8PL_JZflrBB_031KLLU9JtpEng','2022-05-17 19:08:40.434848'),('ofk2ona9d06tkuqr5q5uapq4fw58f84u','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nWPiq:xnipfGGv-vKpvjZYEsNvoqDWiVPT9yYWALwNcfv8hSM','2022-04-04 21:37:52.432032'),('qbfdngqljs48tagudimowgz142c8sl9f','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1npurP:6BjA1jyKT-mMuynF2xZgjWpvV5kh7buRTCboBbT1nVU','2022-05-28 16:43:19.246811'),('wvnp6r0qavf6r6po081l3u34a1fsw8go','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nW6Mo:kBFDgsoa7hzsYj6xWoPmBrBYAFEeOWMTU9YSs7Yyx6Q','2022-04-04 00:57:50.528657');
+INSERT INTO `django_session` VALUES ('1piehyb7r19arm0hpkpwxxn5pjzzclzs','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nsnet:uIeFkXziYmFKCs2EXtcQVnVK1iFXVWphtGMVjb1L3BI','2022-06-05 15:38:19.240698'),('2577lowkynqb2701reqs9radd31r65y4','e30:1o5uw3:jX4enBGSW1Jrhuv30ZYk0qbfrEAsDOuW1Ft9DSQtItY','2022-07-11 20:02:15.034095'),('4a6h2xz0es0ej53oqwr683jn8u81o79c','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nj6SZ:KIXlhsRfAoZUplkQiL91hJ6BKWeXQBiqrkENAHFzpVU','2022-05-09 21:41:31.582060'),('8jm77pp6zl605s0nzagt0yrfy2qo1jzp','e30:1o5v5f:1BJP574D_fBlHZT2t2yzkUIgoZEoJ1U6pvWqS6x00y4','2022-07-11 20:12:11.129671'),('9dzum63uswe4p1naimxp0mv5m4eb3n1p','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1o67um:QthzeXo-XfwXXDbWc-B7Rw-vMObQAPGHE4qn9ZjzUqY','2022-07-12 09:53:48.151259'),('9kjyii2vl8npzxrnisj27b5z0hbw0zmt','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1o8SZS:IbLU8Zs3oGN0kKixAZsQeDqandNcNnwbtukYKF5b4Yg','2022-07-18 20:21:26.098766'),('f7g9jhgccc13a7rs69tzxr3seae2c46l','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1oD3fc:8c6hkPxFHeu0E1IDolwZby7qDtpKO0AwhT_d2k2nZPQ','2022-07-31 12:46:48.543095'),('fx2xvz292a65jwl3wrh3uj51cndtgtco','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nYT30:RFaze4NcI8oFSfHkvWZImgP_NAAnqye5QWF2Q7OkqH4','2022-04-10 13:35:10.061617'),('k0p51cgdphql5dsrfamqp3po2dqdjdq1','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nlxt2:B1fZ45AyF6R8tJHrD8PL_JZflrBB_031KLLU9JtpEng','2022-05-17 19:08:40.434848'),('mzj81rhk4fk1nqu2wrs80hc3b07hc6x8','.eJxVjEsOwjAMBe-SNYpoYhybJfueobITQwsolfpZIe4OlbqA7ZuZ93KdrEvfrbNN3VDc2TXu8Lup5IfVDZS71Nvo81iXaVC_KX6ns2_HYs_L7v4d9DL335qBMHFRQBIMyJqADCPHgsRGnFXjSQKwQYSYAqMeha_EDCkTNO79AbgANpk:1oEbnI:Eb2p1JjN4BG897lXm_n1UNZ2wBkEDJ8cy3RQXFvjhq8','2022-08-04 19:25:08.339980'),('ofk2ona9d06tkuqr5q5uapq4fw58f84u','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nWPiq:xnipfGGv-vKpvjZYEsNvoqDWiVPT9yYWALwNcfv8hSM','2022-04-04 21:37:52.432032'),('qbfdngqljs48tagudimowgz142c8sl9f','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1npurP:6BjA1jyKT-mMuynF2xZgjWpvV5kh7buRTCboBbT1nVU','2022-05-28 16:43:19.246811'),('wvnp6r0qavf6r6po081l3u34a1fsw8go','.eJxVjMsOwiAQRf-FtSG8BZfu-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2IVJdvrdENIjtx3QHdqt89TbuszId4UfdPCpU35eD_fvoMKo3zqF5AOqrED4gkWDSslrIqMwEFgoxjqn9VmiFVlkGUygAKjIOEtOIXt_AAL1OF4:1nW6Mo:kBFDgsoa7hzsYj6xWoPmBrBYAFEeOWMTU9YSs7Yyx6Q','2022-04-04 00:57:50.528657');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,7 +373,7 @@ CREATE TABLE `storefront_komentari_dislikes` (
   KEY `storefront_komentari_korisnik_id_be97c788_fk_storefron` (`korisnik_id`),
   CONSTRAINT `storefront_komentari_komentari_id_b3e24c53_fk_storefron` FOREIGN KEY (`komentari_id`) REFERENCES `storefront_komentari` (`id`),
   CONSTRAINT `storefront_komentari_korisnik_id_be97c788_fk_storefron` FOREIGN KEY (`korisnik_id`) REFERENCES `storefront_korisnik` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,6 +382,7 @@ CREATE TABLE `storefront_komentari_dislikes` (
 
 LOCK TABLES `storefront_komentari_dislikes` WRITE;
 /*!40000 ALTER TABLE `storefront_komentari_dislikes` DISABLE KEYS */;
+INSERT INTO `storefront_komentari_dislikes` VALUES (21,35,1);
 /*!40000 ALTER TABLE `storefront_komentari_dislikes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,7 +402,7 @@ CREATE TABLE `storefront_komentari_likes` (
   KEY `storefront_komentari_korisnik_id_d95eb6a3_fk_storefron` (`korisnik_id`),
   CONSTRAINT `storefront_komentari_komentari_id_ce5ec894_fk_storefron` FOREIGN KEY (`komentari_id`) REFERENCES `storefront_komentari` (`id`),
   CONSTRAINT `storefront_komentari_korisnik_id_d95eb6a3_fk_storefron` FOREIGN KEY (`korisnik_id`) REFERENCES `storefront_korisnik` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -491,7 +492,7 @@ CREATE TABLE `storefront_korisnik` (
 
 LOCK TABLES `storefront_korisnik` WRITE;
 /*!40000 ALTER TABLE `storefront_korisnik` DISABLE KEYS */;
-INSERT INTO `storefront_korisnik` VALUES (1,'profile_avatar/panth_s0zAYRQ.png',1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),(2,'profile_avatar/female-icon_FqthGrm.png',2,'kratka biografija o test admin profilu.\r\n\r\nCheers.');
+INSERT INTO `storefront_korisnik` VALUES (1,'profile_avatar/teemo.png',1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),(2,'profile_avatar/female-icon_FqthGrm.png',2,'kratka biografija o test admin profilu.\r\n\r\nCheers.');
 /*!40000 ALTER TABLE `storefront_korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -520,7 +521,7 @@ CREATE TABLE `storefront_korisnik_favourites` (
 
 LOCK TABLES `storefront_korisnik_favourites` WRITE;
 /*!40000 ALTER TABLE `storefront_korisnik_favourites` DISABLE KEYS */;
-INSERT INTO `storefront_korisnik_favourites` VALUES (117,1,2),(108,1,4),(110,1,5),(126,1,8),(111,1,9);
+INSERT INTO `storefront_korisnik_favourites` VALUES (117,1,2),(108,1,4),(110,1,5);
 /*!40000 ALTER TABLE `storefront_korisnik_favourites` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -615,7 +616,7 @@ CREATE TABLE `storefront_ratingrecepta` (
   `recept_id` bigint NOT NULL,
   `user_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -624,7 +625,7 @@ CREATE TABLE `storefront_ratingrecepta` (
 
 LOCK TABLES `storefront_ratingrecepta` WRITE;
 /*!40000 ALTER TABLE `storefront_ratingrecepta` DISABLE KEYS */;
-INSERT INTO `storefront_ratingrecepta` VALUES (9,4,2,1),(10,5,2,2),(11,3,3,2),(12,1,15,1),(13,5,16,1);
+INSERT INTO `storefront_ratingrecepta` VALUES (9,4,2,1),(10,5,2,2),(11,3,3,2),(12,1,15,1),(13,5,16,1),(14,5,3,1),(15,5,17,1);
 /*!40000 ALTER TABLE `storefront_ratingrecepta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -783,4 +784,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-15 16:32:42
+-- Dump completed on 2022-07-22 16:29:26

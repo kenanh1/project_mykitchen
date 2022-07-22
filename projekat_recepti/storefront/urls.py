@@ -5,6 +5,7 @@ urlpatterns = [
     #CORE SITE
     path ('pocetna/', views.home_view, name = 'home'),
     path ('recepti/', views.recipes_view, name = 'recipes'),
+    path ('kontakt/', views.contact_view, name = 'contact'),
 
     path ('jelo/<int:id>/', views.jelo_view, name = 'jelo'),
     path ('login/', views.login_view, name = 'login'),
@@ -25,5 +26,6 @@ urlpatterns = [
     path ('search/', views.recipe_search_view, name='search-recipe'),
     path ('jelo/<int:id>/pdf', views.render_pdf_view, name='recipe-pdf'),
     path('rate/<int:id>', views.rate_recipes, name='rate-view'),
+
 ]
 

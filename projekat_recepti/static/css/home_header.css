@@ -159,7 +159,7 @@
 }
 
 #search_click {opacity: 0; width: 0px;}
-#search_click:checked + .search_slide {width: 250px;}
+#search_click:checked + .search_slide {width: 350px;}
 
 .header-signin a{
     text-decoration:none;

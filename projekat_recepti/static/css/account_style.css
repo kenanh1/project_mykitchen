@@ -178,3 +178,15 @@
     /* background-color: red; */
     width: 100%;
 }
+
+.acc-biography span{
+    padding:10px;
+}
+
+#id_biografija{
+    outline: none;
+    border:none;
+    background-color: var(--secondary-color);
+    padding:5px;
+    margin-top:10px;
+}

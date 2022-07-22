@@ -3,6 +3,7 @@ from multiselectfield import MultiSelectField
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -16,6 +17,24 @@ class Korisnik(models.Model):
     class Meta:
         verbose_name_plural = "Korisnik"
 
+    def total_recipes(self):
+        counter = Recepti.objects.filter(user=self).count()
+        return counter
+
+    def avg_rating(self):
+        recipes = Recepti.objects.filter(user=self)
+        total = 0
+        rated = 0
+        for i in recipes:
+            ratings = RatingRecepta.objects.all().filter(recept=i).aggregate(rating_avg=Avg('rating'))
+            if ratings['rating_avg'] != None:
+                rated +=1
+                total += ratings['rating_avg']
+        if rated != 0:
+            result = total/rated
+        else:
+            result = 0
+        return (result)
 # /// ----- RECEPT MAIN MODEL START ----- ///
 class Recepti(models.Model):
     # CHOICES FOR RATING AND NUMBER OF PEOPLE
@@ -57,6 +76,15 @@ class Recepti(models.Model):
         return self.naziv
     class Meta:
         verbose_name_plural = "Recepti"
+
+    def avg_rating(self):
+        ratings = RatingRecepta.objects.filter(recept=self).aggregate(rating_avg=Avg('rating'))
+        return (ratings['rating_avg'])
+    
+    def total_votes(self):
+        voting = RatingRecepta.objects.filter(recept=self).count()
+        return voting
+
 
 # /// ----- RECEPTI MAIN MODEL END ----- ///
 
@@ -149,3 +177,9 @@ class RatingRecepta(models.Model):
     recept = models.ForeignKey(Recepti, related_name="rating_recepta", on_delete=models.CASCADE)
     user = models.ForeignKey(Korisnik, null=True, related_name='korisnik_rating', on_delete=models.CASCADE)
     rating = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
+
+
+    def __str__(self):
+        return f"Rating: {self.recept.naziv}- {self.user.user}"
+    # def total_rating(self):
+    #     return self.user.count()

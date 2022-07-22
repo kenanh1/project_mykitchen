@@ -14,7 +14,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 384 512"><path fill="white" d="M384 48V512l-192-112L0 512V48C0 21.5 21.5 0 48 0h288C362.5 0 384 21.5 384 48z"/></svg>
                 </button>
                 {% endif %}
-                <!-- <div class="media__heart" id="media_heart_fa"><i class="fa fa-heart">{{x.id}}</i></div> -->
             </form>
         </div>
     </div>
@@ -23,8 +22,15 @@
         <div class="main__text__sub">
             <div class="main__text__sub__left">
                 <span class="star"><i class="fa fa-star"></i></span>
-                <span class="rating">{{ x.ocjena_jela }}{{average_rating}}</span>
-                <span class="voting">(55)</span>
+                {% if x.avg_rating == None %}
+                <span class="rating">-</span>
+                {% else %}
+                <span class="rating">{{ x.avg_rating }}</span>
+                {% endif %}
+                {% if x.total_votes == 0 %}
+                {% else %}
+                <span class="voting">( {{x.total_votes}} )</span>
+                {% endif %}
             </div>
             <div class="main__text__sub__right">by <a href="{% url 'user-acc' x.user.id %}">{{x.user.user.username}}</a></div>
         </div>

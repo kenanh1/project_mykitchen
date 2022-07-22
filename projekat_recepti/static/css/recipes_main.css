@@ -198,9 +198,9 @@
     margin-right:5px;
 }
 
-.featured_recipes_wrap .main__text__sub__left .voting{
+/* .featured_recipes_wrap .main__text__sub__left .voting{
     margin-left:-3px;
-}
+} */
 .all_recipes_wrap{
     border-top:2px solid var(--secondary-color);
     padding-top:20px;
@@ -264,9 +264,9 @@
     color:#fbc418;
     margin-right:5px;
 }
-.all_recipes_wrap .main__text__sub__left .voting{
+/* .all_recipes_wrap .main__text__sub__left .voting{
     margin-left:-3px;
-}
+} */
 
 .content-bottom{
     height:40px;

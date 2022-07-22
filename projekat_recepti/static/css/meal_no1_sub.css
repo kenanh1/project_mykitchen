@@ -80,9 +80,9 @@
     color:#fbc418;
     margin-right:5px;
 }
-.main__text__sub__left .voting{
+/* .main__text__sub__left .voting{
     margin-left:-3px;
-}
+} */
 /* MEDIA SCREEN CONTENT */
 @media screen and (max-width:611px){
     .content__sub__bottom{

@@ -19,12 +19,11 @@ from django.template import loader, RequestContext
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-
+from django.db.models import Avg
 
 def home_view(request):
-    # listaRecepata = Recepti.objects.all()
     # PAGINATION 
-    p = Paginator(Recepti.objects.all(), 6)
+    p = Paginator(Recepti.objects.all().order_by("id"), 6)
     page = request.GET.get('page')
     listaRecepata = p.get_page(page)
 
@@ -52,18 +51,18 @@ def home_view(request):
         #     else:
         #         print("TRENDING")
         # print(request.is_ajax)
-        if request.is_ajax() and request.method == "GET":
-            is_dropdown = False
-            print(request.is_ajax, "OVO JE AJAX")
-            print(request.method, "OVO JE GET METODA")
+        # if request.is_ajax() and request.method == "GET":
+        #     is_dropdown = False
+        #     print(request.is_ajax, "OVO JE AJAX")
+        #     print(request.method, "OVO JE GET METODA")
             
-            dropdownOdabir = request.GET.get("word")
-            if dropdownOdabir == "zadnje_dodato":
-                allr = list(Recepti.objects.all().order_by('-datum_objave'))
-                # print(allr)
-                t = loader.get_template('home/main.html')
-                html = t.render({'allr': allr})
-                return HttpResponse(json.dumps({'html': html}))
+        #     dropdownOdabir = request.GET.get("word")
+        #     if dropdownOdabir == "zadnje_dodato":
+        #         allr = list(Recepti.objects.all().order_by('-datum_objave'))
+        #         # print(allr)
+        #         t = loader.get_template('home/main.html')
+        #         html = t.render({'allr': allr})
+        #         return HttpResponse(json.dumps({'html': html}))
                 
                 # return JsonResponse({'data':json_str}, status=200)
                 # return HttpResponse(allr)
@@ -85,6 +84,8 @@ def home_view(request):
     else:
         return render (request,"home/main.html", {"allr": listaRecepata})
 
+def contact_view(request):
+    return render(request,"contact.html")
 def recipes_view(request):
     recept = Recepti.objects.all()
     featuredRecipes = Recepti.objects.all().order_by('-datum_objave')[:6]
@@ -138,15 +139,8 @@ def jelo_view(request,id):
     tezinaPripreme = int(obj.tezina_pripreme)
     svi_korisnici = Korisnik.objects.all()
 
-    usersRated = RatingRecepta.objects.filter(recept_id=id).count() 
-    rating = RatingRecepta.objects.filter(recept_id=id).aggregate(total_rating=Sum('rating'))['total_rating']
-    ratingRecipeCheck = RatingRecepta.objects.filter(recept_id=id)
-    ratingUserCheck = RatingRecepta.objects.filter(user_id=currentCommUser)
+
     ratingCheck = RatingRecepta.objects.filter(Q(recept_id=id), Q(user_id=currentCommUser))
-    try:
-        averageRating = round(int(rating) /int(usersRated))
-    except:
-        averageRating = "-"
     
     is_rated = True
     if ratingCheck:
@@ -196,8 +190,6 @@ def jelo_view(request,id):
         "tezina_pripreme": range(tezinaPripreme),
         "svi_korisnici": svi_korisnici,
         "is_favourite":is_favourite,
-        "rating":rating,
-        "average_rating":averageRating,
         "is_rated":is_rated,
     }
     return render (request,"recipes/meal_template.html",context)
@@ -216,9 +208,16 @@ def recipe_search_view(request):
         if full_search:
             userSearch = Korisnik.objects.all().filter( user__username__icontains=full_search )
             recipeSearch = Recepti.objects.all().filter( naziv__icontains = full_search)
+            # userRecipesCount = Recepti.objects.all().filter(user_id=userSearch.id)
+            # print(userRecipesCount, "bROJ KORISNIKOVIH RECEPATA")
+            rezultat_qs = []
+            for x in userSearch:
+                rezultat = Recepti.objects.filter(user_id=x.id)
+                rezultat_qs.append(rezultat)
             context ={
                 'user_search':userSearch,
                 'recipe_search':recipeSearch,
+                'rezultat_qs':rezultat_qs,
             }
 
             return render(request,"search.html", context)
@@ -487,7 +486,7 @@ def render_pdf_view(request, id):
     allSteps = ReceptiSteps.objects.filter(recept_id = id)
     ingredientsList = Sastojci.objects.filter(recept_id = id)
 
-    template_path = 'recepti/recept_pdf.html'
+    template_path = 'recipes/recept_pdf.html'
     context = {'object': recept,'recipe_steps':allSteps, "all_ingredients":ingredientsList}
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename="{recept.naziv}.pdf"'
@@ -505,7 +504,6 @@ def render_pdf_view(request, id):
 
 def rate_recipes(request,id):
     currentUser = request.user.id
-    print(request.method)
     if request.method == 'POST':
         recept = Recepti.objects.get(id=id)
         korisnik = Korisnik.objects.get(id=currentUser)

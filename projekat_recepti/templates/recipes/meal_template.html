@@ -41,10 +41,10 @@
                         <h3>Created by <a href="#">{{ object.user.user.first_name }} {{ object.user.user.last_name }}</a></h3>
                         <p>Broj recepata: {{userRecipes}}</p>
                         <p>Datum objave: {{object.datum_objave|date:'d-m-Y'}}</p>
-                        {% if average_rating == '-' %}
-                        <p>Ocjena jela: {{average_rating}}</p>
+                        {% if object.avg_rating == None %}
+                        <p>Ocjena jela: -</p>
                         {% else %}
-                        <p>Ocjena jela: {{average_rating}} <span class="fa fa-star checked"></span></p>
+                        <p>Ocjena jela: {{object.avg_rating}}<span class="fa fa-star checked"></span></p>
                         {% endif %}
                     </div>
                     <div class="description__bottom__right">

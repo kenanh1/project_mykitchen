@@ -43,7 +43,7 @@
                 {% endif %}
 
 
-                <!-- <p class="acc-lname">prezime : <span>{{ user.last_name}}</span></p> -->
+                <p class="acc-biography">biografija : <span>{{ user.korisnik.biografija}}</span></p>
                 <p class="acc-email">email : <span>{{user.email}}</span></p>
                 <a href="{% url 'edit-acc' %}">Uredi profil</a>
             </div>
