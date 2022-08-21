@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="login-container">
+        <div class="login-text">
+            <h3>Imate profil? Prijavite se.</h3>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <div class="login-username">
+                    <p class="login-info">Korisničko ime</p>
+                    <input type="text" name="username">
+                </div>
+                <div class="login-password">
+                    <p class="login-info">Lozinka</p>
+                    <input type="password" name="password">
+                </div>
+                <div class="login-confirm">
+                    <input class="btn login_btn" type="submit" value="Prijavi se">
+                </div>
+                {% for message in messages %}
+                    {% if message.tags == "success" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Uspješno ste se registrovali.", m,"success");
+                        </script>
+                    {% elif message.tags == "info" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Vidimo se opet", m,"info");
+                        </script>
+                    {% elif message.tags == "error" %}
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script>
+                            var m = "{{message}}"
+                            swal("Ooops", m,"error");
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            </form>
+                
+        </div>
+        <div class="login-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
+            <h1>Pozdrav</h1>
+            <p>Nemate profil?<br>Kliknite dugme ispod da bi ste se registrovali.</p>
+            <a href="{% url 'register' %}">Registracija</a>
+        </div>
+    </div>
+
+    <!-- <a href="{% url 'logout' %}">Logout</a> -->
+
+{% endblock %}

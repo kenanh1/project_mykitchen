@@ -2,13 +2,12 @@
     margin:0;
     padding:0;
 }
-:root{
-    --primary-color:#eb4a36;
-}
+
 .above_footer{
-    background-color: var(--primary-color);
-    width:1180px;
-    height:300px;
+    background-color: var(--secondary-color);
+    /* width:1180px; */
+    max-width: 1180px;
+    /* height:300px; */
     border-radius:20px;
     display:flex;
     flex-direction: column;
@@ -16,27 +15,33 @@
     justify-content: center;
     margin:20px auto 40px;
     position:relative;
+    align-items: center;
+    padding:40px 0;
 }
 
 .above_footer_bottom{
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     transition:0.3s;
-    position:absolute;
+    /* max-width:650px; */
+    width:650px;
+    /* position:absolute;
     bottom:22%;
-    left:20%;
+    left:20%; */
+    background-color: var(--secondary-color);
+    align-items: center;
 }
-.above_footer_bottom:hover{
+/* .above_footer_bottom:hover{
     position:absolute;
     transform:translateY(-5px);
-}
+} */
 .above_footer_top{
     width:60%;
     align-self: center;
 }
 .above_footer_top h2{
     font-size:25px;
-    color:white;
+    color:var(--primary-color);
     margin-bottom:38px;
     font-family: 'Montserrat', sans-serif;
     font-weight:600;
@@ -45,32 +50,59 @@
 
 .subscribe_button button{
     width:150px;
+    /* max-width: 150px; */
     height:44px;
     text-decoration: none;
     border: none;
     border-radius: 25px;
     font-family: 'Montserrat', sans-serif;
-    background-color:#fbc418;
+    background-color:var(--primary-color);
     font-weight: 400;
     font-size:14px;
     text-align: center;
     cursor:pointer;
-    margin-left:18px;
+    margin-left:20px;
+    color:var(--secondary-color);
 }
 
 .email{
-    border:2px solid white;
+    border:2px solid var(--primary-color);
     outline:none;
     height:40px;
-    width: 550px;
-    background-color: var(--primary-color);
+    /* width:235%; */
+    width: 450px;
+    /* max-width:550px; */
+    background-color: var(--secondary-color);
     border-radius: 25px;
     font-family: 'Montserrat', sans-serif;
-    color:white;
+    color:var(--primary-color);
     font-size:14px;
     padding-left:20px;
 }
-
+.email_box{
+    background-color: var(--secondary-color);
+    /* max-width:550px; */
+}
 .email::placeholder{
-    color:white;
+    color:var(--primary-color);
+}
+
+/*MEDIA SCREEN CONTENT */
+
+@media (max-width: 1220px){
+    .above_footer{
+        margin:20px;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .above_footer{
+        padding:20px;
+    }
+    .above_footer_top{
+        width:100%;
+    }
+    .above_footer h2{
+        font-size:22px;
+    }
 }

@@ -1,22 +1,43 @@
-from email.policy import default
-from tkinter import CASCADE
 from django.db import models
+from multiselectfield import MultiSelectField
+from django.contrib.auth.models import User
+from tinymce.models import HTMLField
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
-# Create your models here.
-
-class Korisnici(models.Model):
-    ime     = models.CharField(max_length=15)
-    prezime = models.CharField(max_length=15)
-    email   = models.EmailField(max_length=40)
-    pretplatnik = models.BooleanField(default=False)
-    sifra = models.CharField(max_length=20)
-    slika_korisnika = models.ImageField(upload_to='slike')
-    broj_pretplatnika = models.IntegerField()
+class Korisnik(models.Model):
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='profile_avatar', default='profile_avatar/default_avatar.jpg')
+    favourites = models.ManyToManyField('Recepti', default=None, related_name="favourites", blank=True)
+    biografija = models.TextField()
 
     def __str__(self):
-        return self.ime + ' ' + self.prezime
+        if self.user:
+            return self.user.username
+    class Meta:
+        verbose_name_plural = "Korisnik"
 
+    def total_recipes(self):
+        counter = Recepti.objects.filter(user=self).count()
+        return counter
+
+    def avg_rating(self):
+        recipes = Recepti.objects.filter(user=self)
+        total = 0
+        rated = 0
+        for i in recipes:
+            ratings = RatingRecepta.objects.all().filter(recept=i).aggregate(rating_avg=Avg('rating'))
+            if ratings['rating_avg'] != None:
+                rated +=1
+                total += ratings['rating_avg']
+        if rated != 0:
+            result = total/rated
+        else:
+            result = 0
+        return (result)
+# /// ----- RECEPT MAIN MODEL START ----- ///
 class Recepti(models.Model):
+    # CHOICES FOR RATING AND NUMBER OF PEOPLE
     RATING_JELA = (
         ("1", "1"),
         ("2", "2"),
@@ -24,49 +45,7 @@ class Recepti(models.Model):
         ("4", "4"),
         ("5", "5"),
     )
-    naziv = models.CharField(max_length=50)
-    vrsta_obroka_id = models.ForeignKey(
-        'VrstaObroka',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_jela_id = models.ForeignKey(
-        'VrstaJela',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    korisnik_id = models.ForeignKey(
-        Korisnici,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    nacin_pripreme_id = models.ForeignKey(
-        'NacinPripreme',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    slika_jela = models.ImageField(upload_to='slike')
-    ocjena_jela = models.CharField(
-        max_length=20,
-        choices=RATING_JELA,
-        default=1
-        )
-    datum_objave = models.DateField()
-    kalorije = models.IntegerField()
-    tezina_pripreme = models.CharField(
-        max_length=20,
-        choices=RATING_JELA,
-        default=1
-        )
-    
-    def __str__(self):
-        return self.naziv
 
-class NacinPripreme(models.Model):
     BROJ_OSOBA = (
             ("1", "1"),
             ("2", "2"),
@@ -74,62 +53,50 @@ class NacinPripreme(models.Model):
             ("4", "4"),
             ("4+", "4+")
         )
-    recepti_id =  models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
+    
+    TEZINA_PRIPREME = (
+        ("1", "Jednostavno"),
+        ("2", "Srednje"),
+        ("3", "Komplikovano"),
     )
-    sastojak_id = models.ForeignKey(
-        'Sastojci',
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrijeme_pripreme = models.IntegerField()
-    ukupno_vrijeme_pripreme = models.IntegerField()
-    broj_osoba = models.CharField(
-        max_length=20,
-        choices=BROJ_OSOBA,
-        default=1
-    )
-    opis_jela = models.TextField()
-    # def __str__(self):
-    #     return self.recepti_id
 
-class VrstaObroka(models.Model):
     ODABIR_OBROKA = (
         ('Dorucak', 'Dorucak'),
         ('Rucak', 'Rucak'),
         ('Vecera', 'Vecera'),
         ('Poslastica', 'Poslastica'),
+        ('Uzina', 'Uzina'),
     )
-    vrsta_obroka = models.CharField(
-        max_length=10,
-        choices=ODABIR_OBROKA,
-        default="Dorucak",
-    )
-
-    def __str__(self):
-        return self.vrsta_obroka
-
     
-class VrstaJela(models.Model):
-    ODABIR_VRSTE = (
-        ('Sendvic', 'Sendvic'),
-        ('Pita', 'Pita'),
-        ('Pasta', 'Pasta'),
-        ('Kolac', 'Kolac'),
-        ('Peciva', 'Peciva'),
-    )
-    vrsta_jela = models.CharField(
-        max_length=10,
-        choices=ODABIR_VRSTE,
-        default="Sendvic",
-    )
+    naziv = models.CharField(max_length=50)
+    user = models.ForeignKey(Korisnik, blank = True, null = True, on_delete = models.CASCADE)
+    vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
+    slika_jela = models.ImageField(upload_to='slike')
+    datum_objave = models.DateField(auto_now_add=True)
+    tezina_pripreme = models.CharField(max_length=20,choices=TEZINA_PRIPREME,default=1)
+    vrijeme_pripreme = models.PositiveIntegerField()
+    broj_osoba = models.CharField(max_length=20,choices=BROJ_OSOBA,default=1)
+    opis_jela = models.TextField()
+    
     def __str__(self):
-        print(self.vrsta_jela)
-        return self.vrsta_jela
+        return self.naziv
+    class Meta:
+        verbose_name_plural = "Recepti"
+
+    def avg_rating(self):
+        ratings = RatingRecepta.objects.filter(recept=self).aggregate(rating_avg=Avg('rating'))
+        if ratings['rating_avg'] == None:
+            norating = ratings['rating_avg'] = 0
+            return(norating)
+        else:
+            return (ratings['rating_avg'])
+    
+    def total_votes(self):
+        voting = RatingRecepta.objects.filter(recept=self).count()
+        return voting
+
+
+# /// ----- RECEPTI MAIN MODEL END ----- ///
 
 class ZdravaHrana(models.Model):
     ODABIR_ZDRAVE_HRANE = (
@@ -138,97 +105,91 @@ class ZdravaHrana(models.Model):
         ('CAL', 'Niskokaloricna'),
         ('VEG', 'Veganska'),
     )
-    vrsta_jela_id = models.ForeignKey(
-        VrstaJela,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_obroka_id = models.ForeignKey(
-        VrstaObroka,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    recepti_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    vrsta_hrane = models.CharField(
-        max_length=3,
-        choices=ODABIR_ZDRAVE_HRANE,
-        default="Dijetalna",
-    )
+    recepti_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
+    vrsta_hrane = models.CharField(max_length=3, choices=ODABIR_ZDRAVE_HRANE, default="Dijetalna",)
+    class Meta:
+        verbose_name_plural = "Zdrava hrana"
 
 
 class ListaZelja(models.Model):
-    user_id = models.ForeignKey(
-        Korisnici,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    user_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
+    class Meta:
+        verbose_name_plural = "Lista želja"
 
 class VideoRecepta(models.Model):
     naziv_videa = models.CharField(max_length=120)
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    korisnik_id = models.ForeignKey(
-        Korisnici,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
+    korisnik_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
     videolink = models.URLField()
     def __str__(self):
         return self.naziv_videa
+    class Meta:
+        verbose_name_plural = "Video recepta"
 
 class Pretplatnici(models.Model):
     email = models.EmailField()
+    class Meta:
+        verbose_name_plural = "Pretplatnici"
 
 class Kontakt(models.Model):
     email = models.EmailField()
     text_poruke = models.TextField()
+    class Meta:
+        verbose_name_plural = "Kontakt"
 
 class Sastojci(models.Model):
-    recept_id = models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
+    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
     ime_sastojka = models.CharField(max_length=50)
-    broj_kalorija_sastojka = models.IntegerField()
-
+    kolicina = models.CharField(max_length=150)
+    
     def __str__(self):
         return self.ime_sastojka
+    class Meta:
+        verbose_name_plural = "Sastojci"
     
 
-class CijenaRecepta(models.Model):
-    recept_id =  models.ForeignKey(
-        Recepti,
-        blank = True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    
+class Komentari(models.Model):
+    recept = models.ForeignKey(Recepti, related_name="comments", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(Korisnik, on_delete=models.CASCADE)
+    content = models.TextField()
+    likes = models.ManyToManyField(Korisnik, blank=True, related_name='likes')
+    dislikes = models.ManyToManyField(Korisnik, blank=True, related_name='dislikes')
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+
+    def __str__(self):
+        return f"{self.user}  komentarise : {self.recept.naziv}"
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
+
+    def children(self):
+        return Komentari.objects.filter(parent=self)
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+            return False
+        return True
+
+class ReceptiSteps(models.Model):
+    recept = models.ForeignKey(Recepti, on_delete=models.CASCADE)
+    body = HTMLField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Koraci pripreme - {self.recept.naziv}"
+
+class RatingRecepta(models.Model):
+    recept = models.ForeignKey(Recepti, related_name="rating_recepta", on_delete=models.CASCADE)
+    user = models.ForeignKey(Korisnik, null=True, related_name='korisnik_rating', on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
 
 
-# TESTNA TABELA ZA HOME STRANICU
-class ReceptTest(models.Model):
-    slika_jela = models.ImageField(upload_to='slike')
-    naziv_jela = models.CharField(max_length=30)
-    kuhar = models.CharField(max_length=15)
-    ocjena = models.IntegerField()
+    def __str__(self):
+        return f"Rating: {self.recept.naziv}- {self.user.user}"
+    # def total_rating(self):
+    #     return self.user.count()

@@ -38,11 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #myapps
     'storefront.apps.StorefrontConfig',
-
+    #libs
+    'multiselectfield',
+    'tinymce',
+    'django_social_share',
+    'xhtml2pdf',
 ]
 
+SLICK_SLICKER_DEFAULT_OPTIONS = {
+    'dots': True,
+    'slidesToShow': 2,
+    'mobileFirst': False,
+    'slidesToScroll': 1,
+    'autoplay': True,
+    'autoplaySpeed': 1500
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -81,10 +94,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  
         'NAME': 'ita_projekat_recepti',  
-        'USER': 'root',  
+        'USER': 'root',
         'PASSWORD': '1234',
         'HOST': 'localhost',  
-        'PORT': '3306',  
+        'PORT': '3306',
     }
 }
 
@@ -140,3 +153,12 @@ STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'info.mojakuhinja@gmail.com'
+EMAIL_HOST_PASSWORD = 'ofbmjnjjzmznjibm'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+

@@ -1,0 +1,83 @@
+<div class="navbar__left">
+    <h2>Recepti</h2>
+    <nav>
+        <form action="{% url 'filter-recipes' %}" method="GET">
+            <ul class=navbar__list>
+
+                <li class="navbar__parent">
+                    <label onclick="navbarArrow(this)" for="btn" class="first">Vrsta jela<span class="navbar__pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 512"><path fill="var(--text-color)" d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"/></svg>
+                    </span></label>
+                    <input type="checkbox" id="btn">
+                    <ul class="navbar__children">
+                        <li class="sub__children"><input type="submit" value="Doručak" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Ručak" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Večera" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Poslastica" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Užina" name="rezultat"></li>
+                    </ul>
+                </li>
+                
+                <li class="navbar__parent">
+                    <label onclick="navbarArrow(this)" for="btn-2" class="second">Vrijeme pripreme<span class="navbar__pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 512"><path fill="var(--text-color)" d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"/></svg>
+                    </span></label>
+                    <input type="checkbox" id="btn-2">
+                    <ul class="navbar__children">
+                        <li class="sub__children"><input type="submit" value="Do 15 min" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Do 30 minuta" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Do 45 minuta" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Više od 45 minuta" name="rezultat"></li>
+
+                        <!-- <li class="sub__children">do 15 minuta</li>
+                        <li class="sub__children">do 30 minuta</li>
+                        <li class="sub__children">do 45 minuta</li>
+                        <li class="sub__children">više od 45 minuta</li> -->
+                        <!-- <li class="sub__children">Sublist item5</li> -->
+                    </ul>
+                </li>
+                <li class="navbar__parent">
+                    <label onclick="navbarArrow(this)" for="btn-3" class="third">Težina pripreme<span class="navbar__pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 512"><path fill="var(--text-color)" d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"/></svg>
+                    </span></label>
+                    <input type="checkbox" id="btn-3">
+                    <ul class="navbar__children">
+                        <li class="sub__children"><input type="submit" value="Jednostavno" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Srednje" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Komplikovano" name="rezultat"></li>
+                    </ul>
+                </li>
+                <li class="navbar__parent">
+                    <label onclick="navbarArrow(this)" for="btn-4" class="fourth">Serviranje<span class="navbar__pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 512"><path fill="var(--text-color)" d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"/></svg>
+
+                    </span></label>
+                    <input type="checkbox" id="btn-4">
+                    <ul class="navbar__children">
+                        <li class="sub__children"><input type="submit" value="Za jednu osobu" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Za dvije osobe" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Za tri osobe" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Za četiri osobe" name="rezultat"></li>
+                        <li class="sub__children"><input type="submit" value="Za više osoba" name="rezultat"></li>
+                        <!-- <li class="sub__children">Sublist item1</li>
+                        <li class="sub__children">Sublist item2</li>
+                        <li class="sub__children">Sublist item3</li>
+                        <li class="sub__children">Sublist item4</li>
+                        <li class="sub__children">Sublist item5</li> -->
+                    </ul>
+                </li>
+                <!-- <li class="navbar__parent">
+                    <label for="btn-5" class="fifth">Placeholder</label>
+                    <input type="checkbox" id="btn-5">
+                    <ul class="navbar__children">
+                        <li class="sub__children">Sublist item1</li>
+                        <li class="sub__children">Sublist item2</li>
+                        <li class="sub__children">Sublist item3</li>
+                        <li class="sub__children">Sublist item4</li>
+                        <li class="sub__children">Sublist item5</li>
+                    </ul>
+                </li> -->
+            </ul>
+        </form>
+    </nav>
+</div>

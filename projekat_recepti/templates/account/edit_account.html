@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="account-container">
+    {% include 'account/sidebar.html' %}
+    <div class="edit-account-content">
+        <div class="account-avatar-wrap">
+            <div class="account-avatar-frame">
+                <img src="{{ request.user.korisnik.avatar.url }}" alt="">
+            </div>
+            <div class="account-avatar-text">
+            </div>
+        </div>
+        <div class="edit-account-detail">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {{account_form.as_p}}
+                <p class="avatar-detail">{{avatar_form}}</p>
+                <button type="submit">Potvrdi</button>
+            </form>
+            {% for message in messages %}
+            {{message}}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

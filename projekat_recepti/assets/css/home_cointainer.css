@@ -2,27 +2,23 @@
     padding:0;
     margin:0;
 }
-:root{
-    --primary-color:#eb4a36;
-}
-/*--#eb4a36--*/
+
 /* --------------------CONTAINER DIV---------------------*/
 .container{
-    margin-top:50px;
-    margin-bottom:50px;
-    width:1180px;
-    height:1126px;
-    margin-left: auto;
-    margin-right:auto;
+    margin:40px auto;
+    /* width:1180px; */
+    max-width: 1180px;
+    /* height:1126px; */
     display:flex;
     font-family: 'Montserrat', sans-serif;
 }
 /*---navbar sa lijeve strane sa position sticky koja nam omogucava da ovaj div ostane na mjestu kada listamo stranicu---*/
 .navbar__left{
-    width:250px;
-    height:25%;
+    width:25%;
+    /* height:25%; */
     position:sticky;
     top:20%;
+    color:var(--primary-color)
 }
 .navbar__left ul{
     list-style: none;
@@ -32,8 +28,9 @@
 }
 
 .navbar__parent ul{
-    margin-left:20px;
+    padding-left:20px;
 }
+
 .first, .second, .third, .fourth, .fifth{
     cursor:pointer;
 }
@@ -42,7 +39,7 @@
     margin:7px 0;
 }
 .sub__children:hover{
-    color:var(--primary-color)
+    color:black;
 }
 /*---prvi element u listi ima drugaciju marginu da bi ga odmakli od parent liste ---*/
 .navbar__children:first-of-type{
@@ -50,7 +47,7 @@
 }
 /*children lista ima overflow koji nam omogucava da sakrijemo listu i ne zauzima prostor na stranici. */
 .navbar__children {
-    width:100%;
+    width:70%;
     height:0px;
     overflow: hidden;
     transition: 0.2s ease;
@@ -92,7 +89,8 @@
 
 /*---parent div u kojem se nalazi sadrzaj---*/
 .content{
-    width:890px;
+    /* width:890px; */
+    max-width:890px;
     height:100%;
     margin-left:38px;
 }
@@ -102,16 +100,20 @@
     margin-bottom:38px;
     display:flex;
     justify-content: space-between;
+    align-items: center;
 }
 .content__search{
     position:relative;
+    display:flex;
+    width:66%;
 }
 /*--search bar---*/
 .search_box{
     border:0;
     outline:none;
     height:40px;
-    width: 580px;
+    width:300%;
+    /* width: 580px; */
     background-color: #f9f5f4;
     border-radius: 7px;
     /* position: absolute; */
@@ -124,6 +126,7 @@
     left:10px;
     top:10px;
     font-size:20px;
+    color:var(--primary-color);
 }
 .content__sortby{
     position:relative;
@@ -145,6 +148,12 @@
     padding-left:15px;
     padding-bottom:2px;
     cursor:pointer;
+}
+.content__sortby button:hover{
+    background-color: var(--secondary-color);
+    color:var(--primary-color);
+    transition:background-color 1s;
+    border:1px solid var(--primary-color);
 }
 
 .content__sortby ul{
@@ -186,51 +195,28 @@
     transform: translateY(0px);
 }
 .content__sortby ul li:hover{
-    color:white;
-    background-color:rgb(12, 102, 236);
+    color:var(--primary-color);
+    background-color:var(--secondary-color);
 }
 
 /*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/
 .content__main{
-    height:970px;
+    max-width: 890px;
+    /* margin-bottom:38px; */
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    
+}
+
+.main__item{
+    width:266px;
+    /* max-width: 266px; */
+    height:210px;
+    cursor:pointer;
     margin-bottom:38px;
-    display:flex;
-    flex-direction: column;
-}
-.main__top__up, .main__top__down, .main__bottom__up{
-    height:25%;
-    width:100%;
-    margin-bottom: 38px;
-    display:flex;
-    justify-content: space-between;
 }
 
-.main__bottom__down{
-    height:25%;
-    width:100%;
-    display:flex;
-    justify-content: space-between;
-}
-/*---svaki item ima svoj div koji cemo kasnije podijeliti na jos dva diva -media i -text, ovdje specificiramo dimenzije svakog itema---*/
-.main__item1, .main__item4, .main__item7, .main__item10{
-    width:266px;
-    height:210px;
-    margin-right: 38px;
-    cursor:pointer;   
-}
-
-.main__item2, .main__item5, .main__item8, .main__item11{
-    width:266px;
-    height:210px;
-    margin-right: 38px;
-    cursor:pointer;
-}
-
-.main__item3,.main__item6, .main__item9, .main__item12{
-    width:266px;
-    height:210px;
-    cursor:pointer;
-}
 /*--media div dobija jos jedan poseban div zbog ikonice u gornjem desnom uglu. ovdje dodajemo sliku jela i efekat na slici*/
 .content__main .main__media{
     height:68%;
@@ -256,9 +242,14 @@
     font-size:20px;
 }
 .content__main .media__heart .fa:hover{
-    color:var(--primary-color);
+    color:#eb4a36;
     transition: 0.5s;
 }
+.heart-active .media__heart .fa{
+    color:#eb4a36;
+    transition: 0.5s;
+}
+
 /*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
 .main__text{
     display:flex;
@@ -284,7 +275,6 @@
     margin-left:-3px;
 }
 
-
 /*---donji dio sadrzaja u kojem se nalazi bar sa page-ovima---*/
 .content__bottom{
     height:40px;
@@ -292,14 +282,94 @@
     justify-content: center;
     align-items: center;
     font-size:14px;
+    border-top:2px solid var(--secondary-color);
 }
 .content__bottom a{
     text-decoration:none;
-    color:grey;
     margin:0 5px;
     font-weight: 500;
+    color:var(--primary-color);
 }
 
 .content__bottom a:hover{
     color:black;
 }
+/* ------------------MEDIA SCREEN CONTENT------------------ */
+/*MEDIA SCREEN FOR SMALL DEVICES */
+@media screen and (max-width: 516px){
+    .content__top{
+        display:flex;
+        flex-direction: column;
+        height:auto;
+        margin-bottom:20px;
+    }
+    .content__sortby{
+        align-self: center;
+        margin-top:20px;
+    }
+    .content{
+        margin:0;
+        display:flex;
+        flex-direction: column;
+    }
+    .content__main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .main__item{
+        width:266px;
+    }
+    .search_box{
+        width:100%;
+    }
+    .content__search{
+        width:100%;
+    }
+}
+@media (max-width:651px){
+    .main__item{
+        width:210px;
+        margin:10px;
+    }
+}
+
+/* MEDIA SCREEN FOR PHONE/TABLETS */
+@media (max-width: 768px){
+    .navbar__left{
+        display:none;
+    }
+    .content{
+        margin:0;
+    }
+    .main__item{
+        width:266px;
+    }
+}
+@media screen and (max-width:900px){
+    .navbar__left{
+        width:25%;
+    }
+}
+
+@media screen and (max-width:1117px){
+    .content__main{
+        justify-content: space-around;
+    }
+}
+@media screen and (max-width: 1170px){
+    .content__main{
+        justify-content: space-evenly;
+    }
+    .main__item{
+        margin:0 10px 38px;
+    }
+}
+@media (max-width: 1220px){
+    .container{
+        margin:20px;
+    }
+}
+
+
+

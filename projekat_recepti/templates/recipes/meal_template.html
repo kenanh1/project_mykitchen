@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load social_share %}
+<section>
+    <div class="meal_container">
+        <div class="product__media">
+            <div class="product__show">
+                <img src="{{ object.slika_jela.url }}" alt="food-plate1">
+            </div>
+            {% block meal-desc %}
+                {% include 'recipes/meal_description.html' %}
+            {% endblock %}
+        </div>
+        <div class="product__text">
+            <div class="product__text__top"> <!--TEXT TOP-->
+                <div class="product__preparation">
+                    <h3>Priprema</h3>
+                    {% for step in recipe_steps %}
+                    <div class="step1">
+                        <div class="step__text">
+                            <h4>{{ forloop.counter }}. korak</h4>
+                            {{step.body|safe}}
+                        </div>
+                    </div>
+                    
+                    {% endfor %}
+                    
+                </div>
+                <div class="product__ingredients">
+                    <h3>Sastojci</h3>
+                    <ul>
+                        {% for item in all_ingredients %}
+                        <li>{{item.ime_sastojka}}<span class="kalorije">{{item.kolicina}}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div> <!--TEXT TOP END-->
+            <div class="product__text__bottom">
+                {% block meal-comments %}
+                    {% include 'recipes/comments.html' %}
+                {% endblock %}
+                <div class="product__link__wrap">
+                    <div class="product__tags">
+                        <h3>Tagovi</h3>
+                        <div class="tagovi">
+                            {% for tagObroka in object.vrsta_obroka %}
+                                <a class="tag_for_product" href="#">{{tagObroka}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="product__share">
+                        <h3>Podijelite recept</h3>
+                        <div class="ikonice">
+                            {% post_to_facebook object_or_url '<span class="facebook"><i class="fa fa-facebook"></i></span>' %}
+                            {% post_to_twitter object_or_url '<span class="twitter"><i class="fa fa-twitter"></i></span>' %}
+                            <span class="linkedin"><i class="fa fa-linkedin"></i></span>
+                            <span class="instagram"><i class="fa fa-instagram"></i></span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="sub__container__recipes">
+    <div class="meal__content__sub">
+        <h2>Recepti koji bi vam se mogli svidjeti</h2>
+        <div class="content__sub__bottom">
+            {% for x in svi_recepti %}
+            {% block meal-media-template2 %}
+            {% include 'recipes/slick_meal_media.html' %}
+            {% endblock %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="contact_container">
+        <div class="contact_media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
+            <h3>Zapratite i ostanite u kontaktu sa nama</h3>
+            <div class="contact_social_icons">
+                <a href="#"><span class="facebook"><i class="fa fa-facebook"></i></span></a>
+                <a href="#"><span class="twitter"><i class="fa fa-twitter"></i></span></a>
+                <a href="https://www.linkedin.com/in/kenanh1/"><span class="linkedin"><i class="fa fa-linkedin"></i></span></a>
+                <!-- <a href="#"><span class="instagram"><i class="fa fa-instagram"></i></span></a> -->
+                <a href="#"><span class="google"><i class="fa fa-google-plus"></i></span></a>
+                <a href="#"><span class="github"><i class="fa fa-github"></i></i></span></a>
+                
+            </div>
+        </div>
+        <div class="contact_text">
+            <h3>
+                Kontaktirajte nas
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path d="M464 64C490.5 64 512 85.49 512 112C512 127.1 504.9 141.3 492.8 150.4L275.2 313.6C263.8 322.1 248.2 322.1 236.8 313.6L19.2 150.4C7.113 141.3 0 127.1 0 112C0 85.49 21.49 64 48 64H464zM217.6 339.2C240.4 356.3 271.6 356.3 294.4 339.2L512 176V384C512 419.3 483.3 448 448 448H64C28.65 448 0 419.3 0 384V176L217.6 339.2z"/></svg>
+                </span>
+            </h3>
+            <p>Imate pohvalu, kritiku ili želite prijaviti kvar na stranici? <br>Pošaljite nam poruku, rado ćemo Vas saslušati.</p>
+            <form action="{% url 'contact' %}" method="post">
+                {% csrf_token %}
+                <div class="contact-username">
+                    <span>Ime</span>
+                    {{ form.name }}
+                </div>
+                <div class="contact-email">
+                    <span>Email</span>
+                    {{ form.email }}
+                </div>
+                <div class="contact-msg">
+                    <span>Poruka</span>
+                    {{ form.message }}
+                </div>
+                <button type="submit">Pošaljite poruku</button>
+            </form>
+            
+        </div>
+    </div>
+
+{% endblock %}

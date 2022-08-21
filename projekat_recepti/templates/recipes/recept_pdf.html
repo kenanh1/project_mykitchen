@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="UTF-8">
+        <title>{{ object.naziv }}</title>   
+    </head>
+    <style>
+
+    p { font-size: 17px; font-family: Helvetica }
+    h1 { font-size: 24px; border-bottom-style:double;}
+    h2 { font-size: 17px; }
+    td { font-size: 17px;}
+
+        /* div.recipe__pdf__media{ display: inline-block; background-color: red;} */
+        /* p    {color: blue; font-family: Arial, Helvetica, sans-serif;}
+        h2    {color: red; margin-bottom: "-20pt"}
+        span {color:yellowgreen} */
+    </style>
+    <body>
+            {% load static %}
+            <!-- <div class="recipe__pdf__wrapper">
+                <div class="recipe__pdf__media" style="display: inline-block;">
+                    <div class="recipe__pdf__image" width="100px" height="100px" style="background-color: blue;">
+                        <img src="media/{{ object.slika_jela }}" alt="food-plate1" >
+                    </div>
+                    <div class="description__top" style="background-color: yellowgreen;">
+                        <h1>{{ object.naziv }}</h1>
+                    </div>
+                </div>
+
+                <div class="recipe__pdf__description">
+                    <p>{{object.opis_jela}}</p>
+                </div>
+                <div class="recipe__pdf__info" style="background-color:red; width: 200px;">
+                    <p style="background-color:rgb(7, 45, 81);" width="200px">{{object.vrijeme_pripreme}}</p>
+                    <p>{{object.tezina_pripreme}}</p>
+                    <p>{{object.broj_osoba}}</p>
+
+                </div>
+                <div class="recipe__pdf__details"></div>
+            </div> -->
+            <h1>{{ object.naziv }}</h1>
+            <img src="media/{{ object.slika_jela }}" alt="food-plate1" width="100%" height="300px">
+            <h2>Opis jela:</h2>
+            <p>{{object.opis_jela}}</p>
+            <hr>
+            <br>
+            <table>
+                <tr>
+                    <td>Vrijeme pripreme : {{object.vrijeme_pripreme}} min.</td>
+                    <td>Težina pripreme : {{object.tezina_pripreme}}</td>
+                    <td>Broj osoba : {{object.broj_osoba}}</td>
+                </tr>
+            </table>
+            <hr>
+            <h2>Sastojci</h2>
+            <table>
+
+                    {% for item in all_ingredients %}
+                    <tr>
+                        <td>{{item.ime_sastojka}}</td>
+                        <td>{{item.kolicina}}</td>
+                    </tr>
+                    {% endfor %}
+            </table>
+            <hr>
+            <h2>Priprema</h2>
+            {% for step in recipe_steps %}
+                <h2>{{ forloop.counter }}. korak</h2>
+                {{step.body|safe }}
+                <hr>
+            {% endfor %}
+    </body>
+</html>

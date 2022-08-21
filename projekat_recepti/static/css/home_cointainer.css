@@ -5,12 +5,10 @@
 
 /* --------------------CONTAINER DIV---------------------*/
 .container{
-    margin-top:50px;
-    margin-bottom:50px;
-    width:1180px;
+    margin:40px auto;
+    /* width:1180px; */
+    max-width: 1180px;
     /* height:1126px; */
-    margin-left: auto;
-    margin-right:auto;
     display:flex;
     font-family: 'Montserrat', sans-serif;
 }
@@ -20,28 +18,56 @@
     height:25%;
     position:sticky;
     top:20%;
-    color:var(--primary-color)
+    color:var(--primary-color);
+
 }
 .navbar__left ul{
     list-style: none;
     font-size:16px;
     font-weight:500;
     margin-bottom:15px;
+    color:var(--text-color);
 }
 
-.navbar__parent ul{
-    padding-left:20px;
+.navbar__parent label span{
+    /* background-color: red; */
+    float:right;
+}
+.fa-angle-left{
+    transform: scale(1.5,1);
+    transition:0.5s ease-in-out;
 }
 
 .first, .second, .third, .fourth, .fifth{
     cursor:pointer;
+    /* background-color: red;
+    width:inherit; */
+}
+.navbar__children input{
+    border:none;
+    background-color: transparent;
+    /* background-color: blue; */
+    font-family: 'Montserrat', sans-serif;
+    /* color:red; */
+    width:110%;
+    text-align: start;
+    padding:2px 0 2px 40px;
+    margin-left:-20px;
+    font-weight:500;
+}
+.navbar__children input:hover{
+    color:white;
+    background-color: var(--primary-color);
 }
 .navbar__children li{
     font-size:14px;
-    margin:7px 0;
+    margin:5px 0;
+    /* padding-left:20px; */
+    /* padding:2px 0 2px 20px; */
 }
 .sub__children:hover{
-    color:black;
+    color:white;
+    background-color: var(--primary-color);
 }
 /*---prvi element u listi ima drugaciju marginu da bi ga odmakli od parent liste ---*/
 .navbar__children:first-of-type{
@@ -49,10 +75,10 @@
 }
 /*children lista ima overflow koji nam omogucava da sakrijemo listu i ne zauzima prostor na stranici. */
 .navbar__children {
-    width:70%;
+    width:92%;
     height:0px;
     overflow: hidden;
-    transition: 0.2s ease;
+    transition: 0.5s ease;
 }
 
 /*--input btn stavljamo da se ne vidi pomocu opacity, kada je cekiran onda nam prikazuje listu.---*/
@@ -60,10 +86,10 @@
 #btn:checked + .navbar__children {height: 130px;}
 
 #btn-2 {opacity: 0; height: 0px;}
-#btn-2:checked + .navbar__children {height: 130px;}
+#btn-2:checked + .navbar__children {height: 100px;}
 
 #btn-3 {opacity: 0; height: 0px;}
-#btn-3:checked + .navbar__children {height: 130px;} 
+#btn-3:checked + .navbar__children {height: 75px;} 
 
 #btn-4 {opacity: 0; height: 0px;}
 #btn-4:checked + .navbar__children {height: 130px;} 
@@ -71,13 +97,13 @@
 #btn-5 {opacity: 0; height: 0px;}
 #btn-5:checked + .navbar__children {height: 130px;}
 /*--- label sa after elementom koji nam sluzi da bi dodali + na kraju svake parent liste*/
-.navbar__left label::after{
+/* .navbar__left label::after{
     content:"+";
     font-size:20px;
     width:16px;
     height:16px;
     float:right;
-}
+} */
 
 .navbar__left a{
     text-decoration:none;
@@ -92,6 +118,7 @@
 /*---parent div u kojem se nalazi sadrzaj---*/
 .content{
     width:890px;
+    /* max-width:890px; */
     height:100%;
     margin-left:38px;
 }
@@ -101,21 +128,27 @@
     margin-bottom:38px;
     display:flex;
     justify-content: space-between;
+    align-items: center;
 }
 .content__search{
     position:relative;
+    display:flex;
+    width:66%;
 }
 /*--search bar---*/
 .search_box{
     border:0;
     outline:none;
     height:40px;
-    width: 580px;
+    width:300%;
+    /* width: 580px; */
     background-color: #f9f5f4;
     border-radius: 7px;
-    /* position: absolute; */
     padding-left:40px;
     font-family: 'Montserrat', sans-serif;
+}
+.search_box::placeholder{
+    color:var(--text-color);
 }
 /*--font awesome ikonica za search bar---*/
 .content__search .fa{
@@ -124,94 +157,53 @@
     top:10px;
     font-size:20px;
     color:var(--primary-color);
-}
-.content__sortby{
-    position:relative;
+    cursor:pointer;
 }
 
 /*--- sort by button--*/
-.content__sortby button{
+#sortby{
     background-color: var(--primary-color);
-    width:157px;
-    height:30px;
     text-decoration: none;
-    border: none;
+    border: 1px solid var(--primary-color);
     border-radius: 20px;
+    outline:none;
     font-family: 'Montserrat', sans-serif;
-    color:white;
+    color: white;
     font-weight: 600;
-    font-size:12px;
-    text-align: left;
-    padding-left:15px;
-    padding-bottom:2px;
-    cursor:pointer;
+    font-size: 12px;
+    cursor: pointer;
+    padding:7px 40px 7px 20px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 3px;
 }
-.content__sortby button:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 1s;
-    border:1px solid var(--primary-color);
-}
-
-.content__sortby ul{
-    opacity: 0;
-    display:flex;
-    flex-direction:column;
-    margin:-15px 0 0 0;
-    padding:0;
-    align-items:center;
-    list-style: none;
-    position:absolute;
-    left:5px;
-    top:45px;
-    width:147px;
-    height: 45px;
-    font-size:12px;
-    background: var(--primary-color);
-    pointer-events: none;
-    transform: translateY(-10px);
-    transition: all 0.4s ease;
-    color:white;
-    border:1px solid grey;
-}
-
-.content__sortby ul li{
-    display:flex;
-    flex-direction:column;
-    width: 91%;
-    height: 100%;
-    text-align: start;
-    justify-content: center;
-    color:rgb(255, 255, 255);
-    padding-left:15px;
-}
-
-.content__sortby button:focus + ul {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateY(0px);
-}
-.content__sortby ul li:hover{
-    color:var(--primary-color);
-    background-color:var(--secondary-color);
+#sortby >option{
+    font-weight: 500;
 }
 
 /*---glavni dio sadrzaja koji je podjeljen na jos 4 diva---*/
 .content__main{
-    /* height:100%; */
-    margin-bottom:38px;
+    max-width: 890px;
+    margin-left:-14px;
+    margin-right:-14px;
     display:flex;
     flex-wrap:wrap;
-    justify-content: space-between;
-    
+    /* justify-content: space-between; */
+}
+.empty-search-result{
+    margin-left:14px;
+    padding-bottom:10px;
 }
 
 .main__item{
     width:266px;
+    /* max-width: 266px; */
     height:210px;
     cursor:pointer;
-    margin-bottom:38px;
-    /* margin:10px; */
+    /* margin-bottom:38px; */
+    margin:0 14px 38px;
 }
 
 /*--media div dobija jos jedan poseban div zbog ikonice u gornjem desnom uglu. ovdje dodajemo sliku jela i efekat na slici*/
@@ -231,17 +223,41 @@
 .content__main .main__media img:hover{
     opacity:0.8;
 }
-.content__main .media__heart .fa{
-    color:white;
+
+.recipe__checked{
+    border:none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(249, 245, 244, 0.5);
     position:absolute;
-    right:15px;
-    top:15px;
-    font-size:20px;
+    top: 5px;
+    right:10px;
+    cursor:pointer;
+    /* opacity:0; */
 }
-.content__main .media__heart .fa:hover{
-    color:#eb4a36;
-    transition: 0.5s;
+.recipe__unchecked{
+    border:none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(249, 245, 244, 0.5);
+    position:absolute;
+    top: 5px;
+    right:10px;
+    cursor:pointer;
+    opacity:0;
 }
+.slick__main__item:hover .recipe__unchecked{
+    opacity:1;
+}
+.main__item:hover .recipe__unchecked{
+    opacity:1;
+}
+.recipe__checked svg, .recipe__unchecked svg{
+    margin-top:3px;
+}
+
 /*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
 .main__text{
     display:flex;
@@ -259,13 +275,18 @@
     justify-content: space-between;
     font-weight:400;
 }
+.main__text__sub a{
+    text-decoration: none;
+    color:var(--primary-color);
+    font-weight: 500;
+}
 .main__text .fa{
     color:#fbc418;
     margin-right:5px;
 }
-.main__text__sub__left .voting{
+/* .main__text__sub__left .voting{
     margin-left:-3px;
-}
+} */
 
 /*---donji dio sadrzaja u kojem se nalazi bar sa page-ovima---*/
 .content__bottom{
@@ -274,13 +295,100 @@
     justify-content: center;
     align-items: center;
     font-size:14px;
+    border-top:2px solid var(--secondary-color);
 }
 .content__bottom a{
     text-decoration:none;
-    margin:0 5px;
+    margin:5px 4px 0;
     font-weight: 500;
+    color:var(--primary-color);
+}
+.content__bottom p{
+    color:var(--primary-color);
+    font-weight: 500;
+    margin:0 5px;
 }
 
 .content__bottom a:hover{
     color:black;
 }
+
+/* ------------------MEDIA SCREEN CONTENT------------------ */
+/*MEDIA SCREEN FOR SMALL DEVICES */
+@media screen and (max-width: 516px){
+    .content__top{
+        display:flex;
+        flex-direction: column;
+        height:auto;
+        margin-bottom:20px;
+    }
+    .content__sortby{
+        align-self: center;
+        margin-top:20px;
+    }
+    .content{
+        margin:0;
+        display:flex;
+        flex-direction: column;
+    }
+    .content__main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .main__item{
+        width:266px;
+    }
+    .search_box{
+        width:100%;
+    }
+    .content__search{
+        width:100%;
+    }
+}
+@media (max-width:651px){
+    .main__item{
+        width:210px;
+        margin:10px;
+    }
+}
+
+/* MEDIA SCREEN FOR PHONE/TABLETS */
+@media (max-width: 768px){
+    .navbar__left{
+        display:none;
+    }
+    .content{
+        margin:0;
+    }
+    .main__item{
+        width:266px;
+    }
+}
+@media screen and (max-width:900px){
+    .navbar__left{
+        width:25%;
+    }
+}
+
+@media screen and (max-width:1117px){
+    .content__main{
+        justify-content: space-around;
+    }
+}
+@media screen and (max-width: 1170px){
+    .content__main{
+        justify-content: space-evenly;
+    }
+    .main__item{
+        margin:0 10px 38px;
+    }
+}
+@media (max-width: 1220px){
+    .container{
+        margin:20px;
+    }
+}
+
+
+

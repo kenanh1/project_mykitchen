@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="account-container">
+    {% include 'account/sidebar.html' %}
+    <div class="account-content-wrap">
+        {% for message in messages %}
+                {% if message.tags == "success" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Pozdrav {{user.username}}", m,"success");
+                </script>
+                {% endif %}
+        {% endfor %}
+        <div class="account-content-title">
+            <h2>Moj profil</h2>
+        </div>
+        <div class="account-content">
+            <div class="account-avatar-wrap">
+                <div class="account-avatar-frame">
+                    <!-- <img src="{{ user.korisnik.avatar.url }}" alt=""> -->
+                    {% if user.korisnik.avatar.url %}
+                    <img src="{{ user.korisnik.avatar.url }}" alt="">
+                    {% else %}
+                    <img src="{% static 'images/avatar-men.png' %}" alt="">
+                    {% endif %}
+                </div>
+                <div class="account-avatar-text">
+                </div>
+            </div>
+            <div class="account-detail-wrap">
+                <p class="acc-username">korisničko ime : <span>{{ user.username}}</span></p>
+                {% if user.first_name %}
+                <p class="acc-fname">ime : <span>{{ user.first_name}}</span></p>
+                {% else %}
+                <p class="acc-fname">ime : <span>-</span></p>
+                {% endif %}
+                {% if user.last_name %}
+                <p class="acc-lname">prezime : <span>{{ user.last_name}}</span></p>
+                {% else %}
+                <p class="acc-lname">prezime : <span>-</span></p>
+                {% endif %}
+
+
+                <p class="acc-biography">biografija : <span>{{ user.korisnik.biografija}}</span></p>
+                <p class="acc-email">email : <span>{{user.email}}</span></p>
+                <a href="{% url 'edit-acc' %}">Uredi profil</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

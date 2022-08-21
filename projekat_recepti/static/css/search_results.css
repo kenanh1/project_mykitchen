@@ -1,0 +1,61 @@
+.search-users-media-wrapper{
+    margin:0 14px;
+}
+.search_container_wrapper{
+    font-family: 'Montserrat', sans-serif;
+    width: 1180px;
+    margin:0 auto;
+}
+.user-search-wrapper{
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom:20px;
+}
+.user-search-wrapper h3, .recipe-search-wrapper h3{
+    margin-bottom: 15px;
+}
+.search-result-display{
+    display: flex;
+    flex-wrap: wrap;
+}
+.recipe-search-wrapper{
+    padding:20px 0;
+    
+}
+.search-users-media-wrapper{
+    background-color: var(--secondary-color);
+    display:flex;
+    width:200px;
+    height: 100px;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.search-users-media img{
+    width:75px;
+    border-radius: 10px;
+    margin-left:12.5px;
+}
+
+.search-users-info{
+    margin-left:10px;
+    justify-self: center;
+}
+.search-users-info a{
+    text-decoration: none;
+    font-weight: 500;
+    color:black;
+    text-align: center;
+    display: block;
+
+}
+
+.search-users-info span{
+    font-size:10px;
+}
+.search_foodicon, .search_staricon{
+    margin:0 2px 0 10px;
+}
+
+.search-users-details{
+    display:flex;
+}
