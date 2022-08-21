@@ -4,28 +4,27 @@
 
     <div class="login-container">
         <div class="login-text">
-            <h3>Got account? Login here.</h3>
+            <h3>Imate profil? Prijavite se.</h3>
             <form method="POST" action="">
                 {% csrf_token %}
 
                 <div class="login-username">
-                    <p class="login-info">Username</p>
+                    <p class="login-info">Korisničko ime</p>
                     <input type="text" name="username">
                 </div>
                 <div class="login-password">
-                    <p class="login-info">Password</p>
+                    <p class="login-info">Lozinka</p>
                     <input type="password" name="password">
                 </div>
-                
                 <div class="login-confirm">
-                    <input class="btn login_btn" type="submit" value="Login">
+                    <input class="btn login_btn" type="submit" value="Prijavi se">
                 </div>
                 {% for message in messages %}
                     {% if message.tags == "success" %}
                         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                         <script>
                             var m = "{{message}}"
-                            swal("Uspješna registracija", m,"success");
+                            swal("Uspješno ste se registrovali.", m,"success");
                         </script>
                     {% elif message.tags == "info" %}
                         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -37,7 +36,7 @@
                         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                         <script>
                             var m = "{{message}}"
-                            swal("Greška!", m,"error");
+                            swal("Ooops", m,"error");
                         </script>
                     {% endif %}
                 {% endfor %}
@@ -45,9 +44,9 @@
                 
         </div>
         <div class="login-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
-            <h1>Hello there?</h1>
-            <p>Don't have an account?<br>Click button bellow to join us.</p>
-            <a href="{% url 'register' %}">Register</a>
+            <h1>Pozdrav</h1>
+            <p>Nemate profil?<br>Kliknite dugme ispod da bi ste se registrovali.</p>
+            <a href="{% url 'register' %}">Registracija</a>
         </div>
     </div>
 

@@ -18,34 +18,56 @@
     height:25%;
     position:sticky;
     top:20%;
-    color:var(--primary-color)
+    color:var(--primary-color);
+
 }
 .navbar__left ul{
     list-style: none;
     font-size:16px;
     font-weight:500;
     margin-bottom:15px;
-    color:var(--text-color)
+    color:var(--text-color);
 }
 
-.navbar__parent ul{
-    padding-left:20px;
+.navbar__parent label span{
+    /* background-color: red; */
+    float:right;
+}
+.fa-angle-left{
+    transform: scale(1.5,1);
+    transition:0.5s ease-in-out;
 }
 
 .first, .second, .third, .fourth, .fifth{
     cursor:pointer;
+    /* background-color: red;
+    width:inherit; */
 }
 .navbar__children input{
     border:none;
     background-color: transparent;
+    /* background-color: blue; */
     font-family: 'Montserrat', sans-serif;
+    /* color:red; */
+    width:110%;
+    text-align: start;
+    padding:2px 0 2px 40px;
+    margin-left:-20px;
+    font-weight:500;
+}
+.navbar__children input:hover{
+    color:white;
+    background-color: var(--primary-color);
 }
 .navbar__children li{
     font-size:14px;
-    margin:7px 0;
+    margin:5px 0;
+    /* padding-left:20px; */
+    /* padding:2px 0 2px 20px; */
 }
 .sub__children:hover{
-    color:black;
+    color:white;
+    background-color: var(--primary-color);
 }
 /*---prvi element u listi ima drugaciju marginu da bi ga odmakli od parent liste ---*/
 .navbar__children:first-of-type{
@@ -53,10 +75,10 @@
 }
 /*children lista ima overflow koji nam omogucava da sakrijemo listu i ne zauzima prostor na stranici. */
 .navbar__children {
-    width:70%;
+    width:92%;
     height:0px;
     overflow: hidden;
-    transition: 0.2s ease;
+    transition: 0.5s ease;
 }
 
 /*--input btn stavljamo da se ne vidi pomocu opacity, kada je cekiran onda nam prikazuje listu.---*/
@@ -64,10 +86,10 @@
 #btn:checked + .navbar__children {height: 130px;}
 
 #btn-2 {opacity: 0; height: 0px;}
-#btn-2:checked + .navbar__children {height: 130px;}
+#btn-2:checked + .navbar__children {height: 100px;}
 
 #btn-3 {opacity: 0; height: 0px;}
-#btn-3:checked + .navbar__children {height: 130px;} 
+#btn-3:checked + .navbar__children {height: 75px;} 
 
 #btn-4 {opacity: 0; height: 0px;}
 #btn-4:checked + .navbar__children {height: 130px;} 
@@ -75,13 +97,13 @@
 #btn-5 {opacity: 0; height: 0px;}
 #btn-5:checked + .navbar__children {height: 130px;}
 /*--- label sa after elementom koji nam sluzi da bi dodali + na kraju svake parent liste*/
-.navbar__left label::after{
+/* .navbar__left label::after{
     content:"+";
     font-size:20px;
     width:16px;
     height:16px;
     float:right;
-}
+} */
 
 .navbar__left a{
     text-decoration:none;
@@ -169,7 +191,10 @@
     display:flex;
     flex-wrap:wrap;
     /* justify-content: space-between; */
-    
+}
+.empty-search-result{
+    margin-left:14px;
+    padding-bottom:10px;
 }
 
 .main__item{
@@ -198,19 +223,40 @@
 .content__main .main__media img:hover{
     opacity:0.8;
 }
-.main__bookmark button{
+
+.recipe__checked{
+    border:none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(249, 245, 244, 0.5);
     position:absolute;
     top: 5px;
     right:10px;
-    border:none;
-    background: transparent;
     cursor:pointer;
+    /* opacity:0; */
 }
-.main__bookmark svg:hover{
-    padding:5px 0 0 0;
-    transition:0.3s ease-in-out;
+.recipe__unchecked{
+    border:none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(249, 245, 244, 0.5);
+    position:absolute;
+    top: 5px;
+    right:10px;
+    cursor:pointer;
+    opacity:0;
 }
-
+.slick__main__item:hover .recipe__unchecked{
+    opacity:1;
+}
+.main__item:hover .recipe__unchecked{
+    opacity:1;
+}
+.recipe__checked svg, .recipe__unchecked svg{
+    margin-top:3px;
+}
 
 /*---div text sadrzi h3 naslov i sub div koji kasnije dijelimo na jos dva diva sub-left i sub-right*/
 .main__text{

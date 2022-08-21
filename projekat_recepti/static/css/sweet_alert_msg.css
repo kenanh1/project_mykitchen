@@ -3,17 +3,10 @@
 }
 
 
-.swal-icon--success__line{
-    background-color: var(--primary-color);
-}
 
-.swal-icon--success__ring{
-    border: 4px solid hsla(19, 73%, 45%, 0.3);
-}
-
-.swal-modal{
+/* .swal-modal{
     width:350px;
-}
+} */
 
 /* .swal-button-confirm:hover{
     background-color: red;

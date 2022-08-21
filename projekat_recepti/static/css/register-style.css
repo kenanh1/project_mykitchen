@@ -54,8 +54,7 @@
 
 .register-submit input{
     background-color: var(--primary-color);
-    width: 120px;
-    height: 32px;
+    padding:7px 20px;
     border: 2px solid var(--primary-color);
     border-radius: 20px;
     font-family: 'Montserrat', sans-serif;

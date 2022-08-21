@@ -9,7 +9,6 @@ console.log(one)
 
 // get the form, confirm-box and csrf token
 const form = document.querySelector('.rate-form')
-// const confirmBox = document.getElementById('confirm-box')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
 const handleStarSelect = (size) => {
@@ -53,81 +52,9 @@ const handleSelect = (selection) => {
 
 }
 
-// const getNumericValue = (stringValue) =>{
-//     let numericValue;
-//     if (stringValue === 'first') {
-//         numericValue = 1
-//     } 
-//     else if (stringValue === 'second') {
-//         numericValue = 2
-//     }
-//     else if (stringValue === 'third') {
-//         numericValue = 3
-//     }
-//     else if (stringValue === 'fourth') {
-//         numericValue = 4
-//     }
-//     else if (stringValue === 'fifth') {
-//         numericValue = 5
-//     }
-//     else {
-//         numericValue = 0
-//     }
-//     return numericValue
-// }
 
-// if (one) {
-    // const arr = [one, two, three, four, five]
+const arr = [one, two, three, four, five]
 
-    // arr.forEach(item=> item.addEventListener('mouseover', (event)=>{
-    //     handleSelect(event.target.id)
-    // }))
-
-    // arr.forEach(item=> item.addEventListener('click', (event)=>{
-    //     value of the rating not numeric
-    //     const val = event.target.id
-        
-    //     let isSubmit = false
-    //     form.addEventListener('submit', e=>{
-    //         e.preventDefault()
-    //         if (isSubmit) {
-    //             return
-    //         }
-    //         isSubmit = true
-    //         // picture id
-    //         const id = e.target.id
-    //         console.log(id)
-            
-    //         value of the rating translated into numeric
-    //         const val_num = getNumericValue(val)
-
-    //         $.ajax({
-    //             type: 'POST',
-    //             url: '/rate/',
-    //             url: `/jelo/${id}/`,
-    //             data: {
-    //                 'csrfmiddlewaretoken': csrf[1].value,
-    //                 'el_id': id,
-    //                 'val': val_num,
-    //             },
-    //             success: function(response){
-    //                 console.log("USPJELI STE")
-    //                 contentDiv.innerHTML = '{{comment_form.as_p}}'
-
-                    
-    //             },
-    //             error: function(error){
-    //                 console.log(error)
-                    
-    //             }
-    //         })
-    //     })
-    // }))
-// }
-
-
-    const arr = [one, two, three, four, five]
-
-    arr.forEach(item=> item.addEventListener('mouseover', (event)=>{
-        handleSelect(event.target.id)
-    }))
+arr.forEach(item=> item.addEventListener('mouseover', (event)=>{
+    handleSelect(event.target.id)
+}))

@@ -3,11 +3,11 @@
 {% block content %}
 <div class="register-container">
     <div class="register-text">
-        <h3>Enjoying us? Register here.</h3>
+        <h3>Niste registrovani? <br>Registrujte se u par koraka.</h3>
         <form method="POST" action="">
             {% csrf_token %}
             <div class="register-username">
-                <span>Username</span>
+                <span>Korisničko ime</span>
                 {{ form.username }}
             </div>
             <div class="register-email">
@@ -15,15 +15,15 @@
                 {{ form.email }}
             </div>
             <div class="register-password">
-                <span>Password</span>
+                <span>Lozinka</span>
                 {{ form.password1 }}
             </div>
             <div class="register-password-confirm">
-                <span>Password confirmation </span>
+                <span>Potvrdite lozinku</span>
                 {{ form.password2 }}
             </div>
             <div class="register-submit">
-                <input type="submit" name="Create User">
+                <input type="submit" name="Create User" value="Registrujte se">
             </div>
         </form>
 
@@ -38,9 +38,9 @@
         {% endfor %}
     </div>
     <div class="register-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
-        <h1>Welcome back</h1>
-        <p>Already have an account?<br>Click button bellow to login to your account.</p>
-        <a href="{% url 'login' %}">Login</a>
+        <h1>Dobrodošli nazad</h1>
+        <p>Već ste registrovani?<br>Kliknite dugme ispod da bi se prijavili.</p>
+        <a href="{% url 'login' %}">Prijava</a>
     </div>
 </div>
 

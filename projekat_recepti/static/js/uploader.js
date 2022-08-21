@@ -24,6 +24,7 @@ function add_new_step(event){
 
     tinymce.init({
         selector: `#id_form-${currentStepsCount}-body`,
+        content_css:"{% static 'css/meal_no1_container.css' %}",
         plugins: "insertdatetime media image preview",
         toolbar: "bold italic | alignleft alignright aligncenter alignjustify | image media | preview",
         image_title: true,
@@ -31,6 +32,8 @@ function add_new_step(event){
         automatic_uploads: true,
         image_advtab: true,
         file_picker_types: "image media",
+        extended_valid_elements : "span[!class]",
+        'paste_remove_spans': true,
 
         file_picker_callback: function (cb, value, meta) {
         var input = document.createElement("input");
@@ -55,7 +58,8 @@ function add_new_step(event){
         };
         input.click();
         },
-        content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+        // content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+        content_style: "span { font-family: 'Montserrat', sans-serif; font-size:14px }"
     });
     
     console.log(totalSteps.value)
@@ -63,11 +67,3 @@ function add_new_step(event){
         stepBtn.disabled = true;
     }
 }
-
-
-// function deleteStepField(element){
-//     let formParentDiv = element.closest(".step-form");
-//     formParentDiv.parentNode.removeChild(formParentDiv);
-//     const currentStepsCount = currentSteps.length
-//     totalSteps.setAttribute("value", currentStepsCount)
-// }

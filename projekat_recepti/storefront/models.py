@@ -53,6 +53,12 @@ class Recepti(models.Model):
             ("4", "4"),
             ("4+", "4+")
         )
+    
+    TEZINA_PRIPREME = (
+        ("1", "Jednostavno"),
+        ("2", "Srednje"),
+        ("3", "Komplikovano"),
+    )
 
     ODABIR_OBROKA = (
         ('Dorucak', 'Dorucak'),
@@ -67,7 +73,7 @@ class Recepti(models.Model):
     vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
     slika_jela = models.ImageField(upload_to='slike')
     datum_objave = models.DateField(auto_now_add=True)
-    tezina_pripreme = models.CharField(max_length=20,choices=RATING_JELA,default=1)
+    tezina_pripreme = models.CharField(max_length=20,choices=TEZINA_PRIPREME,default=1)
     vrijeme_pripreme = models.PositiveIntegerField()
     broj_osoba = models.CharField(max_length=20,choices=BROJ_OSOBA,default=1)
     opis_jela = models.TextField()
@@ -79,7 +85,11 @@ class Recepti(models.Model):
 
     def avg_rating(self):
         ratings = RatingRecepta.objects.filter(recept=self).aggregate(rating_avg=Avg('rating'))
-        return (ratings['rating_avg'])
+        if ratings['rating_avg'] == None:
+            norating = ratings['rating_avg'] = 0
+            return(norating)
+        else:
+            return (ratings['rating_avg'])
     
     def total_votes(self):
         voting = RatingRecepta.objects.filter(recept=self).count()

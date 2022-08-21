@@ -4,6 +4,7 @@
 }
 :root{
     --primary-color:#c7551f;
+    /* --primary-color:#c89e85; */
     --secondary-color:#f9ebe5;
     --tertiary-color:#dbdbdb;
     --text-color:grey;
@@ -79,11 +80,10 @@
     transform-origin: bottom left;
 }
 .active-link a{
-    background-color: var(--primary-color);
-    color:white;
+    color:var(--primary-color);
     padding:2px 4px;
-    font-weight: 300;
-    border-radius: 5px;
+    font-weight: 600;
+
 }
 .active-link a:hover:after{
     text-decoration: none;
@@ -133,6 +133,9 @@
 .header-search button{
     border:none;
     background-color: transparent;
+    /* background-color: red; */
+    /* padding:5px 5px 4px 5px; */
+    /* border-radius:50%; */
     position:relative;
     top:-30px;
     float:right;
@@ -140,6 +143,11 @@
     margin-right:20px;
     opacity: 0;
     transition: opacity 0.8s ease-in;
+}
+.header-search svg:hover{
+    fill:var(--text-color);
+    transition:fill 0.5s ease-out;
+
 }
 
 .header-search svg{
@@ -160,6 +168,7 @@
 
 #search_click {opacity: 0; width: 0px;}
 #search_click:checked + .search_slide {width: 350px;}
+
 
 .header-signin a{
     text-decoration:none;
@@ -197,6 +206,7 @@
     font-size: 14px;
     border: 2px solid var(--primary-color);
     margin-left:20px;
+    font-weight: 500;
 }
 
 .header-signup a:hover{
@@ -208,7 +218,7 @@
 .header-signup-active{
     margin-top:1px;
     display:flex;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     /* margin-left:30px; */
     margin-right:10px;
     /* color: var(--primary-color); */
@@ -231,6 +241,9 @@
     margin-top:5px;
     margin-left:5px;
 }
+/* .header-signup-active svg{
+    margin-top:5px;
+} */
 
 /* NAVBAR BURGER MENU ON CLICK */
 .menu-bar{

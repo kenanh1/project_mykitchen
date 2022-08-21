@@ -19,15 +19,23 @@ class CreateUserForm(UserCreationForm):
         username = self.cleaned_data.get('username')
         username_check = User.objects.filter(username=username)
         if username_check.exists():
-            raise forms.ValidationError("username is taken")
+            raise forms.ValidationError("korisničko ime je zauzeto")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         email_check = User.objects.filter(email=email)
         if email_check.exists():
-            raise forms.ValidationError("email is taken")
+            raise forms.ValidationError("email adresa je zauzeta")
         return email
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 != password2:
+            raise forms.ValidationError("lozinke se ne poklapaju")
+        return password2
 
 
 class EditUserProfileForm(forms.ModelForm):
@@ -103,3 +111,9 @@ class updateSastojkeForm(forms.ModelForm):
             'ime_sastojka',
             'kolicina'
         )
+
+
+class ContactForm(forms.Form):
+	name = forms.CharField(max_length = 50)
+	email = forms.EmailField(max_length = 150)
+	message = forms.CharField(widget = forms.Textarea, max_length = 2000)

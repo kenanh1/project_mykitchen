@@ -2,11 +2,11 @@
 <div class="hero-container" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
     <div class="hero-text">
         <h1>Izaberite svoj recept za danas</h1>
-        <p >Appropriately integrate technically sound value with scalable infomediaries negotiate sustainable strategic theme areas</p>
+        <p>Kuhanje zahtijeva pažnju, strpljenje i iznad svega poštovanje darova zemlje. To je oblik obožavanja, način zahvalnosti.</p>
         {% if user.is_authenticated %}
-        <a href="{% url 'addrecipe' %}">Šta kuhamo danas?</a>
+        <a href="{% url 'addrecipe' %}">Imate inspiraciju?</a>
         {% else %}
-        <a href="{% url 'register' %}">Registruj se vec danas &#129122</a>
+        <a href="{% url 'register' %}">Registrujte se vec danas &#129122</a>
         {% endif %}
     </div>
 </div>

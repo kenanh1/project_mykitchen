@@ -2,6 +2,7 @@
     margin:0;
     padding:0;
 }
+
 .meal_container{
     max-width:1180px;
     height:100%;
@@ -156,11 +157,13 @@
     padding:6px 1px 0 18px;
     position:relative;
     width: 100%;
+    font-family: 'Montserrat', sans-serif;
 }
 .step__text h4{
     color:var(--primary-color);
     margin-bottom:18px;
     display: flex;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .step__text h4::after{
@@ -173,6 +176,9 @@
     margin-left:10px;
     opacity:0.2;
     align-self: flex-end;
+}
+.step__text span{
+    font-family: 'Montserrat', sans-serif;
 }
 
 #step_btn {opacity: 0; width: 0px;}
@@ -190,6 +196,10 @@
 .product__link__wrap{
     margin-left:40px;
     width:35%;
+}
+.login-comments{
+    width:65%;
+    align-self: flex-start;
 }
 .product__comments{
     width:65%;

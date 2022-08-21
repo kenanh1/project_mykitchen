@@ -1,16 +1,16 @@
 // STEPS FOR RECIPE COLOR CHANGE
-function svgClick(element){
-    let svgParentDiv = element.closest(".step1");
-    let svgIcon = svgParentDiv.querySelector("svg");
+// function svgClick(element){
+//     let svgParentDiv = element.closest(".step1");
+//     let svgIcon = svgParentDiv.querySelector("svg");
 
-    if (element.checked == true){
-        svgIcon.style.backgroundColor = "var(--primary-color)";
-        svgIcon.style.fill = "white";
-    } else {
-        svgIcon.style.backgroundColor = "white";
-        svgIcon.style.fill = "var(--primary-color)";
-    }
-};
+//     if (element.checked == true){
+//         svgIcon.style.backgroundColor = "var(--primary-color)";
+//         svgIcon.style.fill = "white";
+//     } else {
+//         svgIcon.style.backgroundColor = "white";
+//         svgIcon.style.fill = "var(--primary-color)";
+//     }
+// };
 
 function searchChange(item){
     let searchBtn = document.getElementById("search_click")
@@ -29,6 +29,22 @@ function searchChange(item){
         searchFormBtn.style.opacity = "1"
     }
 
+}
+
+function navbarArrow(item){
+    let arrow = item.querySelector(".navbar__pointer")
+    let labelID = item.getAttribute('for')
+    let inputID = document.getElementById(labelID)
+
+    if (inputID.checked == true){
+        arrow.style.transform = 'rotate(0.turn)';
+        arrow.style.transition = '0.5s ease-in';
+    }
+    else{
+        arrow.style.transform = 'rotate(-0.25turn)';
+        arrow.style.transition = '0.5s ease-in';
+    }
+    // element.style.transform = 'rotate(90deg)';
 }
 // console.log(document.getElementById("search_click"))
 // let searchBtn = document.getElementById("search_click")
@@ -61,75 +77,6 @@ function commentReplyToggle(parent_id){
     }
 }
 
-// $('#sortby').on('change', 'select', function(event){
-//     // id = this.id; // you can use this.id to get the corresponding id.
-
-//         var word = $("#sortby").val();
-
-//         console.log(word)
-
-//         $.ajax({ 
-//             type: 'GET',
-//             url: '{% url <home> %}',
-//             data: {
-//                 word: word,
-//             },
-//             success: function (response) { 
-//                 console.log(response); // print response.content and response.data to see the data in the console. And later you can use those data in template using javascript.
-//             },
-//             error: function (error_data) {
-//                 console.log(error_data)
-//             }
-//         });
-
-//    });
-
-// $(document).ready (function () {  
-//     // $("#sortby").change (function () {  
-//     //     var selectedCountry = $(this).children("option:selected").val();  
-//     //     alert ("You have selected the country - " + selectedCountry);  
-//     // });
-
-//     $('#sortby').on('change', 'select', function(event){
-//         // id = this.id; // you can use this.id to get the corresponding id.
-
-//             var word = $("#sortby").val();
-
-//             console.log(word)
-
-//     //         $.ajax({ 
-//     //             type: 'GET',
-//     //             url: '{% url <home> %}',
-//     //             data: {
-//     //                 word: word,
-//     //             },
-//     //             success: function (response) { 
-//     //                 console.log(response); // print response.content and response.data to see the data in the console. And later you can use those data in template using javascript.
-//     //             },
-//     //             error: function (error_data) {
-//     //                 console.log(error_data)
-//     //             }
-//     //         });
-
-//        });
-// });  
 
 
-// function getval(sel)
-// {
-//     alert(sel.value);
-// }
 
-$(document).ready(function(){
-    $('#sortby').on('change', function(){
-        var data = $(this).val();
-        console.log(data)
-    })
-})
-
-// $(function(){
-//     $("#sortby").change(function(){
-//         var displayResult =$("#sortby option:selected").val();
-//         console.log(displayResult)
-//     })
-// })

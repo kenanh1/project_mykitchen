@@ -5,7 +5,7 @@
     {% include 'account/sidebar.html' %}
     <div class="myrecipes-content">
         <h2>Spašeni Recepti</h2>
-        <div class="myrecipes-container">
+        <div class="saved-recipes-container">
             {% for x in favourites.favourites.all  %}
                 {% block myrecipes %}
                 {% include 'recipes/meal_media.html' %}
