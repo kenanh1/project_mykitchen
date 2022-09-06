@@ -55,9 +55,9 @@ class Recepti(models.Model):
         )
     
     TEZINA_PRIPREME = (
-        ("1", "Jednostavno"),
-        ("2", "Srednje"),
-        ("3", "Komplikovano"),
+        ("Jednostavno", "Jednostavno"),
+        ("Srednje", "Srednje"),
+        ("Komplikovano", "Komplikovano"),
     )
 
     ODABIR_OBROKA = (
@@ -89,7 +89,7 @@ class Recepti(models.Model):
             norating = ratings['rating_avg'] = 0
             return(norating)
         else:
-            return (ratings['rating_avg'])
+            return round(ratings['rating_avg'],1)
     
     def total_votes(self):
         voting = RatingRecepta.objects.filter(recept=self).count()
@@ -110,22 +110,17 @@ class ZdravaHrana(models.Model):
     class Meta:
         verbose_name_plural = "Zdrava hrana"
 
-
-class ListaZelja(models.Model):
-    user_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
-    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
-    class Meta:
-        verbose_name_plural = "Lista želja"
-
-class VideoRecepta(models.Model):
-    naziv_videa = models.CharField(max_length=120)
-    recept_id = models.ForeignKey(Recepti,blank = True,null=True,on_delete=models.CASCADE)
-    korisnik_id = models.ForeignKey(Korisnik,blank = True,null=True,on_delete=models.CASCADE)
-    videolink = models.URLField()
+class RecipeVideos(models.Model):
+    autor = models.CharField(max_length=20)
+    title = models.CharField(max_length=50)
+    video_src = models.CharField(max_length=20)
+    video = models.FileField(upload_to='videozapisi')
+    poster = models.ImageField(upload_to='video_poster', null=True, blank=True)
     def __str__(self):
-        return self.naziv_videa
+        return f"{self.title}  by : {self.autor}"
     class Meta:
-        verbose_name_plural = "Video recepta"
+        verbose_name_plural = "Videos"
+
 
 class Pretplatnici(models.Model):
     email = models.EmailField()
@@ -191,5 +186,3 @@ class RatingRecepta(models.Model):
 
     def __str__(self):
         return f"Rating: {self.recept.naziv}- {self.user.user}"
-    # def total_rating(self):
-    #     return self.user.count()

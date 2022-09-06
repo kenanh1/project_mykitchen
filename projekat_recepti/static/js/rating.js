@@ -5,7 +5,6 @@ const two = document.getElementById('second')
 const three = document.getElementById('third')
 const four = document.getElementById('fourth')
 const five = document.getElementById('fifth')
-console.log(one)
 
 // get the form, confirm-box and csrf token
 const form = document.querySelector('.rate-form')
@@ -13,7 +12,6 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
 const handleStarSelect = (size) => {
     const children = form.children
-    console.log(children[0])
     for (let i=0; i < children.length; i++) {
         if(i <= size) {
             children[i].classList.add('checked')

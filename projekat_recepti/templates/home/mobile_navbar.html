@@ -1,0 +1,18 @@
+{% load static %}
+<div class="mobile_navbar_menu">
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Početna</a></li>
+            <li><a href="{% url 'recipes' %}">Recepti</a></li>
+            <li><a href="{% url 'contact' %}">Kontakt</a></li>
+            <li><a href="{% url 'search-recipe' %}">Pretraga</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'account' %}">Profil</a></li>
+            <li><a href="{% url 'logout' %}">Odjavi se</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Prijava</a></li>
+            <li><a href="{% url 'register' %}">Registracija</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

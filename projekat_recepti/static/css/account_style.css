@@ -40,13 +40,11 @@
     cursor: pointer;
     padding:8px 20px;
     margin-left:-20px;
-    /* margin-top:140px; */
 }
 
 .account-sidebar button a:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 0.5s ease-in;
+    background-color: var(--hover-color);
+    transition:background-color 0.3s ease-in;
 }
 
 .account-sidebar ul{
@@ -65,6 +63,7 @@
 .account-content-title{
     color:var(--primary-color);
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .account-avatar-wrap{
@@ -76,10 +75,26 @@
     border-radius: 20px;
     justify-content: center;
 }
+.edit-acc-btn{
+    background-color: var(--primary-color);
+    color:white;
+    text-decoration: none;
+    padding:7px 15px;
+    width:80px;
+    border-radius: 20px;
+    align-self: flex-end;
+    font-size:12px;
+    font-weight:600;
+}
+.edit-acc-btn:hover{
+    background-color: var(--hover-color);
+    transition: background-color 0.3s ease-in;
+}
 
 .account-avatar-frame img{
     border-radius:50%;
     width:200px;
+    height:200px;
     border:5px solid var(--secondary-color);
     padding:10px;
     margin-top:20px;
@@ -116,7 +131,6 @@
 }
 .edit-account-detail p{
     padding:10px 0;
-    /* border-bottom:2px solid var(--secondary-color); */
 }
 .edit-account-detail label{
     color:var(--primary-color);
@@ -144,7 +158,10 @@
     padding:8px 20px;
     margin-top:30px;
 }
-
+.edit-account-detail button:hover{
+    background-color: var(--hover-color);
+    transition: background-color 0.3s ease-in;
+}
 .edit-account-detail p #text{
     display:none;
 }
@@ -153,10 +170,20 @@
     display:flex;
     flex-direction: column;
 }
+.favourites-content h2{
+    color:var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+.favourites-content{
+    width: 80%;
+    margin-left:40px
+}
 
 .myrecipes-content h2{
     color:var(--primary-color);
     margin-bottom: 20px;
+    text-align: center;
 }
 .myrecipes-content{
     width: 80%;
@@ -165,7 +192,6 @@
 .saved-recipes-container{
     display:flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
 }
 
 .hidden{
@@ -175,7 +201,6 @@
 .edit-account-content{
     display:flex;
     justify-content: space-between;
-    /* background-color: red; */
     width: 100%;
 }
 
@@ -189,13 +214,13 @@
     background-color: var(--secondary-color);
     padding:5px;
     margin-top:10px;
+    resize: none;
 }
 
 .user_container_detail{
     display:flex;
     justify-content: center;
     width: 100%;
-    /* background-color: red; */
     margin-top:20px;
 }
 .user_container_detail p{
@@ -211,4 +236,116 @@
 
 .user_container_icons{
     vertical-align: middle;
+}
+
+/* @media screen and (max-width:600px){
+    .footer-container{
+        flex-direction: column;
+        margin:0 20px;
+    }
+    .footer-logo{
+    display:none;
+    }
+    .footer-text{
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom:10px;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 601px){
+    .footer-logo{
+    display:none;
+    }
+    .footer-container{
+        margin:0 20px;
+    }
+
+}
+@media screen and (max-width: 1024px) and (min-width: 769px){
+    .footer-container{
+        margin:0 20px;
+    }
+} */
+
+
+@media screen and (max-width:768px){
+    .account-container{
+        display:flex;
+        flex-direction: column;
+        margin-left:20px;
+        margin-right:20px;
+    }
+    .account-content{
+        flex-direction: column;
+    }
+    .account-sidebar{
+        width:100%;
+        height: auto;
+        display:flex;
+        flex-direction: column;
+        position:relative;
+        border:none;
+        align-items: unset;
+    }
+    .account-sidebar ul{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width:100%;
+        border-bottom: 2px solid var(--secondary-color);
+        border-top: 2px solid var(--secondary-color);
+    }
+    .account-sidebar li{
+        margin-left:10px;
+        margin-right:10px;
+    }
+    .account-sidebar button{
+        float:right;
+        margin:20px 0 20px;
+    }
+    .account-content-wrap{
+        margin:0;
+        width:100%;
+    }
+    .account-avatar-wrap{
+        margin:0;
+        width:100%;
+        padding:0;
+    }
+    .account-detail-wrap{
+        margin:0;
+        width:100%;
+        padding:0;
+    }
+
+    .edit-account-content{
+        display: flex;
+        flex-direction: column;
+    }
+    .edit-account-detail{
+        width:100%;
+    }
+    .myrecipes-content{
+        width:100%;
+        margin:0;
+    }
+    .favourites-content{
+        width:100%;
+        margin:0;
+    }
+    .saved-recipes-container{
+        margin:0;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:1024px) and (min-width:769px){
+    .account-container{
+        margin-left:20px;
+        margin-right:20px;
+    }
+    .saved-recipes-container{
+        justify-content: center;
+    }
 }

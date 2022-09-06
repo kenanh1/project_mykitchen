@@ -5,13 +5,33 @@
     {% include 'account/sidebar.html' %}
     <div class="account-content-wrap">
         {% for message in messages %}
-                {% if message.tags == "success" %}
-                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% if message.tags == "success" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script>
                     var m = "{{message}}"
-                    swal("Pozdrav {{user.username}}", m,"success");
+                    Swal.fire({
+                        position: 'top-end',
+                        // icon: 'success',
+                        title: m,
+                        imageUrl:"{% static 'images/mk-logo-vector.png' %}",
+                        imageWidth: "200px",
+                        imageHeight: "133px",
+                        showConfirmButton: true,
+                        })
                 </script>
-                {% endif %}
+            {% elif message.tags == "info" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% endif %}
         {% endfor %}
         <div class="account-content-title">
             <h2>Moj profil</h2>
@@ -19,12 +39,7 @@
         <div class="account-content">
             <div class="account-avatar-wrap">
                 <div class="account-avatar-frame">
-                    <!-- <img src="{{ user.korisnik.avatar.url }}" alt=""> -->
-                    {% if user.korisnik.avatar.url %}
                     <img src="{{ user.korisnik.avatar.url }}" alt="">
-                    {% else %}
-                    <img src="{% static 'images/avatar-men.png' %}" alt="">
-                    {% endif %}
                 </div>
                 <div class="account-avatar-text">
                 </div>
@@ -45,7 +60,7 @@
 
                 <p class="acc-biography">biografija : <span>{{ user.korisnik.biografija}}</span></p>
                 <p class="acc-email">email : <span>{{user.email}}</span></p>
-                <a href="{% url 'edit-acc' %}">Uredi profil</a>
+                <a class="edit-acc-btn" href="{% url 'edit-acc' %}">Uredi profil</a>
             </div>
         </div>
     </div>

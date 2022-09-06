@@ -3,6 +3,27 @@
 {% block content %}
 
     <div class="contact_container">
+        {% for message in messages %}
+                {% if message.tags == "success" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        text: m,
+                        showConfirmButton: true,
+                        })
+                </script>
+                {% elif message.tags == "warning" %}
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var m = "{{message}}"
+                    swal("Uklonjeno", m,"warning");
+                </script>
+                {% endif %}
+        {% endfor %}
         <div class="contact_media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
             <h3>Zapratite i ostanite u kontaktu sa nama</h3>
             <div class="contact_social_icons">

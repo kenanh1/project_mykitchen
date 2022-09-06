@@ -2,6 +2,7 @@
 .slick-slider
 {
     position: relative;
+    /* background-color: darkolivegreen; */
 
     display: block;
     box-sizing: border-box;
@@ -24,7 +25,7 @@
 
     display: block;
     overflow: hidden;
-    margin: 0 -18px;
+    /* margin: 0 -18px; */
     padding: 0;
 }
 .slick-list:focus
@@ -76,7 +77,7 @@
 
 .slick-slide
 {
-    display: none;
+    display: flex;
     float: left;
 
     height: 100%;

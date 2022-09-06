@@ -3,8 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Korisnik, Recepti, Sastojci, Komentari, ReceptiSteps
 from django import forms
-from django.forms import formset_factory, BaseModelFormSet
-
+from django.forms import formset_factory, BaseModelFormSet, BaseFormSet, inlineformset_factory, modelformset_factory
 from tinymce.widgets import TinyMCE
 
 
@@ -66,9 +65,11 @@ class ReceptiForm(forms.ModelForm):
             'slika_jela', 
         )
 
+
 class SastojciForm(forms.ModelForm):
     ime_sastojka = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'ime sastojka'}))
     kolicina = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'količina'}))
+    prefix = "sastojak"
     class Meta:
         model = Sastojci
         fields = (
@@ -76,12 +77,22 @@ class SastojciForm(forms.ModelForm):
             'kolicina'
         )
 
-SastojciFormset = formset_factory(SastojciForm, extra=0)
+# class BaseSastojciFormSet(BaseFormSet):
+#     def __init__(self, *args, **kwargs):
+#         super(SastojciForm, self).__init__(*args, **kwargs)
+
+class BaseSastojciFormSet(BaseModelFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+# SastojciFormset = formset_factory(SastojciForm, extra=0, can_delete=True)
+# SastojciFormset = formset_factory(SastojciForm, extra=0, can_delete=True)
+SastojciFormset = formset_factory(SastojciForm, formset=BaseSastojciFormSet, extra=0, can_delete=True)
 
 class KomentariForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
         'rows':'4',
-        'placeholder':'Dodajte Vas komentar...',
+        'placeholder':'Dodajte Vaš komentar...',
         'resize': 'none',
         }))
 
@@ -102,7 +113,7 @@ class ReceptiStepsForm(forms.ModelForm):
         model = ReceptiSteps
         fields = ('body',)
 
-StepsFormset = formset_factory(ReceptiStepsForm, extra=0, max_num=6)
+StepsFormset = formset_factory(ReceptiStepsForm, extra=0)
 
 class updateSastojkeForm(forms.ModelForm):
     class Meta:

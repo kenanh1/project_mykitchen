@@ -86,17 +86,12 @@
     outline:none;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
-    /* margin:0 10px; */
     padding:5px 0;
     width:40%;
     font-weight: 500;
 }
-/* .sr-form-ingredients::placeholder{
-    color:var(--text-color);
-} */
 
 .ingredient-form{
-    /* background-color: darkviolet; */
     display:flex;
     justify-content: space-between;
     margin:10px 10px;
@@ -121,9 +116,9 @@
     
 }
 #add-more:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 0.5s ease-in;
+    background-color: var(--hover-color);
+    /* color:var(--primary-color); */
+    transition:background-color 0.3s ease-in;
 }
 
 #id_vrsta_obroka{
@@ -131,7 +126,6 @@
     flex-wrap:wrap;
     justify-content: space-around;
     width: 80%;
-    /* background-color: red; */
     margin:0 auto;
 }
 #id_vrsta_obroka li{
@@ -151,7 +145,6 @@
 }
 
 .sr-form-prep-weight, .sr-form-prep-time{
-    /* background-color: red; */
     margin:10px 0;
 }
 
@@ -161,10 +154,8 @@
     border:none;
     outline:none;
     padding:5px 10px;
-    /* border-radius:20px; */
     font-weight: 600;
     text-align: center;
-    /* border-bottom: 2px solid var(--primary-color); */
 }
 
 .sr-form-image{
@@ -174,10 +165,7 @@
 .sr-form-image input{
     background-color: var(--secondary-color);
     text-decoration: none;
-    /* border: 1px solid var(--primary-color); */
-    /* border-radius: 20px; */
     font-family: 'Montserrat', sans-serif;
-    /* color: white; */
     font-weight: 600;
     font-size: 12px;
     cursor: pointer;
@@ -208,9 +196,9 @@
 }
 
 #btn-confirm:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 0.5s ease-in;
+    background-color: var(--hover-color);
+    /* color:var(--primary-color); */
+    transition:background-color 0.3s ease-in;
 }
 
 
@@ -244,9 +232,9 @@
 }
 
 #add-new-step:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
-    transition:background-color 0.5s ease-in;
+    background-color: var(--hover-color);
+    /* color:var(--primary-color); */
+    transition:background-color 0.3s ease-in;
 }
 
 
@@ -256,4 +244,29 @@
 
 .step-form{
     margin-bottom:10px;
+}
+
+@media screen and (max-width:600px){
+    .add-recipe-wrap{
+        width:100%;
+        margin:0;
+    }
+    .sr-form-about{
+        flex-direction: column;
+        width:100%;
+    }
+    .sr-form-details{
+        width:100%;
+    }
+    .sr-form-ingredients{
+        width:100%;
+        margin:10px 0;
+    }
+
+}
+@media screen and (max-width: 768px) and (min-width: 601px){
+    .add-recipe-wrap{
+        width:100%;
+        margin:0;
+    }
 }

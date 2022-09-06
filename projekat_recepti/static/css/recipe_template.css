@@ -64,3 +64,16 @@
     display:flex;
     justify-content: space-between;
 }
+
+@media screen and (max-width:480px){
+    .recipe__wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    .recipe__media{
+        width:100%;
+    }
+    .recipe__text{
+        margin:0;
+    }
+}

@@ -6,10 +6,28 @@
     <div class="myrecipes-content">
         {% for message in messages %}
             {% if message.tags == "success" %}
-                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script>
                     var m = "{{message}}"
-                    swal("Uspješna registracija", m,"success");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% elif message.tags == "info" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
                 </script>
             {% endif %}
         {% endfor %}

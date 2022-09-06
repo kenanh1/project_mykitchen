@@ -15,7 +15,7 @@
 /*---navbar sa lijeve strane sa position sticky koja nam omogucava da ovaj div ostane na mjestu kada listamo stranicu---*/
 .navbar__left{
     width:25%;
-    height:25%;
+    height:26%;
     position:sticky;
     top:20%;
     color:var(--primary-color);
@@ -30,7 +30,6 @@
 }
 
 .navbar__parent label span{
-    /* background-color: red; */
     float:right;
 }
 .fa-angle-left{
@@ -40,30 +39,14 @@
 
 .first, .second, .third, .fourth, .fifth{
     cursor:pointer;
-    /* background-color: red;
-    width:inherit; */
+    /* background-color: red; */
+    width:100%;
 }
-.navbar__children input{
-    border:none;
-    background-color: transparent;
-    /* background-color: blue; */
-    font-family: 'Montserrat', sans-serif;
-    /* color:red; */
-    width:110%;
-    text-align: start;
-    padding:2px 0 2px 40px;
-    margin-left:-20px;
-    font-weight:500;
-}
-.navbar__children input:hover{
-    color:white;
-    background-color: var(--primary-color);
-}
+
 .navbar__children li{
     font-size:14px;
     margin:5px 0;
-    /* padding-left:20px; */
-    /* padding:2px 0 2px 20px; */
+    padding:2px 0 2px 20px;
 }
 .sub__children:hover{
     color:white;
@@ -83,32 +66,22 @@
 
 /*--input btn stavljamo da se ne vidi pomocu opacity, kada je cekiran onda nam prikazuje listu.---*/
 #btn {opacity: 0; height: 0px;}
-#btn:checked + .navbar__children {height: 130px;}
+#btn:checked + .navbar__children {height: 140px;}
 
 #btn-2 {opacity: 0; height: 0px;}
-#btn-2:checked + .navbar__children {height: 100px;}
+#btn-2:checked + .navbar__children {height: 110px;}
 
 #btn-3 {opacity: 0; height: 0px;}
-#btn-3:checked + .navbar__children {height: 75px;} 
+#btn-3:checked + .navbar__children {height: 85px;} 
 
 #btn-4 {opacity: 0; height: 0px;}
-#btn-4:checked + .navbar__children {height: 130px;} 
+#btn-4:checked + .navbar__children {height: 140px;} 
 
-#btn-5 {opacity: 0; height: 0px;}
-#btn-5:checked + .navbar__children {height: 130px;}
-/*--- label sa after elementom koji nam sluzi da bi dodali + na kraju svake parent liste*/
-/* .navbar__left label::after{
-    content:"+";
-    font-size:20px;
-    width:16px;
-    height:16px;
-    float:right;
-} */
 
 .navbar__left a{
     text-decoration:none;
     color:black;
-    font-size: 16px;
+    font-size: 14px;
 }
 .navbar__left h2{
     font-weight: bold;
@@ -127,21 +100,22 @@
     height:40px;
     margin-bottom:38px;
     display:flex;
-    justify-content: space-between;
-    align-items: center;
 }
 .content__search{
     position:relative;
-    display:flex;
-    width:66%;
+    width:100%;
+}
+.content__search button{
+    width:0px;
+    height:0px;
+    border:none;
 }
 /*--search bar---*/
 .search_box{
     border:0;
     outline:none;
     height:40px;
-    width:300%;
-    /* width: 580px; */
+    width: calc(100% - 41px);
     background-color: #f9f5f4;
     border-radius: 7px;
     padding-left:40px;
@@ -159,7 +133,10 @@
     color:var(--primary-color);
     cursor:pointer;
 }
-
+.content__sortby{
+    align-self: center;
+    margin-left:40px;
+}
 /*--- sort by button--*/
 #sortby{
     background-color: var(--primary-color);
@@ -309,86 +286,98 @@
     margin:0 5px;
 }
 
-.content__bottom a:hover{
-    color:black;
-}
 
 /* ------------------MEDIA SCREEN CONTENT------------------ */
-/*MEDIA SCREEN FOR SMALL DEVICES */
-@media screen and (max-width: 516px){
+
+@media screen and (max-width: 600px){
+    .container{
+        margin:0;
+        width:100%;
+    }
+    .content{
+        width:100%;
+        margin:0 20px;
+    }
     .content__top{
         display:flex;
         flex-direction: column;
         height:auto;
-        margin-bottom:20px;
     }
-    .content__sortby{
-        align-self: center;
-        margin-top:20px;
-    }
-    .content{
-        margin:0;
-        display:flex;
-        flex-direction: column;
-    }
-    .content__main{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .main__item{
-        width:266px;
-    }
-    .search_box{
-        width:100%;
-    }
-    .content__search{
-        width:100%;
-    }
-}
-@media (max-width:651px){
-    .main__item{
-        width:210px;
-        margin:10px;
-    }
-}
-
-/* MEDIA SCREEN FOR PHONE/TABLETS */
-@media (max-width: 768px){
     .navbar__left{
         display:none;
     }
-    .content{
+    .content__sortby{
+        align-self: flex-end;
+    }
+    .content__main{
         margin:0;
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 768px) and (min-width: 601px){
+    /* .navbar__left{
+        display:none;
+    } */
+    .container{
+        flex-direction: column;
+        margin-left:20px;
+        margin-right:20px;
+    }
+    .navbar__left{
+        width: 100%;
+        position:relative;
+
+    }
+    .navbar__left h2{
+        text-align: center;
+    }
+    .navbar__list{
+        display: flex;
+        justify-content: space-around;
+    }
+    .content{
+        margin-right:0;
+        margin-left:0;
+        width:100%;
     }
     .main__item{
         width:266px;
     }
-}
-@media screen and (max-width:900px){
-    .navbar__left{
-        width:25%;
+    .content__top{
+        display:flex;
+        flex-direction: column;
+        height:auto;
     }
-}
-
-@media screen and (max-width:1117px){
+    .content__sortby{
+        align-self: flex-end;
+    }
     .content__main{
+       margin:0;
+       justify-content: center;
+    }
+    #btn-4:checked + .navbar__children {height: 150px;} 
+}
+@media screen and (max-width: 1024px) and (min-width: 769px){
+    .content__main{
+        margin:0;
+        justify-content: center;
+    }
+    .container{
+        flex-direction: column;
+        margin-left:20px;
+        margin-right:20px;
+    }
+    .navbar__left{
+        width: 100%;
+        position:relative;
+
+    }
+    .navbar__left h2{
+        text-align: center;
+    }
+    .navbar__list{
+        display: flex;
         justify-content: space-around;
     }
+    #btn-4:checked + .navbar__children {height: 155px;} 
 }
-@media screen and (max-width: 1170px){
-    .content__main{
-        justify-content: space-evenly;
-    }
-    .main__item{
-        margin:0 10px 38px;
-    }
-}
-@media (max-width: 1220px){
-    .container{
-        margin:20px;
-    }
-}
-
-
-

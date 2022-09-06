@@ -5,6 +5,57 @@
 {% load social_share %}
 <section>
     <div class="meal_container">
+        {% for message in messages %}
+            {% if message.tags == "success" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% elif message.tags == "warning" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% elif message.tags == "info" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+            {% elif message.tags == "error" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+            {% endif %}
+        {% endfor %}
         <div class="product__media">
             <div class="product__show">
                 <img src="{{ object.slika_jela.url }}" alt="food-plate1">
@@ -20,7 +71,7 @@
                     {% for step in recipe_steps %}
                     <div class="step1">
                         <div class="step__text">
-                            <h4>{{ forloop.counter }}. korak</h4>
+                            <h4>&#x2218; Korak {{ forloop.counter }} </h4>
                             {{step.body|safe}}
                         </div>
                     </div>

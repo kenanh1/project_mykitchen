@@ -21,27 +21,43 @@
                 </div>
                 {% for message in messages %}
                     {% if message.tags == "success" %}
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                         <script>
                             var m = "{{message}}"
-                            swal("Uspješno ste se registrovali.", m,"success");
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Uspješna registracija.',
+                                text: m,
+                                showConfirmButton: true,
+                                })
                         </script>
                     {% elif message.tags == "info" %}
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                         <script>
                             var m = "{{message}}"
-                            swal("Vidimo se opet", m,"info");
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: m,
+                                showConfirmButton: true,
+                                })
                         </script>
                     {% elif message.tags == "error" %}
-                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                         <script>
                             var m = "{{message}}"
-                            swal("Ooops", m,"error");
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "Korisničko ime ili šifra nisu tačni.",
+                                text: m,
+                                showConfirmButton: true,
+                                })
                         </script>
                     {% endif %}
                 {% endfor %}
             </form>
-                
         </div>
         <div class="login-media" style="background-image: url('{{baseImg}}/wallpaper_v3.png')">
             <h1>Pozdrav</h1>

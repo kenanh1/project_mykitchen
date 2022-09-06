@@ -4,8 +4,7 @@ from . models import *
 
 admin.site.register(Recepti)
 admin.site.register(ZdravaHrana)
-admin.site.register(ListaZelja)
-admin.site.register(VideoRecepta)
+admin.site.register(RecipeVideos)
 admin.site.register(Pretplatnici)
 admin.site.register(Kontakt)
 admin.site.register(Sastojci)

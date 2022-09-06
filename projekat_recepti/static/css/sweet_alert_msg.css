@@ -18,3 +18,11 @@
     background-color: var(--primary-color);
     opacity:0.7;
 }
+
+.swal2-styled.swal2-confirm{
+    background-color: var(--primary-color);
+}
+
+.swal2-styled .swal2-confirm{
+    background-color: var(--primary-color);
+}

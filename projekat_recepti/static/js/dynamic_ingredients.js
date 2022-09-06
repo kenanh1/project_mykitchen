@@ -1,7 +1,5 @@
-// FIRST TEST FOR FORMS
-
 const addMoreBtn = document.getElementById("add-more")
-const totalForms = document.getElementById("id_form-TOTAL_FORMS")
+const totalForms = document.querySelectorAll("#id_sastojak-TOTAL_FORMS")[0]
 const currentForms = document.getElementsByClassName("ingredient-form")
 addMoreBtn.addEventListener("click", add_new_form)
 
@@ -16,7 +14,7 @@ function add_new_form(event){
     const formCopy = document.getElementById("ingredient-form-list")
     const emptyForm = document.getElementById("empty-form").cloneNode(true)
     emptyForm.setAttribute("class", "ingredient-form")
-    emptyForm.setAttribute("id", `form-${currentFormsCount}`)
+    emptyForm.setAttribute("id", `sastojak-${currentFormsCount}`)
     const regex = new RegExp('__prefix__','g')
     emptyForm.innerHTML = emptyForm.innerHTML.replace(regex, currentFormsCount)
     totalForms.setAttribute("value", currentFormsCount + 1)

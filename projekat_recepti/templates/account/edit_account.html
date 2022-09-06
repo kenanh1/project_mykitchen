@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="account-container">
     {% include 'account/sidebar.html' %}
     <div class="edit-account-content">
         <div class="account-avatar-wrap">
             <div class="account-avatar-frame">
+                {% if request.user.korisnik.avatar.url %}
                 <img src="{{ request.user.korisnik.avatar.url }}" alt="">
+                {% else %}
+                <img src="{% static 'images/chef_avatar.jpg' %}" alt="">
+                {% endif %}
             </div>
             <div class="account-avatar-text">
             </div>

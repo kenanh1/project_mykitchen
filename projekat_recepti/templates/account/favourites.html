@@ -3,7 +3,34 @@
 {% block content %}
 <div class="account-container">
     {% include 'account/sidebar.html' %}
-    <div class="myrecipes-content">
+    <div class="favourites-content">
+        {% for message in messages %}
+        {% if message.tags == "success" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+        {% elif message.tags == "warning" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+        {% endif %}
+    {% endfor %}
         <h2>Spašeni Recepti</h2>
         <div class="saved-recipes-container">
             {% for x in favourites.favourites.all  %}

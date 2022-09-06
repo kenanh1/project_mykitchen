@@ -3,20 +3,32 @@
 {% load static %}
 <section class="all_recipes_container">
     {% for message in messages %}
-                {% if message.tags == "success" %}
-                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                <script>
-                    var m = "{{message}}"
-                    swal("Dodato", m,"success");
-                </script>
-                {% elif message.tags == "warning" %}
-                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-                <script>
-                    var m = "{{message}}"
-                    swal("Uklonjeno", m,"warning");
-                </script>
-                {% endif %}
-        {% endfor %}
+        {% if message.tags == "success" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+        {% elif message.tags == "warning" %}
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                var m = "{{message}}"
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: m,
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+            </script>
+        {% endif %}
+    {% endfor %}
     <div class="recipes_container">
         <div class="recipes_search_wrap">
             <div class="content-search">
@@ -51,29 +63,35 @@
             <h2>Izdvojeni recepti</h2>
             <div class="featured_recipes_wrap">
                 {% for x in featuredRecipes %}
-                {% block meal-media-featured1 %}
-                {% include 'recipes/slick_meal_media.html' %}
-                {% endblock %}
+                    {% block meal-media-featured1 %}
+                    {% include 'recipes/slick_meal_media.html' %}
+                    {% endblock %}
                 {% endfor %}
             </div>
         </div>
         <div class="all_recipes_content">
             <h2>Svi recepti</h2>
-            <div class="all_recipes_wrap">
+            <div class="all_recipes_wrap infinite-container">
                 {% if is_searched %}
-                    {% for x in search_result %}
-                        {% block meal-media-recipes2 %}
-                        {% include 'recipes/meal_media.html' %}
-                        {% endblock %}
-                    {% endfor %}
-                {% elif not is_searched %}
-                    {% for x in recept %}
-                            {% block meal-media-recipes %}
+                    {% for x in search_results %}
+                            {% block meal-media-recipes2 %}
                             {% include 'recipes/meal_media.html' %}
                             {% endblock %}
+                            {% empty %}
+                            <p class="empty-search-result">Nema rezultata pretraživanja . . .</p>
                         {% endfor %}
-                {% else %}
-                    <p>no result</p>
+                    {% else %}
+                    {% for x in recept %}
+                        {% block meal-media-recipes %}
+                        {% include 'recipes/meal_media_infinite_scroll.html' %}
+                        {% endblock %}
+                    {% endfor %}
+                    
+                {% endif %}
+            </div>
+            <div>
+                {% if recept.has_next %}
+                    <a class="infinite-more-link" href="?page={{ recept.next_page_number }}">More</a>
                 {% endif %}
             </div>
         </div>

@@ -1,4 +1,4 @@
-
+{% load static %}
 <div class="product__comments">
         <h3>Komentari ({{comm_counter}})</h3>
         {% if user.is_authenticated %}
@@ -6,7 +6,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 {{comment_form.as_p}}
-                <input type="submit" class="comment-submit" value="Komentarisi">
+                <input type="submit" class="comment-submit" value="Komentariši">
             </form>
         </div>
         {% for comment in all_comments %}
@@ -30,12 +30,12 @@
                         {% endif %}
                     </div>
                     <div class="comm-right">
-                        <button onclick="commentReplyToggle('{{comment.id}}')"> Reply</button>
+                        <button onclick="commentReplyToggle('{{comment.id}}')">Odgovori</button>
                         {% if authorid == comment.user %}
                         <form action = "{% url 'comment-delete' comment.id %}" method = "POST">
                             {% csrf_token %}
                             <input type="hidden" name="comment_id" value="{{ comment.id }}"/>
-                            <button style="color:red">Delete?</button>
+                            <button style="color:red">Obrisati?</button>
                         </form>
                         {% endif %}
                     </div>
@@ -116,7 +116,7 @@
                             <form action = "{% url 'comment-delete' reply.id %}" method = "POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="comment_id" value="{{ reply.id }}"/>
-                                <button style="color:red">Delete?</button>
+                                <button style="color:red">Obrisati?</button>
                             </form>
                             {% endif %}
                         </div>

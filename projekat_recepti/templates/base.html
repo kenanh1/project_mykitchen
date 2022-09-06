@@ -30,6 +30,7 @@
     <!-- SEARCH RESULTS CONTENT STYLING-->
     <link rel="stylesheet" href="{% static 'css/search_results.css' %}">
     <link rel="stylesheet" href="{% static 'css/contact_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mobile_style.css' %}">
 
     <!-- JELO STRANICA FULL CONTENT STYLING-->
     <link rel="stylesheet" href="{% static 'css/meal_no1_container.css' %}">
@@ -50,163 +51,151 @@
     <link rel="stylesheet" type="text/css" href="{% static 'slick/slick-theme.css' %}"/>
     <!-- SWEET ALERT STYLING -->
     <link rel="stylesheet" href="{% static 'css/sweet_alert_msg.css' %}">
-    <link rel="stylesheet" href="{% static 'css/tinymce-style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/tinymce-style.css' %}"> -->
     
     <title>Moja Kuhinja</title>
 </head>
 <body>
     <header>
-        <div class="header-container">
-            <div class="header-left">
-                <div class="header-name">
-                    <h1><a href="{% url 'home' %}">Moja kuhinja</a></h1>
-                </div>
-                <div class="header-navigation">
+        <div class="header-wrapper">
+            <div class="header-name">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/mk-logo-vector.png' %}" alt="">
+                </a>
+            </div>
+            <div class="header-container">
+                <div class="header-left">
                     <nav>
                         <ul>
                             {% url 'home' as home %}
                             <li class="nav-link {% if request.path == home %}active-link{% endif %}"><a href="{% url 'home' %}">Početna</a></li>
                             {% url 'recipes' as recipes %}
                             <li class="nav-link {% if request.path == recipes %}active-link{% endif %}"><a href="{% url 'recipes' %}">Recepti</a></li>
-                            <!-- <li><a href="#">Search</a></li> -->
                             {% url 'contact' as contact %}
                             <li class="nav-link {% if request.path == contact %}active-link{% endif %}"><a href="{% url 'contact' %}">Kontakt</a></li>
+                            {% url 'search-recipe' as search %}
+                            <li class="nav-link {% if request.path == search %}active-link{% endif %}"><a href="{% url 'search-recipe' %}">Pretraga</a></li>
                         </ul>
                     </nav>
                 </div>
-            </div>
-            <div class="header-right">
-                <div class="header-search">
-                    <label onclick="searchChange(this)" for="search_click">
-                        <svg id="searchOpen" xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"/></svg>
-                        <svg style="display:none" id="searchClose" xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 320 512"><path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
-                    </label>
-                    <input type="checkbox" id="search_click">
-                        <div class="search_slide">
-                            <form action="{% url 'search-recipe' %}" class="searchbox_form">
-                                <input type="text" name="pretraga" class="searchbox_form_input" placeholder="Pretražite recepte i korisnike . . .">
-                                <button id="searchFormBtn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"/></svg></i></button>
-                            </form>
+                <div class="header-right">
+                    {% if user.is_authenticated %}
+                        <div class="header-signup-active">
+                            <p><span>
+                                {{user.username}}
+                                {% if request.user.is_superuser %}
+                                    <p title="admin" class="user-roles-medal"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512"><path d="M256.3-.0068C261.9-.0507 267.3 1.386 272.1 4.066L476.5 90.53C487.7 95.27 495.2 105.1 495.9 118.1C501.6 213.6 466.7 421.9 272.5 507.7C267.6 510.5 261.1 512.1 256.3 512C250.5 512.1 244.9 510.5 239.1 507.7C45.8 421.9 10.95 213.6 16.57 118.1C17.28 105.1 24.83 95.27 36.04 90.53L240.4 4.066C245.2 1.386 250.7-.0507 256.3-.0068H256.3zM266.1 363.4L364.2 263.6C392.2 234.7 390.5 186.6 358.1 159.5C331.8 135.8 291.5 140.2 266.1 166.5L256.4 176.1L245.9 166.5C221.4 140.2 180.2 135.8 153 159.5C121.5 186.6 119.8 234.7 147.8 263.6L244.2 363.4C251.2 369.5 260.8 369.5 266.1 363.4V363.4z"/></svg>
+                                    </p>
+                                {% endif %}
+                            </span></p>
+                            <a href="{% url 'account' %}">
+                                <img src="{{ user.korisnik.avatar.url }}" alt="">
+                            </a>
                         </div>
+                        <div class="menu-bar">
+                            <div id="nav-menu" onclick="menuClick()">
+                                <div id="bar1" class="bar"></div>
+                                <div id="bar2" class="bar"></div>
+                                <div id="bar3" class="bar"></div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="header-signin">
+                            <a href="{% url 'login' %}">Prijava</a>
+                        </div>
+                        <div class="header-signup">
+                            <a href="{% url 'register' %}">Registracija</a>
+                        </div>
+                        <div class="menu-bar">
+                            <div id="nav-menu" onclick="menuClick()">
+                                <div id="bar1" class="bar"></div>
+                                <div id="bar2" class="bar"></div>
+                                <div id="bar3" class="bar"></div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% if user.is_authenticated %}
-                    <!-- <div class="header-signin">
-                        <a href="{% url 'logout' %}">Logout</a>
-                    </div> -->
-                    <div class="header-signup-active">
-                        <p><span>
-                            {{user.username}}
-                            {% if request.user.is_superuser %}
-                                <p title="admin" class="user-roles-medal"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512"><path d="M256.3-.0068C261.9-.0507 267.3 1.386 272.1 4.066L476.5 90.53C487.7 95.27 495.2 105.1 495.9 118.1C501.6 213.6 466.7 421.9 272.5 507.7C267.6 510.5 261.1 512.1 256.3 512C250.5 512.1 244.9 510.5 239.1 507.7C45.8 421.9 10.95 213.6 16.57 118.1C17.28 105.1 24.83 95.27 36.04 90.53L240.4 4.066C245.2 1.386 250.7-.0507 256.3-.0068H256.3zM266.1 363.4L364.2 263.6C392.2 234.7 390.5 186.6 358.1 159.5C331.8 135.8 291.5 140.2 266.1 166.5L256.4 176.1L245.9 166.5C221.4 140.2 180.2 135.8 153 159.5C121.5 186.6 119.8 234.7 147.8 263.6L244.2 363.4C251.2 369.5 260.8 369.5 266.1 363.4V363.4z"/></svg>
-                                </p>
-                            {% endif %}
-                        </span></p>
-                        <a href="{% url 'account' %}">
-                            {% if request.user.korisnik.avatar %}
-                            <img src="{{ user.korisnik.avatar.url }}" alt="">
-                            {% else %}
-                            <img src="{% static 'images/avatar-men.png'}" alt="">
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="menu-bar">
-                        <div id="nav-menu" onclick="menuClick()">
-                            <div id="bar1" class="bar"></div>
-                            <div id="bar2" class="bar"></div>
-                            <div id="bar3" class="bar"></div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="header-signin">
-                        <a href="{% url 'login' %}">Prijava</a>
-                    </div>
-                    <div class="header-signup">
-                        <a href="{% url 'register' %}">Registracija</a>
-                    </div>
-                    <div class="menu-bar">
-                        <div id="nav-menu" onclick="menuClick()">
-                            <div id="bar1" class="bar"></div>
-                            <div id="bar2" class="bar"></div>
-                            <div id="bar3" class="bar"></div>
-                        </div>
-                    </div>
-                {% endif %}
             </div>
         </div>
     </header>
+    <section class="mobile_responsive">
+        {% include 'home/mobile_navbar.html' %}
+    </section>
     {% block content %}
 
     {% endblock %}
     <footer>
         <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-name">
-                    <h2>Moja kuhinja</h2>
-                </div>
-                <div class="footer-social">
-                    
-                    <!-- <span class="facebook"><i class="fa fa-facebook"></i></span>
-                    <span class="twitter"><i class="fa fa-twitter"></i></span> -->
-                </div>
+            <div class="footer-logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/mk-logo-vector.png' %}" alt="">
+                </a>
             </div>
-            
             <div class="footer-text">
-                <div class="footer-heading">
-                    <a href="#">Presentations</a>
-                    <a href="#">Professionals</a>
-                    <a href="#">Stores</a>
-                </div>
-                <div class="footer-heading">
-                    <a href="#">Webinars</a>
-                    <a href="#">Workshops</a>
-                    <a href="#">Local Meetups</a>
-                </div>
-                <div class="footer-heading">
-                    <a href="#">Our Initiatives</a>
-                    <a href="#">Giving Back</a>
-                    <a href="#">Communities</a>
-                </div>
-                <div class="footer-heading">
-                    <a href="#">Contact Form</a>
-                    <a href="#">Work With Us</a>
-                    <a href="#">Visit Us</a>
-                </div>
+                <a href="{% url 'contact' %}">Kontakt</a>
+                <a href="#">Uslovi korištenja</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'account' %}">Moj Profil</a>
+                {% else %}
+                <a href="{% url 'register' %}">Registracija</a>
+                {% endif %}
             </div>
-            <div class="madeBy">
-                <p>Made in Sarajevo City ©</p>
+            <div class="footer-contact">
+                <h4>Pratite nas</h4>
+                <div class="contact_social_icons">
+                    <a href="#"><span class="facebook"><i class="fa fa-facebook"></i></span></a>
+                    <a href="#"><span class="twitter"><i class="fa fa-twitter"></i></span></a>
+                    <a href="https://www.linkedin.com/in/kenanh1/"><span class="linkedin"><i class="fa fa-linkedin"></i></span></a>
+                    <a href="#"><span class="instagram"><i class="fa fa-instagram"></i></span></a>
+                    <a href="#"><span class="github"><i class="fa fa-github"></i></i></span></a>
+                </div>
+                <p>© 2022 mojakuhinja</p>
             </div>
     </footer>
+    <!-- APP SCRIPTS -->
     <script src="{% static 'js/mealapp.js' %}"></script>
     <script src="{% static 'js/uploader.js' %}"></script>
     <script src="{% static 'js/rating.js' %}"></script>
     <script src="{% static 'js/dynamic_ingredients.js' %}"></script>
-    <!--TINYMCE SETTINGS START-->
+    <script src="{% static 'js/update_uploader.js' %}"></script>
+    <script src="{% static 'js/nav_menu.js' %}"></script>
 
+    <!--TINYMCE SCRIPTS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script>
-    <!--TINYMCE SETTINGS END-->
-    <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
+
+    <!--SLICK SCRIPTS -->
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="{% static 'slick/slick.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'slick/slick.js' %}"></script>
 
-    <!--SWEET ALERT-->
+    <!--SWEET ALERT SCRIPTS-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!--INFINITE SCROLL SCRIPTS-->
+
+    <script type="text/javascript" src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/infinite.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
+
    <script>
    $(document).ready(function(){
             $('#sortby').on('change', function(){
                 var filter = $(this).val();
-                console.log(filter);
+                currentURL = window.location.pathname
+                console.log(currentURL);
+                console.log(filter, "OVO JE VALUE")
 
                 $.ajax({ 
                     type: 'GET',
-                    url: "{% url 'home' %}",
+                    // url: "{% url 'home' %}",
+                    url: currentURL,
                     data: {filter: filter,},
                     dataType: 'JSON',
                     success: function (response) {
                         window.history.pushState(null, null, response.path)
-                        $(".content__main").html(response.data)
+                        $(".content__wrapper").html(response.data)
                     },
                     
                     error: function (error_data) {
@@ -215,6 +204,13 @@
                 });        
         });
     });
+
+    var infinite = new Waypoint.Infinite({
+                element: $('.infinite-container')[0]
+                })
+    var infinite2 = new Waypoint.Infinite({
+                element: $('.infinite-container2')[0]
+                })
    </script>
 </body>
 </html>

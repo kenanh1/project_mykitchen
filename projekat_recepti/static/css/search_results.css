@@ -1,9 +1,12 @@
+/* .search_container{
+    max-width: 1180px;
+} */
 .search-users-media-wrapper{
     margin:0 14px;
 }
 .search_container_wrapper{
     font-family: 'Montserrat', sans-serif;
-    width: 1180px;
+    max-width: 1180px;
     margin:0 auto;
 }
 .user-search-wrapper{
@@ -58,4 +61,10 @@
 
 .search-users-details{
     display:flex;
+}
+
+@media screen and (max-width: 1024px){
+    .search_container_wrapper{
+        margin:0 20px;
+    }
 }

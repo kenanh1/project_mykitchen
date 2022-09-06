@@ -1,17 +1,3 @@
-// STEPS FOR RECIPE COLOR CHANGE
-// function svgClick(element){
-//     let svgParentDiv = element.closest(".step1");
-//     let svgIcon = svgParentDiv.querySelector("svg");
-
-//     if (element.checked == true){
-//         svgIcon.style.backgroundColor = "var(--primary-color)";
-//         svgIcon.style.fill = "white";
-//     } else {
-//         svgIcon.style.backgroundColor = "white";
-//         svgIcon.style.fill = "var(--primary-color)";
-//     }
-// };
-
 function searchChange(item){
     let searchBtn = document.getElementById("search_click")
     let searchOpen = document.getElementById("searchOpen")
@@ -44,26 +30,8 @@ function navbarArrow(item){
         arrow.style.transform = 'rotate(-0.25turn)';
         arrow.style.transition = '0.5s ease-in';
     }
-    // element.style.transform = 'rotate(90deg)';
-}
-// console.log(document.getElementById("search_click"))
-// let searchBtn = document.getElementById("search_click")
-// let searchParentDiv = element.closest(".header-search");
-// let searchOpen = searchParentDiv.querySelectorAll("svg")
-// // let searchClose = document.getElementById("searchClose");
-console.log(searchBtn)
-if (searchBtn.checked == true){
-    console.log("ovo radi")
-} else{
-    // searchOpen.style.display = "block";
-    // searchClose.style.display = "none";
-    console.log("ne radi")
 }
 
-// BURGER MENI ON CLICK
-function menuClick(){
-	document.getElementById("nav-menu").classList.toggle("menu-active");
-}
 
 
 function commentReplyToggle(parent_id){

@@ -86,8 +86,8 @@
 .description__bottom{
     display:flex;
     justify-content: space-between;
-    padding-top:35px;
-    align-items: center;
+    padding-top:20px;
+    /* align-items: center; */
 }
 
 .description__bottom a{
@@ -103,6 +103,9 @@
 }
 .description__bottom__right{
     display:flex;
+}
+.description__bottom__right button{
+    background-color: transparent;
 }
 .description__bottom__right a{
     margin-left:15px;
@@ -344,7 +347,8 @@
     border-radius: 15px;
     color:white;
     font-family: 'Montserrat', sans-serif;
-    border:2px solid var(--primary-color);
+    border:none;
+    /* border:2px solid var(--primary-color); */
     font-weight: 500;
     font-size: 12px;
     cursor: pointer;
@@ -352,8 +356,8 @@
     float: right;
 }
 .comment-submit:hover{
-    background-color: var(--secondary-color);
-    color:var(--primary-color);
+    background-color: var(--hover-color);
+    /* color:var(--primary-color); */
     transition:background-color 0.5s ease-in;
 }
 .first__reply{

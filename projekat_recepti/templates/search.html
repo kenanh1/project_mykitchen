@@ -3,22 +3,50 @@
 {% load static %}
 <section class="search_container_wrapper">
     <div class="search_container">
-        <!-- <div class="recipes_search_wrap">
-            <div class="content-search">
-                <form action="">
-                    <input type="text" name="q" class="search_box" placeholder="Pretražite recepte . . .">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+        <div class="recipes_search_wrap">
+            <h2>Pretražite recepte i korisnike</h2>
+            <div class="header-search">
+                <label onclick="searchChange(this)" for="search_click">
+                    <svg id="searchOpen" xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"/></svg>
+                    <svg style="display:none" id="searchClose" xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 320 512"><path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+                </label>
+                <input type="checkbox" id="search_click">
+                    <div class="search_slide">
+                        <form action="{% url 'search-recipe' %}" class="searchbox_form">
+                            <input type="text" name="pretraga" class="searchbox_form_input" placeholder="Pretraži . . .">
+                            <button id="searchFormBtn" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"/></svg></i></button>
+                        </form>
+                    </div>
             </div>
-            <div class="content-sortby">
-                <select name="sortby" id="sortby">
-                    <option hidden>Poredaj po</option>
-                    <option class="optionhover" value="latest">Zadnje dodato</option>
-                    <option class="optionhover" value="top_rated">Ocjena jela</option>
-                    <option class="optionhover" value="trending">Popularno</option>
-                </select>
-            </div>
-        </div> -->
+        </div>
+        {% for message in messages %}
+            {% if message.tags == "success" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% elif message.tags == "warning" %}
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    var m = "{{message}}"
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: m,
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                </script>
+            {% endif %}
+        {% endfor %}
+        {% if is_searched %}
         <div class="user-search-wrapper">
             <h3>Korisnici</h3>
             <div class="search-result-display">
@@ -27,7 +55,7 @@
                         {% include 'search/search_users.html' %}
                     {% endblock %}
                     {% empty %}
-                    <p>Nažalost nismo uspjeli pronaći korisnika pod tim imenom</p>
+                    <p>Nema rezultata pod tim imenom</p>
                 {% endfor %}
             </div>
             
@@ -40,12 +68,20 @@
                         {% include 'recipes/meal_media.html' %}
                     {% endblock %}
                     {% empty %}
-                        <p>Nažalost nismo uspjeli pronaći recept pod tim nazivom</p>
+                        <p>Nema rezultata pod traženim nazivom</p>
                 {% endfor %}
             </div>
-           
         </div>
-        
+        {% else %}
+        <div class="user-search-wrapper">
+            <h3>Korisnici</h3>
+            <div class="search-result-display"></div> 
+        </div>
+        <div class="recipe-search-wrapper">
+            <h3>Recepti</h3>
+            <div class="search-result-display"></div>
+        </div>
+        {% endif %}
     </div>
 </section>
 
