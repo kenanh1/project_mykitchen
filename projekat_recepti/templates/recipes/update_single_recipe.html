@@ -5,7 +5,7 @@
     {% include 'account/sidebar.html' %}
     <div class="add-recipe-wrap">
         <div class="add-recipe-title">
-            <h2>Ažuriranje recepta</h2>
+            <h2>Uređivanje recepta</h2>
         </div>
         <div class="add-recipe-form">
             <form method="POST" enctype="multipart/form-data" action="" name="recipe-steps-form">
@@ -46,41 +46,21 @@
                     </div>
                     <div class="sr-form-ingredients">
                             <h4>Sastojci</h4>
-                            <input type="hidden" name="sastojak-TOTAL_FORMS" value="0" id="id_sastojak-TOTAL_FORMS">
-                            <input type="hidden" name="sastojak-INITIAL_FORMS" value="0" id="id_sastojak-INITIAL_FORMS">
-                            <input type="hidden" name="sastojak-MIN_NUM_FORMS" value="0" id="id_sastojak-MIN_NUM_FORMS">
-                            <input type="hidden" name="sastojak-MAX_NUM_FORMS" value="1000" id="id_sastojak-MAX_NUM_FORMS">
+                            {{formset.management_form}}
                             <div id="ingredient-form-list">
                                 {% for item in formset %}
                                     <div class="ingredient-form">
-                                        <!--TEST-->
-                                        <!-- <label for="id_sastojak-{{ forloop.counter }}-ime_sastojka">Ime sastojka:</label>
-                                        <input type="text" value="{{item.ime_sastojka}}"name="sastojak-{{ forloop.counter }}-ime_sastojka" placeholder="ime sastojka" id="id_sastojak-{{ forloop.counter }}-ime_sastojka">
-                                        <label for="id_sastojak-{{ forloop.counter }}-kolicina">Kolicina:</label>
-                                        <input type="text" name="sastojak-{{ forloop.counter }}-kolicina" value="{{item.kolicina}}"placeholder="količina" id="id_sastojak-{{ forloop.counter }}-kolicina"> -->
-
-                                        <!--TEST END-->
-                                        {{item.as_p}}
+                                        {{item.ime_sastojka}}
+                                        {{item.kolicina}}
+                                        {{item.id}}
+                                        <button type="button" class="delete-btn" value="X"onclick="checkedFormSet(this)">{{item.DELETE}}<span>&#10008;</span></button>
                                     </div>
                                 {% endfor %}
-                                <!-- {% for item in sastojci %}
-                                    <div class="ingredient-form">
-                                        <label for="id_sastojak-{{ forloop.counter }}-ime_sastojka">Ime sastojka:</label>
-                                        <input type="text" value="{{item.ime_sastojka}}"name="sastojak-{{ forloop.counter }}-ime_sastojka" placeholder="ime sastojka" id="id_sastojak-{{ forloop.counter }}-ime_sastojka">
-                                        <label for="id_sastojak-{{ forloop.counter }}-kolicina">Kolicina:</label>
-                                        <input type="text" name="sastojak-{{ forloop.counter }}-kolicina" value="{{item.kolicina}}"placeholder="količina" id="id_sastojak-{{ forloop.counter }}-kolicina">
-                                        {{item}}
-                                    </div>
-                                {% endfor %} -->
                             </div>
 
                             <div id="empty-form" class="hidden">
-                                <label for="id_sastojak-__prefix__-ime_sastojka">Ime sastojka:</label>
-                                <input type="text" name="sastojak-__prefix__-ime_sastojka" placeholder="ime sastojka" id="id_sastojak-__prefix__-ime_sastojka">
-                                <label for="id_sastojak-__prefix__-kolicina">Kolicina:</label>
-                                <input type="text" name="sastojak-__prefix__-kolicina" placeholder="količina" id="id_sastojak-__prefix__-kolicina">
-                                <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
-                                <!-- <button class="delete" onclick="deleteFormField(this)">&#10008;</button> -->
+                                {{formset.empty_form}}
+                                <button type="button" class="delete" onclick="deleteFormField(this)">&#10008;</button>
                             </div>
                             <button id="add-more" type="button">Dodaj sastojak</button><br>
                     </div>
@@ -89,39 +69,27 @@
                 <div class="sr-form-directions">
                         <h4>Priprema</h4>
                         {{ rteformset.management_form }}
-                        <input type="hidden" name="form-TOTAL_FORMS" value="0" id="id_form-TOTAL_FORMS">
-                        <input type="hidden" name="form-INITIAL_FORMS" value="0" id="id_form-INITIAL_FORMS">
-                        <input type="hidden" name="form-MIN_NUM_FORMS" value="0" id="id_form-MIN_NUM_FORMS">
-                        <input type="hidden" name="form-MAX_NUM_FORMS" value="1000" id="id_form-MAX_NUM_FORMS">
-                      
                         <div id="steps-form-list">
                             {% for step in rteformset %}
                                 <div class="step-form">
-                                    {{step.as_p}}
-                                </div>
-                            {% endfor %}
-                            {% for korak in koraci %}
-                                <div class="step-form">
-                                    {{korak.as_p}}
+                                    {{step.body}}
+                                    {{step.id}}
+                                    <button type="button" class="delete-btn" value="X"onclick="checkedFormSet(this)">{{step.DELETE}}<span>&#10008;</span></button>
                                 </div>
                             {% endfor %}
                         </div>
 
 
                         <div id="empty-step" class="hidden">
-                            <label for="id_form-__prefix__-body">Body:</label>
-                            <textarea class="tinymce" cols="40" data-mce-conf="{&quot;theme&quot;: &quot;silver&quot;, &quot;height&quot;: 500, &quot;menubar&quot;: false, &quot;plugins&quot;: &quot;advlist,autolink,lists,link,image,charmap,print,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,code,help,wordcount&quot;, &quot;toolbar&quot;: &quot;undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help&quot;, &quot;spellchecker_languages&quot;: &quot;Afrikaans=af,Arabic / Algerian Arabic=ar,Asturian=as,Azerbaijani=az,Bulgarian=bg,Belarusian=be,Bengali=bn,Breton=br,Bosnian=bs,Catalan=ca,Czech=cs,Welsh=cy,Danish=da,German=de,Lower Sorbian=ds,Greek=el,+English / Australian English / British English=en,Esperanto=eo,Spanish / Argentinian Spanish / Colombian Spanish / Mexican Spanish / Nicaraguan Spanish / Venezuelan Spanish=es,Estonian=et,Basque=eu,Persian=fa,Finnish=fi,French=fr,Frisian=fy,Irish=ga,Scottish Gaelic=gd,Galician=gl,Hebrew=he,Hindi=hi,Croatian=hr,Upper Sorbian=hs,Hungarian=hu,Armenian=hy,Interlingua=ia,Indonesian=id,Igbo=ig,Ido=io,Icelandic=is,Italian=it,Japanese=ja,Georgian / Kabyle=ka,Kazakh=kk,Khmer=km,Kannada=kn,Korean=ko,Kyrgyz=ky,Luxembourgish=lb,Lithuanian=lt,Latvian=lv,Macedonian=mk,Malayalam=ml,Mongolian=mn,Marathi=mr,Burmese=my,Norwegian Bokm\u00e5l=nb,Nepali=ne,Dutch=nl,Norwegian Nynorsk=nn,Ossetic=os,Punjabi=pa,Polish=pl,Portuguese / Brazilian Portuguese=pt,Romanian=ro,Russian=ru,Slovak=sk,Slovenian=sl,Albanian=sq,Serbian / Serbian Latin=sr,Swedish=sv,Swahili=sw,Tamil=ta,Telugu=te,Tajik=tg,Thai=th,Turkmen=tk,Turkish=tr,Tatar=tt,Udmurt=ud,Ukrainian=uk,Urdu=ur,Uzbek=uz,Vietnamese=vi,Simplified Chinese / Traditional Chinese=zh&quot;, &quot;directionality&quot;: &quot;ltr&quot;, &quot;mode&quot;: &quot;exact&quot;, &quot;strict_loading_mode&quot;: 1, &quot;elements&quot;: &quot;id_form-__prefix__-body&quot;}" id="id_form-__prefix__-body" name="form-__prefix__-body" rows="10"></textarea>
-                            <!-- <button class="delete" onclick="deleteStepField(this)">&#10008;</button> -->
+                            {{rteformset.empty_form}}
                         </div>
                         <button id="add-new-step" type="button">Dodajte novi korak</button>
                 </div>
-                <button id="btn-confirm" type="submit">Potvrdite dodavanje recepta</button>
+                <button id="btn-confirm" type="submit">Potvrdite uredjivanje recepta</button>
             </form>
-            {% for message in messages %}
-                <p class="alert-login-message">{{message}}</p>
-            {% endfor %}
         </div>
     </div>
+    
 </div>
 
 {% endblock %}

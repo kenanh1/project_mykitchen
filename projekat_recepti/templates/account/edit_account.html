@@ -3,30 +3,36 @@
 {% block content %}
 <div class="account-container">
     {% include 'account/sidebar.html' %}
-    <div class="edit-account-content">
-        <div class="account-avatar-wrap">
-            <div class="account-avatar-frame">
-                {% if request.user.korisnik.avatar.url %}
-                <img src="{{ request.user.korisnik.avatar.url }}" alt="">
-                {% else %}
-                <img src="{% static 'images/chef_avatar.jpg' %}" alt="">
-                {% endif %}
-            </div>
-            <div class="account-avatar-text">
-            </div>
+    <div class="account-content-wrap">
+        <div class="account-content-title">
+            <h2>Uređivanje profila</h2>
         </div>
-        <div class="edit-account-detail">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                {{account_form.as_p}}
-                <p class="avatar-detail">{{avatar_form}}</p>
-                <button type="submit">Potvrdi</button>
-            </form>
-            {% for message in messages %}
-            {{message}}
-            {% endfor %}
+        <div class="edit-account-content">
+            <div class="account-avatar-wrap">
+                <div class="account-avatar-frame">
+                    {% if request.user.korisnik.avatar.url %}
+                    <img src="{{ request.user.korisnik.avatar.url }}" alt="">
+                    {% else %}
+                    <img src="{% static 'images/chef_avatar.jpg' %}" alt="">
+                    {% endif %}
+                </div>
+                <div class="account-avatar-text">
+                </div>
+            </div>
+            <div class="edit-account-detail">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {{account_form.as_p}}
+                    <p class="avatar-detail">{{avatar_form}}</p>
+                    <button type="submit">Potvrdi</button>
+                </form>
+                {% for message in messages %}
+                {{message}}
+                {% endfor %}
+            </div>
         </div>
     </div>
+    
 </div>
 {% endblock %}

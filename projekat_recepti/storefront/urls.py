@@ -25,7 +25,7 @@ urlpatterns = [
     path ('moji-recepti',views.my_recipes_view, name='myrecipes'),
     path ('spaseni-recepti',views.favourite_recipes_view, name='favouriterecipes'),
     
-    #FAVOURITE RECEPT
+    #FAVOURITE RECIPE
     path ('favourites/<int:id>', views.add_favourite_view, name='add_favourite'),
     path ("addrecipe", views.adding_recipes_view, name='addrecipe'),
 
@@ -40,7 +40,8 @@ urlpatterns = [
     path ('serviranje/<slug:foo>', views.serviranje_view, name='category-serviranje'),
     path ('vrijemepripreme/<slug:foo>', views.vrijemepripreme_view, name='category-vrijeme'),
 
-    #RESET PASSWORD
+    #TERMS OF USE
+    path ('uslovi-koristenja', views.terms_view, name='terms-of-use'),
 
 ]
 

@@ -10,9 +10,7 @@ from tinymce.widgets import TinyMCE
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = [
-            'username', 'email', 'password1', 'password2'
-        ]
+        fields = ['username', 'email', 'password1', 'password2']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -44,9 +42,9 @@ class EditUserProfileForm(forms.ModelForm):
 
 class EditUserPictureForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'label':'Avatar'}))
+    biografija = forms.CharField(widget=forms.Textarea(attrs={'rows': '5'}))
     class Meta:
         model = Korisnik
-        # fields = ['avatar']
         fields = ('avatar', 'biografija',)
 
 
@@ -72,22 +70,20 @@ class SastojciForm(forms.ModelForm):
     prefix = "sastojak"
     class Meta:
         model = Sastojci
-        fields = (
-            'ime_sastojka',
-            'kolicina'
-        )
+        fields = ('ime_sastojka','kolicina')
 
+SastojciFormSet = modelformset_factory(Sastojci, form=SastojciForm, fields =['ime_sastojka', 'kolicina'], extra=0, can_delete=True)
 # class BaseSastojciFormSet(BaseFormSet):
 #     def __init__(self, *args, **kwargs):
 #         super(SastojciForm, self).__init__(*args, **kwargs)
 
-class BaseSastojciFormSet(BaseModelFormSet):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class BaseSastojciFormSet(BaseModelFormSet):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
 
 # SastojciFormset = formset_factory(SastojciForm, extra=0, can_delete=True)
 # SastojciFormset = formset_factory(SastojciForm, extra=0, can_delete=True)
-SastojciFormset = formset_factory(SastojciForm, formset=BaseSastojciFormSet, extra=0, can_delete=True)
+# SastojciFormset = formset_factory(SastojciForm, formset=BaseSastojciFormSet, extra=0, can_delete=True)
 
 class KomentariForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
@@ -113,15 +109,14 @@ class ReceptiStepsForm(forms.ModelForm):
         model = ReceptiSteps
         fields = ('body',)
 
-StepsFormset = formset_factory(ReceptiStepsForm, extra=0)
+# StepsFormset = formset_factory(ReceptiStepsForm, extra=0)
+StepsFormSet = modelformset_factory(ReceptiSteps, form=ReceptiStepsForm, fields=['body'], extra=0, can_delete=True)
+# SastojciFormSet = modelformset_factory(Sastojci, form=SastojciForm, fields =['ime_sastojka', 'kolicina'], extra=0, can_delete=True)
 
 class updateSastojkeForm(forms.ModelForm):
     class Meta:
         model = Sastojci
-        fields = (
-            'ime_sastojka',
-            'kolicina'
-        )
+        fields = ('ime_sastojka','kolicina')
 
 
 class ContactForm(forms.Form):

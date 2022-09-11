@@ -44,6 +44,34 @@
     font-size: 12px;
 }
 
+.terms_container{
+    max-width: 1180px;
+    margin-left:auto;
+    margin-right:auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.terms_title h2{
+    color:var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    padding:5px 0;
+    background-color: var(--secondary-color);
+}
+.terms_content{
+    margin: 0 20px;
+    /* background-color: aqua; */
+}
+.terms_content p{
+    margin:10px 0;
+    line-height:20px;
+}
+
+.terms_content h3{
+    font-size:16px;
+    padding-bottom:5px;
+    border-bottom:2px solid var(--secondary-color);
+}
 /* ----------MEDIA SCREEN CONTENT--------- */
 
 /* MEDIA SCREEN FOR SMALL DEVICES */

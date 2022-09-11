@@ -10,14 +10,15 @@ from django.template.loader import render_to_string , get_template
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from xhtml2pdf import pisa
 from django.core.mail import send_mail
+import json
 
 def home_view(request):
     #   >>> NAVBAR CATEGORIES <<<
-    qs = Recepti.objects.filter()[:1].get()
-    vrstaobroka_qs =[qs.ODABIR_OBROKA[c][0] for c in range(len(qs.ODABIR_OBROKA))]
-    tezina_qs = [qs.TEZINA_PRIPREME[c][1] for c in range(len(qs.TEZINA_PRIPREME))]
+    qs_nav = Recepti.objects.filter()[:1].get()
+    vrstaobroka_qs =[qs_nav.ODABIR_OBROKA[c][0] for c in range(len(qs_nav.ODABIR_OBROKA))]
+    tezina_qs = [qs_nav.TEZINA_PRIPREME[c][1] for c in range(len(qs_nav.TEZINA_PRIPREME))]
     serviranje_qs = {"jedna_osoba" : "Jedna osoba", "dvije_osobe":"Dvije osobe", "tri_osobe":"Tri osobe", "cetiri_osobe": "Četiri osobe", "vise_osoba": "Više osoba"}
-    vrijeme_qs = {"15min" : "Do 15 minuta", "30min":"Do 30 min", "45min":"Do 45 min", "45plus": "Više od 45 min"}
+    vrijeme_qs = {"15min" : "< 15 min.", "30min":"< 30 min.", "45min":"< 45 min.", "45plus": "> 45 min."}
 
     #   >>> VIDEOS <<<
     videos = RecipeVideos.objects.all()
@@ -26,11 +27,10 @@ def home_view(request):
     p = Paginator(Recepti.objects.all().order_by("id"), 9)
     page = request.GET.get('page')
     listaRecepata = p.get_page(page)
-    print(listaRecepata, "OVO JE PRIJE AJAXA PAGE")
     #   >>> END OF PAGINATION <<<
     #   >>> AJAX <<<
     displayAjax = False
-    if request.is_ajax() and request.method == "GET":
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             displayAjax = True
             url_path = request.get_full_path()
             dropdownOdabir = request.GET.get("filter")
@@ -39,10 +39,8 @@ def home_view(request):
             user_favourites= trenutniKorisnik.favourites.all()
 
             if dropdownOdabir == "zadnje_dodato":
-                 #   >>> PAGINATION <<< 
-                p = Paginator(Recepti.objects.all().order_by('-datum_objave'), 6)
+                p = Paginator(Recepti.objects.all().order_by('-datum_objave'), 9)
                 page = request.GET.get('page',1)
-                #   >>> END OF PAGINATION <<<
                 
                 try:
                     sviRecepti = p.page(page)
@@ -50,22 +48,40 @@ def home_view(request):
                     sviRecepti = p.page(1)
                 except EmptyPage:
                     sviRecepti = p.page(p.num_pages)
-                
-                print("OVO JE AJAXOV PAGE", sviRecepti)
-                # sviRecepti = Recepti.objects.all().order_by('-datum_objave')
+
                 t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti, "user_favourites":user_favourites, "displayAjax":displayAjax,"filter":dropdownOdabir})
                 return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
 
             elif dropdownOdabir == "ocjena_jela":
-                sviRecepti = Recepti.objects.all()
-                OrderedDict = (sorted(sviRecepti, reverse=True, key=lambda t: t.avg_rating()))
-                t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':OrderedDict})
+                recepti = Recepti.objects.all()
+                OrderedDict = (sorted(recepti, reverse=True, key=lambda t: t.avg_rating()))
+                p = Paginator(OrderedDict, 9)
+                page = request.GET.get('page',1)
+                
+                try:
+                    sviRecepti = p.page(page)
+                except PageNotAnInteger:
+                    sviRecepti = p.page(1)
+                except EmptyPage:
+                    sviRecepti = p.page(p.num_pages)
+
+                t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
                 return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
             
             elif dropdownOdabir == "popularno":
-                sviRecepti = Recepti.objects.all()
-                OrderedDict = (sorted(sviRecepti, reverse=True, key=lambda t: t.total_votes()))
-                t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':OrderedDict})
+                recepti = Recepti.objects.all()
+                OrderedDict = (sorted(recepti, reverse=True, key=lambda t: t.total_votes()))
+                p = Paginator(OrderedDict, 9)
+                page = request.GET.get('page',1)
+                
+                try:
+                    sviRecepti = p.page(page)
+                except PageNotAnInteger:
+                    sviRecepti = p.page(1)
+                except EmptyPage:
+                    sviRecepti = p.page(p.num_pages)
+
+                t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
                 return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
     #   >>> END OF AJAX <<<
     
@@ -87,9 +103,9 @@ def home_view(request):
             return render (request,"home/main.html", {"search_results": search_result, "user_favourites":user_favourites, "is_searched":is_searched, "vrstaobroka_qs":vrstaobroka_qs,"tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs,"vrijeme_qs":vrijeme_qs})
         #   >>> END OF SEARCHBOX <<<
 
-        return render (request,"home/main.html", {"allr": listaRecepata, "user_favourites":user_favourites, "vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs,"vrijeme_qs":vrijeme_qs, "videos":videos,"displayAjax":displayAjax})
+        return render (request,"home/main.html", {"allr": listaRecepata, "user_favourites":user_favourites, "vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs,"vrijeme_qs":vrijeme_qs, "videos":videos})
     else:
-        return render (request,"home/main.html", {"allr": listaRecepata, "vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs,"vrijeme_qs":vrijeme_qs, "videos":videos, "displayAjax":displayAjax})
+        return render (request,"home/main.html", {"allr": listaRecepata, "vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs,"vrijeme_qs":vrijeme_qs, "videos":videos})
 
 
 def contact_view(request):
@@ -402,11 +418,12 @@ def my_recipes_view(request):
 
 def adding_recipes_view(request):
     currentRecipeUser = Korisnik.objects.get(user=request.user)
+    form = ReceptiForm(request.POST, request.FILES)
+    formset = SastojciFormSet(request.POST or None, prefix="sastojak",queryset=Recepti.objects.none())
+    rteformset = StepsFormSet(request.POST or None, prefix="form",queryset=ReceptiSteps.objects.none())
     if request.method == "POST":
-        form = ReceptiForm(request.POST, request.FILES)
-        formset = SastojciFormset(request.POST or None, prefix="sastojak")
-        rteformset = StepsFormset(request.POST or None, prefix="form")
-
+        formset = SastojciFormSet(request.POST or None, prefix="sastojak",queryset=Recepti.objects.none())
+        rteformset = StepsFormSet(request.POST or None, prefix="form",queryset=ReceptiSteps.objects.none())
 
         if form.is_valid() and formset.is_valid() and rteformset.is_valid():
             instance = form.save(commit=False)
@@ -417,22 +434,18 @@ def adding_recipes_view(request):
                 child = item.save(commit=False)
                 if child.recept_id is None:
                     child.recept_id = instance
-                    Sastojci.objects.create(recept_id=child.recept_id, ime_sastojka=child.ime_sastojka, kolicina=child.kolicina)
+                child.save()
+                    # Sastojci.objects.create(recept_id=child.recept_id, ime_sastojka=child.ime_sastojka, kolicina=child.kolicina)
 
             for step in rteformset:
                 secondChild = step.save(commit=False)
                 if secondChild.recept_id is None:
                     secondChild.recept_id = instance.id
-                # secondChild.save()
-                    ReceptiSteps.objects.create(recept_id=secondChild.recept_id, body=secondChild.body)
+                secondChild.save()
+                    # ReceptiSteps.objects.create(recept_id=secondChild.recept_id, body=secondChild.body)
             messages.success(request, "Uspješno ste dodali recept.")
             
             return redirect('myrecipes')
-    else:
-        form = ReceptiForm()
-        formset = SastojciFormset()
-        rteformset = StepsFormset()
-        
         
     context ={
         "form":form,
@@ -443,90 +456,53 @@ def adding_recipes_view(request):
     return render (request,"recipes/add_recipe.html",context)
 
 def update_recipes_view(request,id):
-    
-    currentRecipeUser = Korisnik.objects.get(user=request.user)
+    author = Korisnik.objects.get(user=request.user)
     recept = Recepti.objects.get(id = id)
-    formRecept = ReceptiForm(instance=recept)
-    sastojciList = []
-    sastojci = Sastojci.objects.filter(recept_id=recept)
-    for sastojak in sastojci:
-        formSastojak = SastojciForm(instance=sastojak)
-        sastojciList.append(formSastojak)
-    pripremaList = []
-    koraciPripreme = ReceptiSteps.objects.filter(recept_id=recept)
-    for korak in koraciPripreme:
-        formKorak = ReceptiStepsForm(instance=korak)
-        pripremaList.append(formKorak)
-
-    rteformset = ReceptiStepsForm()
-    # formset = SastojciForm(Sastojci.objects.filter(recept_id=recept))
-    SastojciFormset = modelformset_factory(Sastojci, fields=('ime_sastojka', 'kolicina'), extra=0)
-    formset = SastojciFormset(queryset=Sastojci.objects.filter(recept_id=recept))
-
-    context = {
-        'form': formRecept,
-        'sastojci': sastojci,
-        "koraci" : pripremaList,
-        'rteformset': rteformset,
-        "formset":formset
-    }
+    form = ReceptiForm(instance=recept)
+    qs = Sastojci.objects.filter(recept_id=recept)
+    steps_qs = ReceptiSteps.objects.filter(recept_id=recept)
+    formset = SastojciFormSet(request.POST or None, prefix="sastojak", queryset=qs)
+    rteformset = StepsFormSet(request.POST or None, queryset=steps_qs)
 
     if request.method == "POST":
-        print("USLI SMO U POST")
-        formRecept = ReceptiForm(request.POST, request.FILES, instance=recept)
-        formset = SastojciFormset(request.POST or None, prefix="sastojak", queryset=Sastojci.objects.filter(recept_id=recept))
-        rteformset = StepsFormset(request.POST or None, prefix="form")
-
-        formRecept = ReceptiForm(request.POST, request.FILES, instance=recept)
-        sastojciList = []
-        sastojci = Sastojci.objects.filter(recept_id=recept)
-        for sastojak in sastojci:
-            formSastojak = SastojciForm(instance=sastojak)
-            sastojciList.append(formSastojak)
-
-        pripremaList = []
-        koraciPripreme = ReceptiSteps.objects.filter(recept_id=recept)
-        for korak in koraciPripreme:
-            formKorak = ReceptiStepsForm(instance=korak)
-            pripremaList.append(formKorak)
-        context = {
-            'form': formRecept,
-            'sastojci': sastojciList,
-            "koraci" : pripremaList,
-            'rteformset': rteformset,
-            "formset": formset
-        }
-        print(formRecept.is_valid(), "PRVA FORMA")
-        print(formset.is_valid(), "DRUGA FORMA")
-        print(rteformset.is_valid(), "TRECA FORMA")
-        if formRecept.is_valid() and formset.is_valid() and rteformset.is_valid():
-            instance = formRecept.save(commit=False)
-            instance.user = currentRecipeUser
+        form = ReceptiForm(request.POST or None, request.FILES, instance=recept)
+        formset = SastojciFormSet(request.POST or None, prefix="sastojak", queryset=qs)
+        if all([form.is_valid(), formset.is_valid(), rteformset.is_valid()]):
+            instance = form.save(commit=False)
+            instance.user = author
             instance.save()
+
             for item in formset:
-
-                child = item.save(commit=False)
-                if item['ime_sastojka'].value():
-                    if child.recept_id is None:
-                        child.recept_id = instance
-                        child.save()
-
-                    # item.instance.delete()
-                # print(item, "OVO JE ITEM")
-                # child = item.save(commit=False)
-                # if child.recept_id is None:
-                #     child.recept_id = instance
-                #     child.save()
-                # Sastojci.objects.create(recept_id=child.recept_id, ime_sastojka=child.ime_sastojka, kolicina=child.kolicina)
+                sastojak = item.save(commit=False)
+                newID = item.cleaned_data['id']
+                if item.cleaned_data["DELETE"]:
+                    removeItem = Sastojci.objects.get(id = newID.id)
+                    removeItem.delete()
+                else:
+                    if sastojak.recept_id is None:
+                        sastojak.recept_id = instance
+                    sastojak.save()
+            
             for step in rteformset:
-                secondChild = step.save(commit=False)
-                if secondChild.recept_id is None:
-                    secondChild.recept_id = instance.id
-                # secondChild.save()
-                    ReceptiSteps.objects.create(recept_id=secondChild.recept_id, body=secondChild.body)
-            messages.info(request, "Uspješno ste uredili recept!")
-            return redirect('myrecipes')
-    
+                korak = step.save(commit=False)
+                stepID = step.cleaned_data['id']
+                print(step.cleaned_data, "CLEAN DATA")
+                if step.cleaned_data["DELETE"]:
+                    removeItem = ReceptiSteps.objects.get(id = stepID.id)
+                    removeItem.delete()
+                else:
+                    if korak.recept_id is None:
+                        korak.recept_id = instance.id
+                    korak.save()
+
+        messages.info(request, "Uspješno ste uredili recept!")
+        return redirect('myrecipes')
+
+    context = {
+        'form': form,
+        "formset":formset,
+        'rteformset': rteformset,
+    }    
     return render(request, "recipes/update_single_recipe.html", context)
 
 
@@ -607,54 +583,170 @@ def rate_recipes(request,id):
     return JsonResponse({'success':'false'})
 
 
-def vrstajela_view(request, foo):
-
-    if request.is_ajax() and request.method == "GET":
-        print("SAD SMO U AJAXU")
-        url_path = request.get_full_path()
-        print(url_path, "OVO JE PATH")
-        dropdownOdabir = request.GET.get("filter")
-        print(dropdownOdabir, "DROPDOWN")
-        
+def vrstajela_view(request, foo):     
     foo_qs = foo.capitalize()
-    qs = Recepti.objects.filter()[:1].get()
-    vrstaobroka_qs =[qs.ODABIR_OBROKA[c][0] for c in range(len(qs.ODABIR_OBROKA))]
-    tezina_qs = [qs.TEZINA_PRIPREME[c][1] for c in range(len(qs.TEZINA_PRIPREME))]
+    qs_nav = Recepti.objects.filter()[:1].get()
+    vrstaobroka_qs =[qs_nav.ODABIR_OBROKA[c][0] for c in range(len(qs_nav.ODABIR_OBROKA))]
+    tezina_qs = [qs_nav.TEZINA_PRIPREME[c][1] for c in range(len(qs_nav.TEZINA_PRIPREME))]
     serviranje_qs = {"jedna_osoba" : "Jedna osoba", "dvije_osobe":"Dvije osobe", "tri_osobe":"Tri osobe", "cetiri_osobe": "Četiri osobe", "vise_osoba": "Više osoba"}
-    vrijeme_qs = {"15min" : "Do 15 minuta", "30min":"Do 30 min", "45min":"Do 45 min", "45plus": "Više od 45 min"}
-
+    vrijeme_qs = {"15min" : "< 15 min.", "30min":"< 30 min.", "45min":"< 45 min.", "45plus": "> 45 min."}
     qs = Recepti.objects.filter(vrsta_obroka__contains=foo_qs)
     p = Paginator(qs,9)
     page_number = request.GET.get('page')
     recipes = p.get_page(page_number)
+
+     #   >>> AJAX <<<
+    displayAjax = False
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        displayAjax = True
+        url_path = request.get_full_path()
+        dropdownOdabir = request.GET.get("filter")
+
+        if dropdownOdabir == "zadnje_dodato":
+            p = Paginator(qs.order_by('-datum_objave'), 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti, "displayAjax":displayAjax,"filter":dropdownOdabir})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+
+        elif dropdownOdabir == "ocjena_jela":
+            # recepti = Recepti.objects.all()
+            OrderedDict = (sorted(qs, reverse=True, key=lambda t: t.avg_rating()))
+            p = Paginator(OrderedDict, 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+        
+        elif dropdownOdabir == "popularno":
+            # recepti = Recepti.objects.all()
+            OrderedDict = (sorted(qs, reverse=True, key=lambda t: t.total_votes()))
+            p = Paginator(OrderedDict, 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+    #   >>> END OF AJAX <<<
+    if request.user.is_authenticated:
+        currentUser = request.user.id
+        trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+        user_favourites= trenutniKorisnik.favourites.all()
+        return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
+
     return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
 def tezinapripreme_view(request, foo):
     foo_qs = foo.capitalize()
-    qs = Recepti.objects.filter()[:1].get()
-    vrstaobroka_qs =[qs.ODABIR_OBROKA[c][0] for c in range(len(qs.ODABIR_OBROKA))]
-    tezina_qs = [qs.TEZINA_PRIPREME[c][1] for c in range(len(qs.TEZINA_PRIPREME))]
+    qs_nav = Recepti.objects.filter()[:1].get()
+    vrstaobroka_qs =[qs_nav.ODABIR_OBROKA[c][0] for c in range(len(qs_nav.ODABIR_OBROKA))]
+    tezina_qs = [qs_nav.TEZINA_PRIPREME[c][1] for c in range(len(qs_nav.TEZINA_PRIPREME))]
     serviranje_qs = {"jedna_osoba" : "Jedna osoba", "dvije_osobe":"Dvije osobe", "tri_osobe":"Tri osobe", "cetiri_osobe": "Četiri osobe", "vise_osoba": "Više osoba"}
-    vrijeme_qs = {"15min" : "Do 15 minuta", "30min":"Do 30 min", "45min":"Do 45 min", "45plus": "Više od 45 min"}
+    vrijeme_qs = {"15min" : "< 15 min.", "30min":"< 30 min.", "45min":"< 45 min.", "45plus": "> 45 min."}
 
     qs = Recepti.objects.filter(tezina_pripreme=foo_qs)
     p = Paginator(qs,9)
     page_number = request.GET.get('page')
     recipes = p.get_page(page_number)
+
+      #   >>> AJAX <<<
+    displayAjax = False
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        displayAjax = True
+        url_path = request.get_full_path()
+        dropdownOdabir = request.GET.get("filter")
+
+        if dropdownOdabir == "zadnje_dodato":
+            p = Paginator(qs.order_by('-datum_objave'), 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti, "displayAjax":displayAjax,"filter":dropdownOdabir})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+
+        elif dropdownOdabir == "ocjena_jela":
+            # recepti = Recepti.objects.all()
+            OrderedDict = (sorted(qs, reverse=True, key=lambda t: t.avg_rating()))
+            p = Paginator(OrderedDict, 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+        
+        elif dropdownOdabir == "popularno":
+            # recepti = Recepti.objects.all()
+            OrderedDict = (sorted(qs, reverse=True, key=lambda t: t.total_votes()))
+            p = Paginator(OrderedDict, 9)
+            page = request.GET.get('page',1)
+            
+            try:
+                sviRecepti = p.page(page)
+            except PageNotAnInteger:
+                sviRecepti = p.page(1)
+            except EmptyPage:
+                sviRecepti = p.page(p.num_pages)
+
+            t = render_to_string('recipes/meal_media_ajax.html',{'ajax_recipes':sviRecepti})
+            return JsonResponse({'success': True, "path":url_path, "data":t}, status=201)
+    #   >>> END OF AJAX <<<
+    if request.user.is_authenticated:
+        currentUser = request.user.id
+        trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+        user_favourites= trenutniKorisnik.favourites.all()
+        return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
+
     return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
 def serviranje_view(request, foo):
-    qs = Recepti.objects.filter()[:1].get()
-    vrstaobroka_qs =[qs.ODABIR_OBROKA[c][0] for c in range(len(qs.ODABIR_OBROKA))]
-    tezina_qs = [qs.TEZINA_PRIPREME[c][1] for c in range(len(qs.TEZINA_PRIPREME))]
+    qs_nav = Recepti.objects.filter()[:1].get()
+    vrstaobroka_qs =[qs_nav.ODABIR_OBROKA[c][0] for c in range(len(qs_nav.ODABIR_OBROKA))]
+    tezina_qs = [qs_nav.TEZINA_PRIPREME[c][1] for c in range(len(qs_nav.TEZINA_PRIPREME))]
     serviranje_qs = {"jedna_osoba" : "Jedna osoba", "dvije_osobe":"Dvije osobe", "tri_osobe":"Tri osobe", "cetiri_osobe": "Četiri osobe", "vise_osoba": "Više osoba"}
-    vrijeme_qs = {"15min" : "Do 15 minuta", "30min":"Do 30 min", "45min":"Do 45 min", "45plus": "Više od 45 min"}
+    vrijeme_qs = {"15min" : "< 15 min.", "30min":"< 30 min.", "45min":"< 45 min.", "45plus": "> 45 min."}
 
     if foo == "jedna_osoba":
         qs = Recepti.objects.filter(broj_osoba="1")
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "dvije_osobe":
@@ -662,6 +754,11 @@ def serviranje_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "tri_osobe":
@@ -669,6 +766,11 @@ def serviranje_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "cetiri_osobe":
@@ -676,6 +778,11 @@ def serviranje_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "vise_osoba":
@@ -683,22 +790,32 @@ def serviranje_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     # return render(request,"home/main.html",{"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs})
 
 def vrijemepripreme_view(request, foo):
-    qs = Recepti.objects.filter()[:1].get()
-    vrstaobroka_qs =[qs.ODABIR_OBROKA[c][0] for c in range(len(qs.ODABIR_OBROKA))]
-    tezina_qs = [qs.TEZINA_PRIPREME[c][1] for c in range(len(qs.TEZINA_PRIPREME))]
+    qs_nav = Recepti.objects.filter()[:1].get()
+    vrstaobroka_qs =[qs_nav.ODABIR_OBROKA[c][0] for c in range(len(qs_nav.ODABIR_OBROKA))]
+    tezina_qs = [qs_nav.TEZINA_PRIPREME[c][1] for c in range(len(qs_nav.TEZINA_PRIPREME))]
     serviranje_qs = {"jedna_osoba" : "Jedna osoba", "dvije_osobe":"Dvije osobe", "tri_osobe":"Tri osobe", "cetiri_osobe": "Četiri osobe", "vise_osoba": "Više osoba"}
-    vrijeme_qs = {"15min" : "Do 15 minuta", "30min":"Do 30 min", "45min":"Do 45 min", "45plus": "Više od 45 min"}
+    vrijeme_qs = {"15min" : "< 15 min.", "30min":"< 30 min.", "45min":"< 45 min.", "45plus": "> 45 min."}
 
     if foo == "15min":
         qs = Recepti.objects.filter(vrijeme_pripreme__lte = 15)
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "30min":
@@ -706,6 +823,11 @@ def vrijemepripreme_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "45min":
@@ -713,6 +835,11 @@ def vrijemepripreme_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
     elif foo == "45plus":
@@ -720,5 +847,13 @@ def vrijemepripreme_view(request, foo):
         p = Paginator(qs,9)
         page_number = request.GET.get('page')
         recipes = p.get_page(page_number)
+        if request.user.is_authenticated:
+            currentUser = request.user.id
+            trenutniKorisnik = Korisnik.objects.get(user_id = currentUser)
+            user_favourites= trenutniKorisnik.favourites.all()
+            return render(request,"home/main.html",{"filter_recipes":recipes,"user_favourites":user_favourites,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
         return render(request,"home/main.html",{"filter_recipes":recipes,"vrstaobroka_qs":vrstaobroka_qs, "tezina_qs":tezina_qs, "serviranje_qs":serviranje_qs, "vrijeme_qs":vrijeme_qs})
 
+
+def terms_view(request):
+    return render(request, "terms_footer.html")

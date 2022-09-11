@@ -2,6 +2,8 @@ const addMoreBtn = document.getElementById("add-more")
 const totalForms = document.querySelectorAll("#id_sastojak-TOTAL_FORMS")[0]
 const currentForms = document.getElementsByClassName("ingredient-form")
 addMoreBtn.addEventListener("click", add_new_form)
+const deleteCheckbox = document.getElementById("id_sastojak-__prefix__-DELETE")
+deleteCheckbox.remove();
 
 function add_new_form(event){
     if (event) {

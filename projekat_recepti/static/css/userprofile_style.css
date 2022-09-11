@@ -50,3 +50,41 @@
 .user_bio{
     margin-bottom: 10px;
 }
+
+@media screen and (max-width: 600px){
+    .user_container_wrap{
+        margin:0 20px;
+    }
+    .user_container_content{
+        flex-direction: column;
+    }
+    .user_container_media{
+        width:100%;
+    }
+    .user_container_info{
+        border:none;
+    }
+    .user_container_meals{
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 601px){
+    .user_container_wrap{
+        margin:0 20px;
+    }
+    .user_container_info{
+        padding:0 0 0 20px;
+        margin-left:20px;
+    }
+    .user_container_meals{
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 769px){
+    .user_container_meals{
+        justify-content: center;
+        margin:0 40px;
+    }
+}

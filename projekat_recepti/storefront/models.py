@@ -9,7 +9,7 @@ class Korisnik(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='profile_avatar', default='profile_avatar/default_avatar.jpg')
     favourites = models.ManyToManyField('Recepti', default=None, related_name="favourites", blank=True)
-    biografija = models.TextField()
+    biografija = models.TextField(blank=True)
 
     def __str__(self):
         if self.user:
@@ -70,7 +70,7 @@ class Recepti(models.Model):
     
     naziv = models.CharField(max_length=50)
     user = models.ForeignKey(Korisnik, blank = True, null = True, on_delete = models.CASCADE)
-    vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA,)
+    vrsta_obroka = MultiSelectField(choices=ODABIR_OBROKA)
     slika_jela = models.ImageField(upload_to='slike')
     datum_objave = models.DateField(auto_now_add=True)
     tezina_pripreme = models.CharField(max_length=20,choices=TEZINA_PRIPREME,default=1)

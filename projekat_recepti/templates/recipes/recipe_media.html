@@ -4,7 +4,7 @@
     </div>
     <div class="recipe__text">
         <div class="recipe__text__name">
-            <h3>{{ x.naziv }}</h3>
+            <h3><a href="{% url 'jelo' x.id %}">{{ x.naziv }}</a></h3>
         </div>
         <div class="recipe__text__about">
             <div class="recipe__text__detail">

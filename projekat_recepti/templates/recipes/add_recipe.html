@@ -47,10 +47,11 @@
                     <div class="sr-form-ingredients">
 
                             <h4>Sastojci</h4>
-                            <input type="hidden" name="sastojak-TOTAL_FORMS" value="0" id="id_sastojak-TOTAL_FORMS">
+                            {{formset.management_form}}
+                            <!-- <input type="hidden" name="sastojak-TOTAL_FORMS" value="0" id="id_sastojak-TOTAL_FORMS">
                             <input type="hidden" name="sastojak-INITIAL_FORMS" value="0" id="id_sastojak-INITIAL_FORMS">
                             <input type="hidden" name="sastojak-MIN_NUM_FORMS" value="0" id="id_sastojak-MIN_NUM_FORMS">
-                            <input type="hidden" name="sastojak-MAX_NUM_FORMS" value="1000" id="id_sastojak-MAX_NUM_FORMS">
+                            <input type="hidden" name="sastojak-MAX_NUM_FORMS" value="1000" id="id_sastojak-MAX_NUM_FORMS"> -->
                             <div id="ingredient-form-list">
                                 {% for item in formset %}
                                     <div class="ingredient-form">
@@ -60,10 +61,11 @@
                             </div>
 
                             <div id="empty-form" class="hidden">
-                                <label for="id_sastojak-__prefix__-ime_sastojka">Ime sastojka:</label>
+                                {{formset.empty_form}}
+                                <!-- <label for="id_sastojak-__prefix__-ime_sastojka">Ime sastojka:</label>
                                 <input type="text" name="sastojak-__prefix__-ime_sastojka" placeholder="ime sastojka" id="id_sastojak-__prefix__-ime_sastojka">
                                 <label for="id_sastojak-__prefix__-kolicina">Kolicina:</label>
-                                <input type="text" name="sastojak-__prefix__-kolicina" placeholder="količina" id="id_sastojak-__prefix__-kolicina">
+                                <input type="text" name="sastojak-__prefix__-kolicina" placeholder="količina" id="id_sastojak-__prefix__-kolicina"> -->
                                 <button class="delete" onclick="deleteFormField(this)">&#10008;</button>
                                 <!-- <button class="delete" onclick="deleteFormField(this)">&#10008;</button> -->
                             </div>

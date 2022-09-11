@@ -1,7 +1,7 @@
 
 $( document ).ready(function() {
     tinymce.init({
-        selector: "textarea#id_body.tinymce",
+        selector: "textarea.tinymce:not(#id_form-__prefix__-body)",
         plugins: "insertdatetime media image preview",
         toolbar: "bold italic | alignleft alignright aligncenter alignjustify | image media | preview",
         image_title: true,

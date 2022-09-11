@@ -133,7 +133,7 @@
             </div>
             <div class="footer-text">
                 <a href="{% url 'contact' %}">Kontakt</a>
-                <a href="#">Uslovi korištenja</a>
+                <a href="{% url 'terms-of-use' %}">Uslovi korištenja</a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'account' %}">Moj Profil</a>
                 {% else %}
@@ -143,11 +143,11 @@
             <div class="footer-contact">
                 <h4>Pratite nas</h4>
                 <div class="contact_social_icons">
-                    <a href="#"><span class="facebook"><i class="fa fa-facebook"></i></span></a>
-                    <a href="#"><span class="twitter"><i class="fa fa-twitter"></i></span></a>
+                    <a href="https://www.facebook.com/ITAcademySerbia/"><span class="facebook"><i class="fa fa-facebook"></i></span></a>
+                    <!-- <a href="#"><span class="twitter"><i class="fa fa-twitter"></i></span></a> -->
                     <a href="https://www.linkedin.com/in/kenanh1/"><span class="linkedin"><i class="fa fa-linkedin"></i></span></a>
-                    <a href="#"><span class="instagram"><i class="fa fa-instagram"></i></span></a>
-                    <a href="#"><span class="github"><i class="fa fa-github"></i></i></span></a>
+                    <a href="https://www.instagram.com/itacademy___/"><span class="instagram"><i class="fa fa-instagram"></i></span></a>
+                    <a href="https://github.com/kenanh1/"><span class="github"><i class="fa fa-github"></i></i></span></a>
                 </div>
                 <p>© 2022 mojakuhinja</p>
             </div>
@@ -178,6 +178,9 @@
     <script type="text/javascript" src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/infinite.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'js/sorting_recipes.js' %}"></script>
+
 
    <script>
    $(document).ready(function(){

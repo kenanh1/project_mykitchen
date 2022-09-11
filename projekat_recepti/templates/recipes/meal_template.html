@@ -97,7 +97,7 @@
                         <h3>Tagovi</h3>
                         <div class="tagovi">
                             {% for tagObroka in object.vrsta_obroka %}
-                                <a class="tag_for_product" href="#">{{tagObroka}}</a>
+                                <a class="tag_for_product" href="{% url 'category-vrsta' tagObroka|lower %}">{{tagObroka}}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -106,9 +106,8 @@
                         <div class="ikonice">
                             {% post_to_facebook object_or_url '<span class="facebook"><i class="fa fa-facebook"></i></span>' %}
                             {% post_to_twitter object_or_url '<span class="twitter"><i class="fa fa-twitter"></i></span>' %}
-                            <span class="linkedin"><i class="fa fa-linkedin"></i></span>
-                            <span class="instagram"><i class="fa fa-instagram"></i></span>
-                            
+                            {% post_to_whatsapp object_or_url '<span class="whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>' %}
+                            {% post_to_telegram "Recept: {{object.naziv}}" '<span class="telegram"><i class="fa fa-telegram" aria-hidden="true"></i></span>' %}
                         </div>
                     </div>
                 </div>
